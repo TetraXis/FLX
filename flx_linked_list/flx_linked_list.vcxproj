@@ -19,21 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\flx_unique_ptr.hpp" />
+    <ClInclude Include="include\flx_linked_list.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\flx_unique_ptr.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\flx_types\flx_types.vcxproj">
-      <Project>{8d091046-4017-4dd8-839a-64bf21e1c48e}</Project>
-    </ProjectReference>
+    <ClCompile Include="source\flx_linked_list.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{5c009859-8260-44c4-bc2a-b0fd8ae8d672}</ProjectGuid>
-    <RootNamespace>flx_unique_ptr</RootNamespace>
+    <ProjectGuid>{682c4697-830b-47f6-9423-20679eadbada}</ProjectGuid>
+    <RootNamespace>flx_linked_list</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

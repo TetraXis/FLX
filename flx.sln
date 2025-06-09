@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "flx_types", "flx_types\flx_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "flx_unique_ptr", "flx_unique_ptr\flx_unique_ptr.vcxproj", "{5C009859-8260-44C4-BC2A-B0FD8AE8D672}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "flx_linked_list", "flx_linked_list\flx_linked_list.vcxproj", "{682C4697-830B-47F6-9423-20679EADBADA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{5C009859-8260-44C4-BC2A-B0FD8AE8D672}.Release|x64.Build.0 = Release|x64
 		{5C009859-8260-44C4-BC2A-B0FD8AE8D672}.Release|x86.ActiveCfg = Release|Win32
 		{5C009859-8260-44C4-BC2A-B0FD8AE8D672}.Release|x86.Build.0 = Release|Win32
+		{682C4697-830B-47F6-9423-20679EADBADA}.Debug|x64.ActiveCfg = Debug|x64
+		{682C4697-830B-47F6-9423-20679EADBADA}.Debug|x64.Build.0 = Debug|x64
+		{682C4697-830B-47F6-9423-20679EADBADA}.Debug|x86.ActiveCfg = Debug|Win32
+		{682C4697-830B-47F6-9423-20679EADBADA}.Debug|x86.Build.0 = Debug|Win32
+		{682C4697-830B-47F6-9423-20679EADBADA}.Release|x64.ActiveCfg = Release|x64
+		{682C4697-830B-47F6-9423-20679EADBADA}.Release|x64.Build.0 = Release|x64
+		{682C4697-830B-47F6-9423-20679EADBADA}.Release|x86.ActiveCfg = Release|Win32
+		{682C4697-830B-47F6-9423-20679EADBADA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
