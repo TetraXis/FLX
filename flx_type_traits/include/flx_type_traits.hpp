@@ -1,0 +1,101 @@
+#ifndef FLX_TYPE_TRAITS_HPP
+#define FLX_TYPE_TRAITS_HPP
+
+namespace flx
+{
+	// ===== is_array ===== //
+	template <typename>
+	constexpr bool is_array = false;
+
+	template <typename ty>
+	constexpr bool is_array<ty[]> = true;
+
+	template <typename ty, size_t size>
+	constexpr bool is_array<ty[size]> = true;
+
+
+
+	// ===== is_const ===== //
+	template <typename>
+	constexpr bool is_const = false;
+
+	template <typename ty>
+	constexpr bool is_const<const ty> = true;
+
+
+
+	// ===== is_volatile ===== //
+	template <typename>
+	constexpr bool is_volatile = false;
+
+	template <typename ty>
+	constexpr bool is_volatile<volatile ty> = true;
+
+
+	// ===== is_trivially_constructible ===== //
+#if defined(__clang__) || defined(_MSC_VER)
+	// Clang,  MSVC
+#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) __is_trivially_constructible(ty)
+#elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
+	// GCC, Intel ICC, EDG-based compilers
+#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) __has_trivial_constructor(ty)
+#else
+	// unknown compiler - fallback
+#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) false
+#endif
+
+	template <typename ty>
+	constexpr bool is_trivially_constructible = FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty);
+
+
+
+	// ===== is_trivially_destructible ===== //
+#if defined(__clang__) || defined(_MSC_VER)
+	// Clang,  MSVC
+#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) __is_trivially_destructible(ty)
+#elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
+	// GCC, Intel ICC, EDG-based compilers
+#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) __has_trivial_destructor(ty)
+#else
+	// unknown compiler - fallback
+#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) false
+#endif
+
+	template <typename ty>
+	constexpr bool is_trivially_destructible = FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty);
+
+
+
+	// ===== remove_reference ===== //
+	template <typename ty>
+	struct remove_reference_struct
+	{
+		using type = ty;
+	};
+
+	template <typename ty>
+	struct remove_reference_struct<ty&>
+	{
+		using type = ty;
+	};
+
+	template <typename ty>
+	struct remove_reference_struct<ty&&>
+	{
+		using type = ty;
+	};
+
+	template <typename ty>
+	using remove_reference = typename remove_reference_struct<ty>::type;
+
+
+
+	// ===== move ====== //
+	template<typename ty>
+	constexpr remove_reference<ty>&& move(ty&& obj) noexcept
+	{
+		return static_cast<remove_reference<ty>&&>(obj);
+	}
+} // namespace flx
+
+#endif // !FLX_TYPE_TRAITS_HPP

@@ -10,6 +10,9 @@
 #include "flx_types.hpp"
 
 /// <summary>
+/// 
+/// DO NOT USE IT. UNDER WORK. Its broken.
+/// 
 /// This double linked list is backed by an std::vector
 /// This allows for a cache frindly approach
 /// Because std::vector will move data at some point,
