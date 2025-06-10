@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\flx_linked_list.hpp" />
+    <ClInclude Include="include\flx_dynamic_array.hpp" />
+    <ClInclude Include="include\main.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\flx_linked_list.cpp" />
+    <ClCompile Include="source\flx_dynamic_array.cpp" />
+    <ClCompile Include="source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\flx_types\flx_types.vcxproj">
@@ -32,8 +34,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{682c4697-830b-47f6-9423-20679eadbada}</ProjectGuid>
-    <RootNamespace>flx_linked_list</RootNamespace>
+    <ProjectGuid>{40d444f3-28cc-4dae-ae6d-52bb5f97aa3f}</ProjectGuid>
+    <RootNamespace>flx_dynamic_array</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
