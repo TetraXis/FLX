@@ -20,7 +20,7 @@ namespace flx
     flx_public:
         constexpr unique_ptr() noexcept = default;
 
-        explicit constexpr unique_ptr(ty* ptr = nullptr) noexcept 
+        explicit constexpr unique_ptr(ty* ptr) noexcept 
             : owned_ptr(ptr)
         {
         }
@@ -122,7 +122,9 @@ namespace flx
         ty* owned_ptr = nullptr;
 
     flx_public:
-        explicit constexpr unique_ptr(ty* ptr = nullptr) noexcept 
+        constexpr unique_ptr() noexcept = default;
+
+        explicit constexpr unique_ptr(ty* ptr) noexcept 
             : owned_ptr(ptr)
         {
         }
