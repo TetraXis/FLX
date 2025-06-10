@@ -20,21 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\flx_dynamic_array.hpp" />
-    <ClInclude Include="include\main.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\flx_dynamic_array.cpp" />
-    <ClCompile Include="source\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\flx_types\flx_types.vcxproj">
-      <Project>{8d091046-4017-4dd8-839a-64bf21e1c48e}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{40d444f3-28cc-4dae-ae6d-52bb5f97aa3f}</ProjectGuid>
+    <ProjectGuid>{20104b01-860e-4f7b-8c9d-10f23048cc4f}</ProjectGuid>
     <RootNamespace>flx_dynamic_array</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
