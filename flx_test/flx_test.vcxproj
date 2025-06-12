@@ -107,7 +107,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,7 +124,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,7 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\flx_dynamic_array\flx_dynamic_array.vcxproj">

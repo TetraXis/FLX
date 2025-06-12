@@ -2,6 +2,7 @@
 #define FLX_DYNAMIC_ARRAY_HPP
 
 #include "flx_types.hpp"
+#include "flx_type_traits.hpp"
 
 #ifndef NDEBUG
 #include <cassert>
@@ -11,10 +12,18 @@
 
 namespace flx
 {
+	/// <summary>
+	/// NOTE:
+	/// 1. std::vector calls destructors for objects when reallocating. Not sure why.
+	/// Since we MOVE the data anyway, why should we?
+	/// 2. new ty[] calls constructors, why should we? Only call when actually constructing.
+	/// </summary>
+
 	template <typename ty>
 	struct dynamic_array
 	{
 		static constexpr u64 PRE_ALLOCATED_CAPACITY = 4;
+		static constexpr u64 GROWTH_RATE = 2;
 
 		struct iterator
 		{
@@ -169,7 +178,7 @@ namespace flx
 		};
 
 	flx_private:
-		ty* data = new ty[PRE_ALLOCATED_CAPACITY];
+		ty* data = static_cast<ty*>(::operator new(PRE_ALLOCATED_CAPACITY * sizeof(ty)));
 		u64 size = 0;
 		u64 capacity = PRE_ALLOCATED_CAPACITY;
 
@@ -214,6 +223,42 @@ namespace flx
 		constexpr const_iterator cend() const noexcept
 		{
 			return iterator(data + size);
+		}
+
+		constexpr void push_back(ty&& val) noexcept
+		{
+			if (size == capacity)
+			{
+				reallocate();
+			}
+
+			data[size] = val;
+		}
+
+		template<typename... val_ty>
+		constexpr void emplace_back(val_ty&&... vals) noexcept
+		{
+			if (size == capacity)
+			{
+				reallocate();
+			}
+
+			new (&data[size]) ty(vals...);
+		}
+
+	flx_private:
+		constexpr void reallocate() noexcept
+		{
+			capacity *= GROWTH_RATE;
+			ty* new_data = static_cast<ty*>(::operator new(capacity * sizeof(ty)));
+
+			for (u64 i = 0; i < size; i++)
+			{
+				new_data[i] = flx::move(data[i]);
+			}
+
+			::operator delete(data);
+			data = new_data;
 		}
 	}; // dynamic_array
 } // namespace flx
