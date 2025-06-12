@@ -283,7 +283,7 @@ namespace flx
 
 			for (u64 i = 0; i < size; i++)
 			{
-				new_data[i] = flx::move(data[i]);
+				new (&new_data[i]) ty(flx::move(data[i]));
 			}
 
 			::operator delete(data);
@@ -299,7 +299,7 @@ namespace flx
 
 			for (u64 i = 0; i < size; i++)
 			{
-				new_data[i] = flx::move(data[i]);
+				new (&new_data[i]) ty(flx::move(data[i]));
 			}
 
 			::operator delete(data);
