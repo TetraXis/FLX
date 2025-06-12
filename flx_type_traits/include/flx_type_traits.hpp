@@ -96,6 +96,19 @@ namespace flx
 	{
 		return static_cast<remove_reference<ty>&&>(obj);
 	}
+
+	// ===== forward ===== //
+	template<typename ty>
+	constexpr ty&& forward(ty& val) noexcept
+	{
+		return static_cast<ty&&>(val);
+	}
+
+	template<typename ty>
+	constexpr ty&& forward(ty&& val) noexcept
+	{
+		return static_cast<ty&&>(val);
+	}
 } // namespace flx
 
 #endif // !FLX_TYPE_TRAITS_HPP

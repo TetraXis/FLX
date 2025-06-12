@@ -7,32 +7,32 @@
 
 struct test_str
 {
+	int a = 10;
+
 	test_str()
 	{
-		std::cout << "Con\n";
 	}
 
 	~test_str()
 	{
-		std::cout << "Des\n";
 	}
 
-	test_str(test_str&&) = default;
+	//test_str(test_str&&) = default;
 };
 
 using namespace flx;
 
 using test_t = std::vector<test_str>;
+//using test_t = flx::dynamic_array<test_str>;
 
 int main()
 {
-	test_str* b = new test_str[10];
-
 	test_t a;
 
 	for (size_t i = 0; i < 20; i++)
 	{
 		a.emplace_back();
-		std::cout << i << '\n';
 	}
+
+	std::cout << a[19].a;
 }

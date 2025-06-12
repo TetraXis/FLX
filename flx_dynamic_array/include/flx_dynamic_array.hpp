@@ -183,7 +183,9 @@ namespace flx
 		u64 capacity = PRE_ALLOCATED_CAPACITY;
 
 	flx_public:
-		constexpr dynamic_array() noexcept = default;
+		constexpr dynamic_array() noexcept
+		{
+		}
 
 		constexpr ~dynamic_array() noexcept
 		{
@@ -193,6 +195,17 @@ namespace flx
 			}
 
 			::operator delete(data);
+		}
+
+		constexpr dynamic_array(i64 count, const ty& val = ty()) noexcept
+		{
+			reallocate(count);
+
+			while (size != count)
+			{
+				data[size] = val;
+				++size;
+			}
 		}
 
 		constexpr iterator begin() noexcept
@@ -233,6 +246,7 @@ namespace flx
 			}
 
 			data[size] = val;
+			++size;
 		}
 
 		template<typename... val_ty>
@@ -243,13 +257,44 @@ namespace flx
 				reallocate();
 			}
 
-			new (&data[size]) ty(vals...);
+			new (&data[size]) ty(flx::forward<val_ty>(vals)...);
+			++size;
+		}
+
+		constexpr ty& operator[](u64 pos) noexcept
+		{
+			assert(pos < size && "flx_dynamic_array::operator[] position is out of bounds.");
+		
+			return data[pos];
+		}
+
+		constexpr const ty& operator[](u64 pos) const noexcept
+		{
+			assert(pos < size && "flx_dynamic_array::operator[] position is out of bounds.");
+		
+			return data[pos];
 		}
 
 	flx_private:
 		constexpr void reallocate() noexcept
 		{
 			capacity *= GROWTH_RATE;
+			ty* new_data = static_cast<ty*>(::operator new(capacity * sizeof(ty)));
+
+			for (u64 i = 0; i < size; i++)
+			{
+				new_data[i] = flx::move(data[i]);
+			}
+
+			::operator delete(data);
+			data = new_data;
+		}
+
+		constexpr void reallocate(u64 new_capacity) noexcept
+		{
+			assert(new_capacity < size && "flx_dynamic_array.hpp::reallocate new capacity is smaller than size.");
+
+			capacity = new_capacity;
 			ty* new_data = static_cast<ty*>(::operator new(capacity * sizeof(ty)));
 
 			for (u64 i = 0; i < size; i++)
