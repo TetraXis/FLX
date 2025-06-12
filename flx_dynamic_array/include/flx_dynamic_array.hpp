@@ -203,7 +203,7 @@ namespace flx
 
 			while (size != count)
 			{
-				data[size] = val;
+				new (data[size]) ty(val);
 				++size;
 			}
 		}
@@ -220,22 +220,22 @@ namespace flx
 
 		constexpr const_iterator begin() const noexcept
 		{
-			return iterator(data);
+			return const_iterator(data);
 		}
 
 		constexpr const_iterator end() const noexcept
 		{
-			return iterator(data + size);
+			return const_iterator(data + size);
 		}
 
 		constexpr const_iterator cbegin() const noexcept
 		{
-			return iterator(data);
+			return const_iterator(data);
 		}
 
 		constexpr const_iterator cend() const noexcept
 		{
-			return iterator(data + size);
+			return const_iterator(data + size);
 		}
 
 		constexpr void push_back(ty&& val) noexcept

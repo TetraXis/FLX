@@ -12,13 +12,18 @@
 struct test_str
 {
 	int a = 10;
+	int* data = nullptr;
 
 	test_str()
 	{
+		data = new int[10];
+		std::cout << "new\n";
 	}
 
 	~test_str()
 	{
+		delete[] data;
+		std::cout << "delete[]\n";
 	}
 
 	//test_str(test_str&&) = default;
@@ -26,14 +31,28 @@ struct test_str
 
 using namespace flx;
 
-//using test_t = std::vector<test_str>;
-using test_t = flx::dynamic_array<test_str>;
+using test_t = std::vector<test_str>;
+//using test_t = flx::dynamic_array<test_str>;
 
 #include "D:\C++\Tools\timer.h"
 
 int main()
 {
-	std::stringstream SS;
+	test_t a;
+
+	a.emplace_back();
+	a.emplace_back();
+	a.emplace_back();
+
+	a.emplace_back();
+	a.emplace_back();
+	a.emplace_back();
+
+	a.emplace_back();
+	a.emplace_back();
+	a.emplace_back();
+
+	/*std::stringstream SS;
 	std::stringstream ss;
 	u64 sum = 0;
 
@@ -65,8 +84,7 @@ int main()
 	std::cout << SS.str() << '\n';
 
 	std::cout << "AVG:\n";
-	std::cout << f64(sum) / META_TESTS << '\n';
-
+	std::cout << f64(sum) / META_TESTS << '\n';*/
 }
 
 /*
