@@ -3,6 +3,7 @@
 #include <sstream>
 #include <type_traits>
 #include <string>
+#include <unordered_set>
 
 #define FLX_ALL_MEMBERS_ARE_PUBLIC
 
@@ -82,15 +83,70 @@ public:
 	}
 };
 
+class NetworkConnection {
+	static std::unordered_set<NetworkConnection*> live_connections;
+	int socket_fd;
+public:
+	explicit NetworkConnection(int fd) : socket_fd(fd) {
+		live_connections.insert(this);
+		std::cout << "Connection " << this << " created (fd=" << socket_fd << ")\n";
+	}
+
+	// Correct noexcept move constructor
+	NetworkConnection(NetworkConnection&& other) noexcept
+		: socket_fd(other.socket_fd) {
+		live_connections.erase(&other);
+		live_connections.insert(this);
+		other.socket_fd = -1;  // Invalidate source
+		std::cout << "Connection moved " << &other << " -> " << this << "\n";
+	}
+
+	~NetworkConnection() {
+		live_connections.erase(this);
+		if (socket_fd != -1) {
+			std::cout << "CLOSING fd=" << socket_fd << " (" << this << ")\n";
+			// Real code would call close(socket_fd) here
+		}
+	}
+
+	static void print_connections() {
+		std::cout << "Live connections: ";
+		for (auto conn : live_connections) {
+			std::cout << conn << " ";
+		}
+		std::cout << "\n";
+	}
+};
+
+std::unordered_set<NetworkConnection*> NetworkConnection::live_connections;
+
 using namespace flx;
 
-//using test_t = std::vector<Node>;
-using test_t = flx::dynamic_array<Node>;
+//using test_t = std::vector<NetworkConnection>;
+using test_t = flx::dynamic_array<NetworkConnection>;
 
 #include "D:\C++\Tools\timer.h"
 
 int main()
 {
+	test_t connections;
+	//connections.reserve(2);
+
+	// Create connections
+	connections.emplace_back(101); // Connection A
+	connections.emplace_back(102); // Connection B
+
+	NetworkConnection::print_connections(); // Shows 2 connections
+
+	// Trigger reallocation
+	connections.emplace_back(103); // Connection C causes reallocation
+
+	NetworkConnection::print_connections(); // Should show 3 connections but...
+
+	// At end of scope: ~NetworkConnection() tries to close ALREADY CLOSED FDs
+
+	return 0;
+
 	//test_t arr;
 
 	//// Create a parent-child relationship
