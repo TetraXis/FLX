@@ -66,6 +66,24 @@ namespace flx
 
 
 
+	// ===== is_class ===== //
+#if defined(__clang__) || defined(_MSC_VER)
+	// Clang,  MSVC
+#define FLX_IS_CLASS(ty) __is_class(ty)
+#elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
+	// GCC, Intel ICC, EDG-based compilers
+#define FLX_IS_CLASS(ty) __is_class(ty)
+#else
+	// unknown compiler - raise error
+#error "flx_type_traits.hpp::is_class unkown compiler. Could not generate 'is_class' trait. Replace with your eqivalent of '__is_class' in the 'flx_type_traits.hpp' header."
+#define FLX_IS_CLASS(ty) false // you replacement here
+#endif
+
+	template <typename ty>
+	constexpr bool is_class = FLX_IS_CLASS(ty);
+
+
+
 	// ===== remove_reference ===== //
 	template <typename ty>
 	struct remove_reference_struct
