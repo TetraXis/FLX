@@ -238,7 +238,7 @@ namespace flx
 
 			while (size_ != count)
 			{
-				new (data[size_]) ty(val);
+				new (&data[size_]) ty(val);
 				++size_;
 			}
 		}
@@ -309,7 +309,7 @@ namespace flx
 
 		constexpr void erase(iterator where) noexcept
 		{
-			assert((where.get() >= begin() && where.get() < end()) && "flx_dynamic_array.hpp::flx_dynamic_array::erase erase position is out of bounds.");
+			assert((where.get() >= begin().get() && where.get() < end().get()) && "flx_dynamic_array.hpp::flx_dynamic_array::erase erase position is out of bounds.");
 
 			if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)
 			{
@@ -326,8 +326,8 @@ namespace flx
 
 		constexpr void erase(iterator first, iterator last) noexcept
 		{
-			assert((where.get() >= begin() && where.get() < end()) && "flx_dynamic_array.hpp::flx_dynamic_array::erase first erase position is out of bounds.");
-			assert((last.get() >= begin() && last.get() < end()) && "flx_dynamic_array.hpp::flx_dynamic_array::erase last erase position is out of bounds.");
+			assert((first.get() >= begin().get() && first.get() < end().get()) && "flx_dynamic_array.hpp::flx_dynamic_array::erase first erase position is out of bounds.");
+			assert((last.get() >= begin().get() && last.get() < end().get()) && "flx_dynamic_array.hpp::flx_dynamic_array::erase last erase position is out of bounds.");
 			assert(first.get() <= last.get() && "flx_dynamic_array.hpp::flx_dynamic_array::erase erase region is invalid.");
 			
 			iterator temp(first);
@@ -347,6 +347,7 @@ namespace flx
 			while (temp != end())
 			{
 				*(temp.get() - diff) = flx::move(*temp);
+				++temp;
 			}
 
 			size_ -= diff;

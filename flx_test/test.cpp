@@ -50,7 +50,6 @@ using test_t = std::vector<test_str>;
 
 int main()
 {
-	std::is_class<int>;
 
 	flx::dynamic_array	< int > a;
 

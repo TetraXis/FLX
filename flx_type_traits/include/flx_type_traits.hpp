@@ -35,13 +35,14 @@ namespace flx
 	// ===== is_trivially_constructible ===== //
 #if defined(__clang__) || defined(_MSC_VER)
 	// Clang,  MSVC
-#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) __is_trivially_constructible(ty)
+	#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) __is_trivially_constructible(ty)
 #elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
 	// GCC, Intel ICC, EDG-based compilers
-#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) __has_trivial_constructor(ty)
+	#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) __has_trivial_constructor(ty)
 #else
 	// unknown compiler - fallback
-#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) false
+	#warning "flx_type_traits.hpp::is_trivially_constructible unkown compiler. Could not generate 'is_trivially_constructible' trait. Replace with your eqivalent of '__has_trivial_constructor' in the 'flx_type_traits.hpp' header."
+	#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) false
 #endif
 
 	template <typename ty>
@@ -52,13 +53,14 @@ namespace flx
 	// ===== is_trivially_destructible ===== //
 #if defined(__clang__) || defined(_MSC_VER)
 	// Clang,  MSVC
-#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) __is_trivially_destructible(ty)
+	#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) __is_trivially_destructible(ty)
 #elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
 	// GCC, Intel ICC, EDG-based compilers
-#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) __has_trivial_destructor(ty)
+	#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) __has_trivial_destructor(ty)
 #else
 	// unknown compiler - fallback
-#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) false
+	#warning "flx_type_traits.hpp::is_trivially_destructible unkown compiler. Could not generate 'is_trivially_destructible' trait. Replace with your eqivalent of '__has_trivial_destructor' in the 'flx_type_traits.hpp' header."
+	#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) false
 #endif
 
 	template <typename ty>
@@ -69,14 +71,14 @@ namespace flx
 	// ===== is_class ===== //
 #if defined(__clang__) || defined(_MSC_VER)
 	// Clang,  MSVC
-#define FLX_IS_CLASS(ty) __is_class(ty)
+	#define FLX_IS_CLASS(ty) __is_class(ty)
 #elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
 	// GCC, Intel ICC, EDG-based compilers
-#define FLX_IS_CLASS(ty) __is_class(ty)
+	#define FLX_IS_CLASS(ty) __is_class(ty)
 #else
 	// unknown compiler - raise error
-#error "flx_type_traits.hpp::is_class unkown compiler. Could not generate 'is_class' trait. Replace with your eqivalent of '__is_class' in the 'flx_type_traits.hpp' header."
-#define FLX_IS_CLASS(ty) false // you replacement here
+	#error "flx_type_traits.hpp::is_class unkown compiler. Could not generate 'is_class' trait. Replace with your eqivalent of '__is_class' in the 'flx_type_traits.hpp' header."
+	#define FLX_IS_CLASS(ty) false // you replacement here
 #endif
 
 	template <typename ty>
