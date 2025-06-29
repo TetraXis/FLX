@@ -21,6 +21,19 @@ namespace flx
 	{
 		namespace symbols
 		{
+			enum box_flags
+			{
+				U = 1,		// up
+				D = 2,		// down
+				L = 4,		// left
+				R = 8,		// right
+				DH = 16,	// double horizontal
+				DV = 32		// double vertical
+			};
+
+			extern const i8 box_drawing[64];
+			extern const i8 box_shadow[4];
+
 			constexpr u8 DOWN_LEFT				= 0;
 			constexpr u8 UP_LEFT				= 1;
 			constexpr u8 UP_RIGHT				= 2;

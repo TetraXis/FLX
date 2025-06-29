@@ -17,9 +17,7 @@ namespace flx
 	{
 		struct window : widget
 		{
-			/// <summary>
-			/// Buffer will shrink only when unused space exceeds this ratio.
-			/// </summary>
+			// buffer will shrink only when unused space exceeds this ratio.
 			static constexpr f32 MAX_UNUSED_BUFFER = 0.6f;
 			static constexpr u16 NAME_SIZE = 16;
 
@@ -28,12 +26,12 @@ namespace flx
 		flx_protected:
 			std::vector< flx::unique_ptr<widget> > widgets{};
 			// buffer that is cut by window size
-			unique_ptr<i8[]> buffer{};
+			unique_ptr<i8[]> viewport{};
 			// buffer that contains all content inside
-			unique_ptr<i8[]> content_buffer{};
-			vec2<u16> content_buffer_size{};
+			unique_ptr<i8[]> buffer{};
 			vec2<u16> buffer_size{};
-			vec2<u16> buffer_shift{};
+			vec2<u16> view_size{};
+			vec2<u16> view_offset{};
 			vec2<u16> PADDING{};
 
 		flx_public:

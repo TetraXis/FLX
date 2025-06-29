@@ -60,20 +60,20 @@ void flx::tui::window::update_buffer_size()
 {
 	if 
 	(
-		size.x * size.y > buffer_size.x * buffer_size.y
+		size.x * size.y > view_size.x * view_size.y
 		||
-		size.x * size.y < buffer_size.x * buffer_size.y * MAX_UNUSED_BUFFER
+		size.x * size.y < view_size.x * view_size.y * MAX_UNUSED_BUFFER
 	)
 	{
-		buffer.reset(new i8[size.x * size.y]);
-		buffer_size.x = size.x;
-		buffer_size.y = size.y;
+		viewport.reset(new i8[size.x * size.y]);
+		view_size.x = size.x;
+		view_size.y = size.y;
 	}
 }
 
 void flx::tui::window::populate_buffer()
 {
-	memset(buffer.get(), ' ', buffer_size.x * buffer_size.y);
+	memset(viewport.get(), ' ', view_size.x * view_size.y);
 
 	/*for (u16 i = 0; i < size.x * size.y; i++)
 	{
@@ -83,30 +83,30 @@ void flx::tui::window::populate_buffer()
 
 	for (u16 i = 2; i < size.x - 1; i++)
 	{
-		buffer[i] = symbols::box_double_horizontal[symbols::HORIZONTAL];
+		viewport[i] = symbols::box_double_horizontal[symbols::HORIZONTAL];
 	}
 	for (u16 i = 0; ; i++)
 	{
 		if (i >= NAME_SIZE || name[i] == '\0' || i + 2 >= size.x - 2)
 		{
-			buffer[i + 2] = ' ';
+			viewport[i + 2] = ' ';
 			break;
 		}
-		buffer[i + 2] = name[i];
+		viewport[i + 2] = name[i];
 	}
-	buffer[0] = symbols::box_double_horizontal[symbols::DOWN_RIGHT];
-	buffer[size.x - 1] = symbols::box_double_horizontal[symbols::DOWN_LEFT];
+	viewport[0] = symbols::box_double_horizontal[symbols::DOWN_RIGHT];
+	viewport[size.x - 1] = symbols::box_double_horizontal[symbols::DOWN_LEFT];
 	for (u16 y = 1; y < size.y - 1; y++)
 	{
-		buffer[size.x * y] = symbols::box_lite[symbols::VERTICAL];
-		buffer[size.x * y + size.x - 1] = symbols::box_lite[symbols::VERTICAL];
+		viewport[size.x * y] = symbols::box_lite[symbols::VERTICAL];
+		viewport[size.x * y + size.x - 1] = symbols::box_lite[symbols::VERTICAL];
 	}
 	for (u16 i = 1; i < size.x - 1; i++)
 	{
-		buffer[size.x * (size.y - 1) + i] = symbols::box_lite[symbols::HORIZONTAL];
+		viewport[size.x * (size.y - 1) + i] = symbols::box_lite[symbols::HORIZONTAL];
 	}
-	buffer[size.x * (size.y - 1)] = symbols::box_lite[symbols::UP_RIGHT];
-	buffer[size.x * size.y - 1] = symbols::box_lite[symbols::UP_LEFT];
+	viewport[size.x * (size.y - 1)] = symbols::box_lite[symbols::UP_RIGHT];
+	viewport[size.x * size.y - 1] = symbols::box_lite[symbols::UP_LEFT];
 }
 
 #ifdef _DEBUG
