@@ -1,7 +1,7 @@
 #pragma once
 
 #include "flx_types.hpp"
-#include "flx_vec.hpp" // NOTE: now external
+#include "flx_vec.hpp"
 
 //#include <vector>
 

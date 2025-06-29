@@ -4,7 +4,7 @@
 #include "flx_types.hpp"
 #include "flx_type_traits.hpp"
 
-#include <math.h> // NOTE: Using standard library in RELEASE mode
+#include <math.h> // NOTE: Using standard library in RELEASE
 
 #ifndef NDEBUG
 #include <cassert>
@@ -130,9 +130,27 @@ namespace flx
 			return *this;
 		}
 
-		constexpr f64 lenght() const noexcept
+		constexpr f64 length() const noexcept
 		{
 			return sqrt(x * x + y * y);
+		}
+
+		constexpr vec2& normalize() noexcept
+		{
+			assert(lenght != 0.0 && "flx_vec.hpp::vec2::normalize vec length is 0.0.");
+
+			f64 len = length();
+			x /= len;
+			y /= len;
+			return *this;
+		}
+
+		constexpr vec2 normalized() noexcept
+		{
+			assert(lenght != 0.0 && "flx_vec.hpp::vec2::normalized vec length is 0.0.");
+
+			f64 len = length();
+			return { x / len, y / len };
 		}
 	};
 } // namespace flx

@@ -39,6 +39,9 @@
     <ProjectReference Include="..\flx_types\flx_types.vcxproj">
       <Project>{8d091046-4017-4dd8-839a-64bf21e1c48e}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\flx_type_traits\flx_type_traits.vcxproj">
+      <Project>{2b810ae7-c3e5-459b-9ac5-9bf917186d18}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\flx_unique_ptr\flx_unique_ptr.vcxproj">
       <Project>{5c009859-8260-44c4-bc2a-b0fd8ae8d672}</Project>
     </ProjectReference>
@@ -143,7 +146,7 @@
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_vec\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;D:\C++\Visual Studio Projects\flx_vec\flx_vec;$(SolutionDir)flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_vec\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;$(SolutionDir)flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -165,7 +168,7 @@
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_vec\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;D:\C++\Visual Studio Projects\flx_vec\flx_vec;$(SolutionDir)flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_vec\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;$(SolutionDir)flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>

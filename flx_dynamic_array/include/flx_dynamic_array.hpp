@@ -309,7 +309,7 @@ namespace flx
 
 		constexpr void erase(iterator where) noexcept
 		{
-			assert((where.get() >= begin().get() && where.get() < end().get()) && "flx_dynamic_array.hpp::flx_dynamic_array::erase erase position is out of bounds.");
+			assert((where.get() >= begin().get() && where.get() < end().get()) && "flx_dynamic_array.hpp::dynamic_array::erase erase position is out of bounds.");
 
 			if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)
 			{
@@ -326,9 +326,9 @@ namespace flx
 
 		constexpr void erase(iterator first, iterator last) noexcept
 		{
-			assert((first.get() >= begin().get() && first.get() < end().get()) && "flx_dynamic_array.hpp::flx_dynamic_array::erase first erase position is out of bounds.");
-			assert((last.get() >= begin().get() && last.get() < end().get()) && "flx_dynamic_array.hpp::flx_dynamic_array::erase last erase position is out of bounds.");
-			assert(first.get() <= last.get() && "flx_dynamic_array.hpp::flx_dynamic_array::erase erase region is invalid.");
+			assert((first.get() >= begin().get() && first.get() < end().get()) && "flx_dynamic_array.hpp::dynamic_array::erase first erase position is out of bounds.");
+			assert((last.get() >= begin().get() && last.get() < end().get()) && "flx_dynamic_array.hpp::dynamic_array::erase last erase position is out of bounds.");
+			assert(first.get() <= last.get() && "flx_dynamic_array.hpp::dynamic_array::erase erase region is invalid.");
 			
 			iterator temp(first);
 			u64 diff = last.get() - first.get();
@@ -365,14 +365,14 @@ namespace flx
 
 		constexpr ty& operator[](u64 pos) noexcept
 		{
-			assert(pos < size_ && "flx_dynamic_array.hpp::flx_dynamic_array::operator[] position is out of bounds.");
+			assert(pos < size_ && "flx_dynamic_array.hpp::dynamic_array::operator[] position is out of bounds.");
 		
 			return data[pos];
 		}
 
 		constexpr const ty& operator[](u64 pos) const noexcept
 		{
-			assert(pos < size_ && "flx_dynamic_array.hpp::flx_dynamic_array::operator[] position is out of bounds.");
+			assert(pos < size_ && "flx_dynamic_array.hpp::dynamic_array::operator[] position is out of bounds.");
 		
 			return data[pos];
 		}
@@ -398,7 +398,7 @@ namespace flx
 
 		constexpr void reallocate(u64 new_capacity) noexcept
 		{
-			assert(new_capacity < size_ && "flx_dynamic_array.hpp::flx_dynamic_array::reallocate new capacity is smaller than size.");
+			assert(new_capacity < size_ && "flx_dynamic_array.hpp::dynamic_array::reallocate new capacity is smaller than size.");
 
 			capacity_ = new_capacity;
 			ty* new_data = static_cast<ty*>(::operator new(capacity_ * sizeof(ty)));
