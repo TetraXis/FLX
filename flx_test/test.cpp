@@ -51,7 +51,7 @@ using test_t = std::vector<test_str>;
 int main()
 {
 
-	flx::dynamic_array	< int > a;
+	std::vector	< int > a;
 
 	for (size_t i = 0; i < 10; i++)
 	{
