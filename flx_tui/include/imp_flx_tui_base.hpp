@@ -3,7 +3,11 @@
 #include "flx_types.hpp"
 #include "flx_vec.hpp"
 
-//#include <vector>
+#ifndef NDEBUG
+#include <cassert>
+#else
+#define assert(expr) ((void)0)
+#endif // !NDEBUG
 
 namespace flx
 {

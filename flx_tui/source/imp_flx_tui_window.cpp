@@ -35,7 +35,7 @@ void flx::tui::window::set_size(const vec2<u16>& new_size)
 void flx::tui::window::add_widget(flx::unique_ptr<widget>& new_widget)
 {
 	new_widget->parent = this;
-	widgets.emplace_back(new_widget.release());
+	widgets.emplace_back(flx::move(new_widget.release()));
 }
 
 void flx::tui::window::remove_widget(flx::unique_ptr<widget>* widget_to_remove)
@@ -73,7 +73,8 @@ void flx::tui::window::update_buffer_size()
 
 void flx::tui::window::populate_buffer()
 {
-	memset(viewport.get(), ' ', view_size.x * view_size.y);
+	// TODO: fix it
+	//memset(viewport.get(), ' ', view_size.x * view_size.y);
 
 	/*for (u16 i = 0; i < size.x * size.y; i++)
 	{

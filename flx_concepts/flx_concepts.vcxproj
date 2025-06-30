@@ -19,15 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\flx_dynamic_array.hpp" />
+    <ClInclude Include="include\flx_concepts.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\flx_dynamic_array.cpp" />
+    <ClCompile Include="source\flx_concepts.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\flx_concepts\flx_concepts.vcxproj">
-      <Project>{3075ec5a-35ef-4efe-8f03-61606df9493c}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\flx_types\flx_types.vcxproj">
       <Project>{8d091046-4017-4dd8-839a-64bf21e1c48e}</Project>
     </ProjectReference>
@@ -38,8 +35,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{20104b01-860e-4f7b-8c9d-10f23048cc4f}</ProjectGuid>
-    <RootNamespace>flx_dynamic_array</RootNamespace>
+    <ProjectGuid>{3075ec5a-35ef-4efe-8f03-61606df9493c}</ProjectGuid>
+    <RootNamespace>flx_concepts</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -132,7 +129,7 @@
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -154,7 +151,7 @@
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>

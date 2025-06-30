@@ -145,7 +145,7 @@ namespace flx
 			return *this;
 		}
 
-		constexpr vec2 normalized() noexcept
+		constexpr vec2 normalized() const noexcept
 		{
 			assert(lenght != 0.0 && "flx_vec.hpp::vec2::normalized vec length is 0.0.");
 

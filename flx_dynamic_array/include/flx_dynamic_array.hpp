@@ -3,6 +3,7 @@
 
 #include "flx_types.hpp"
 #include "flx_type_traits.hpp"
+#include "flx_concepts.hpp"
 
 #ifndef NDEBUG
 #include <cassert>
@@ -12,17 +13,10 @@
 
 namespace flx
 {
-	/// <summary>
-	/// NOTE:
-	/// 1. std::vector calls destructors for objects when reallocating. Not sure why.
-	/// Since we MOVE the data anyway, why should we?
-	/// 2. new ty[] calls constructors, why should we? Only call when actually constructing.
-	/// </summary>
-
 	template <typename ty>
 	struct dynamic_array
 	{
-		static constexpr u64 PRE_ALLOCATED_CAPACITY = 4;
+		static constexpr u64 PREALLOCATED_CAPACITY = 4;
 		static constexpr u64 GROWTH_RATE = 2;
 
 		struct iterator
@@ -193,9 +187,9 @@ namespace flx
 		};
 
 	flx_private:
-		ty* data = static_cast<ty*>(::operator new(PRE_ALLOCATED_CAPACITY * sizeof(ty)));
+		ty* data = static_cast<ty*>(::operator new(PREALLOCATED_CAPACITY * sizeof(ty)));
 		u64 size_ = 0;
-		u64 capacity_ = PRE_ALLOCATED_CAPACITY;
+		u64 capacity_ = PREALLOCATED_CAPACITY;
 
 	flx_public:
 		constexpr dynamic_array() noexcept
@@ -229,7 +223,7 @@ namespace flx
 			: size_(other.size_), capacity_(other.capacity_),
 			data(other.data)
 		{
-			other.data = static_cast<ty*>(::operator new(PRE_ALLOCATED_CAPACITY * sizeof(ty)));
+			other.data = static_cast<ty*>(::operator new(PREALLOCATED_CAPACITY * sizeof(ty)));
 		}
 
 		constexpr dynamic_array(i64 count, const ty& val = ty()) noexcept
@@ -273,6 +267,11 @@ namespace flx
 			return const_iterator(data + size_);
 		}
 
+		constexpr bool empty() const noexcept
+		{
+			return size_ == 0;
+		}
+
 		constexpr void push_back(const ty& val) noexcept
 		{
 			if (size_ == capacity_)
@@ -305,6 +304,14 @@ namespace flx
 
 			new (&data[size_]) ty(flx::forward<val_ty>(vals)...);
 			++size_;
+		}
+
+		constexpr void pop_back() noexcept
+		{
+			assert(!empty() && "flx_dynamic_array::dynamic_array::pop_back popping on empty array.");
+
+			--size_;
+			data[size_].~ty();
 		}
 
 		constexpr void erase(iterator where) noexcept

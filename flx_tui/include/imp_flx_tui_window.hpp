@@ -3,13 +3,17 @@
 #include "imp_flx_tui_base.hpp"
 #include "imp_flx_tui_encoding.hpp"
 #include "flx_unique_ptr.hpp"
+#include "flx_dynamic_array.hpp"
 
-#include <vector>
+//#include <vector>
 
-#ifdef _DEBUG
+#ifndef NDEBUG
+#include <cassert>
 #include <iostream>
 #include <sstream>
-#endif // _DEBUG
+#else
+#define assert(expr) ((void)0)
+#endif // !NDEBUG
 
 namespace flx
 {
@@ -24,7 +28,7 @@ namespace flx
 		flx_public:
 			i8 name[NAME_SIZE]{};
 		flx_protected:
-			std::vector< flx::unique_ptr<widget> > widgets{};
+			flx::dynamic_array< flx::unique_ptr<widget> > widgets{};
 			// buffer that is cut by window size
 			unique_ptr<i8[]> viewport{};
 			// buffer that contains all content inside

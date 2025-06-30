@@ -3,6 +3,16 @@
 
 namespace flx
 {
+	// ===== is_same ===== //
+
+	template <typename a, typename b>
+	constexpr bool is_same = false;
+
+	template <typename a>
+	constexpr bool is_same<a, a> = false;
+
+
+
 	// ===== is_array ===== //
 	template <typename>
 	constexpr bool is_array = false;
