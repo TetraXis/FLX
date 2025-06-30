@@ -50,18 +50,12 @@ using test_t = std::vector<test_str>;
 
 int main()
 {
-
-	std::vector	< int > a;
-
-	for (size_t i = 0; i < 10; i++)
-	{
-		a.emplace_back(i);
-	}
-
-	a.erase(a.begin() + 3, a.begin() + 6);
-
-	for (size_t i = 0; i < a.size(); i++)
-	{
-		std::cout << a[i] << '\n';
-	}
+	//flx::dynamic_array<flx::unique_ptr<int>> a;
+	//
+	//a.emplace_back(new int(1));
+	//a.emplace_back(new int(1));
+	//a.emplace_back(new int(1));
+	//a.emplace_back(new int(1));
+	//a.emplace_back(new int(1));
+	//a.emplace_back(new int(1));
 }

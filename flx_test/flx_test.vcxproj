@@ -107,7 +107,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_concepts\include;D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,7 +124,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_concepts\include;D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,6 +137,9 @@
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\flx_concepts\flx_concepts.vcxproj">
+      <Project>{3075ec5a-35ef-4efe-8f03-61606df9493c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\flx_dynamic_array\flx_dynamic_array.vcxproj">
       <Project>{20104b01-860e-4f7b-8c9d-10f23048cc4f}</Project>
     </ProjectReference>

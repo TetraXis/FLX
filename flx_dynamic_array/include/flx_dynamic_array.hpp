@@ -209,7 +209,7 @@ namespace flx
 			::operator delete(data);
 		}
 
-		constexpr dynamic_array(const dynamic_array& other) noexcept
+		constexpr dynamic_array(const dynamic_array& other) noexcept requires copy_constructible<ty>
 			: capacity_(other.capacity_),
 			data(static_cast<ty*>(::operator new(other.capacity_ * sizeof(ty))))
 		{
@@ -226,7 +226,7 @@ namespace flx
 			other.data = static_cast<ty*>(::operator new(PREALLOCATED_CAPACITY * sizeof(ty)));
 		}
 
-		constexpr dynamic_array(i64 count, const ty& val = ty()) noexcept
+		constexpr dynamic_array(i64 count, const ty& val = ty()) noexcept requires copy_constructible<ty>
 		{
 			reallocate(count);
 
@@ -272,7 +272,7 @@ namespace flx
 			return size_ == 0;
 		}
 
-		constexpr void push_back(const ty& val) noexcept
+		constexpr void push_back(const ty& val) noexcept requires copy_constructible<ty>
 		{
 			if (size_ == capacity_)
 			{
@@ -290,7 +290,7 @@ namespace flx
 				reallocate();
 			}
 
-			data[size_] = val;
+			data[size_] = flx::move(val);
 			++size_;
 		}
 
@@ -310,8 +310,11 @@ namespace flx
 		{
 			assert(!empty() && "flx_dynamic_array::dynamic_array::pop_back popping on empty array.");
 
-			--size_;
-			data[size_].~ty();
+			--size_; 
+			if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)
+			{
+				data[size_].~ty();
+			}
 		}
 
 		constexpr void erase(iterator where) noexcept
