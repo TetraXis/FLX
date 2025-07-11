@@ -1,0 +1,170 @@
+﻿Structure of TUI lib
+
+Main UI elements:
+
+- viewport (display)
+	- renders all widgets
+	- handles user's I/O
+	- bound to a terminal window (meaning setting and size can be changed)
+
+- window
+	- displays content inside of it
+	- can be dragged around
+	- can be changed size of
+	- should allow to scroll (vertically and horizontally) content if doesnt fit
+
+
+Possible designs:
+
+window:
+
+
+1. Window with name and all tree control buttons
+
+┌─0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF─┐
+│                                                  │      
+0 ╒[window name]═══════════[_][○][X]╕              │ 
+1 │                                 │              │ 
+2 │                                 │              │ 
+3 │                                 │              │ 
+4 │                                 │              │ 
+5 │                                 │              │ 
+6 │                                 │              │ 
+7 │                                 │              │ 
+8 │                                 │              │ 
+9 │                                 │              │ 
+A │                                 │              │ 
+B │                                 │              │ 
+C └─────────────────────────────────┘              │ 
+D											  	   │
+E											  	   │
+F											  	   │
+│											  	   │
+└──────────────────────────────────────────────────┘
+
+
+2. Window with name, all tree control buttons and scrollbards on the rim
+
+┌─0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF─┐
+│                                                  │      
+0 ╒[window name]═══════════[_][○][X]╕              │ 
+1 │                                 ▲              │ 
+2 │                                 ░              │ 
+3 │                                 █              │ 
+4 │                                 █              │ 
+5 │                                 █              │ 
+6 │                                 ░              │ 
+7 │                                 ░              │ 
+8 │                                 ░              │ 
+9 │                                 ░              │ 
+A │                                 ░              │ 
+B │                                 ▼              │ 
+C └◄▬▬▬▬■■■▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬►┘              │ 
+D											  	   │
+E											  	   │
+F											  	   │
+│											  	   │
+└──────────────────────────────────────────────────┘
+
+
+3. Window with name, all tree control buttons and scrollbards on the rim
+
+┌─0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF─┐
+│                                                  │      
+0 ╒[window name]═══════════[_][○][X]╕              │ 
+1 │                                 ▲              │ 
+2 │                                 |              │ 
+3 │                                 █              │ 
+4 │                                 █              │ 
+5 │                                 █              │ 
+6 │                                 |              │ 
+7 │                                 |              │ 
+8 │                                 |              │ 
+9 │                                 |              │ 
+A │                                 ▼              │ 
+B │                                 │              │ 
+C └◄----■■■-----------------------►─┘              │ 
+D								   ▲▲		  	   │
+E						Mind this spacing	  	   │
+F											  	   │
+│											  	   │
+└──────────────────────────────────────────────────┘
+
+
+4. Window with name, all tree control buttons and scrollbards inside
+
+┌─0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF─┐
+│                                                  │      
+0 ╒[window name]═══════════[_][○][X]╕              │ 
+1 │                                ▲│              │ 
+2 │                                |│              │ 
+3 │                                █│              │ 
+4 │                                █│              │ 
+5 │                                █│              │ 
+6 │                                |│              │ 
+7 │                                |│              │ 
+8 │                                |│              │ 
+9 │                                |│              │ 
+A │                                ▼│              │ 
+B │◄----■■■----------------------► ⌂│              │ 
+C └─────────────────────────────────┘              │ 
+D	                 Space nedded? ↑▲               │
+E						Resize window to fit	   │
+F						content without scrolls	   │
+│											  	   │
+└──────────────────────────────────────────────────┘
+
+
+
+│
+┤
+╡
+╢
+╖
+╕
+╣
+║
+╗
+╝
+╜
+╛
+┐
+└
+┴
+┬
+├
+─
+┼
+╞
+╟
+╚
+╔
+╩
+╦
+╠
+═
+╬
+╧
+╨
+╤
+╥
+╙
+╘
+╒
+╓
+╫
+╪
+┘
+┌
+█
+▄
+▌
+▐
+▀
+►
+◄
+▲
+▼
+░
+▒
+▓

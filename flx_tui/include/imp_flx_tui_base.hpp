@@ -39,10 +39,7 @@ namespace flx
 		flx_public:
 			u16 id{};
 			const widget_type type = widget_type::none;
-			/// <summary>
-			/// For possible future uses
-			/// </summary>
-			u8 flags{};
+			u8 flags{}; // For possible future uses
 
 		flx_protected:
 			widget(widget_type);

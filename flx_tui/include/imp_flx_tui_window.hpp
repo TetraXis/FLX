@@ -21,12 +21,13 @@ namespace flx
 		{
 			// buffer will shrink only when unused space exceeds this ratio.
 			static constexpr f32 MAX_UNUSED_BUFFER = 0.6f;
+			// prefer keeping this % 4 == 0 to preserve good struct padding
 			static constexpr u16 NAME_SIZE = 16;
 
 		flx_public:
 			i8 name[NAME_SIZE]{};
 		flx_protected:
-			flx::dynamic_array< flx::unique_ptr<widget> > widgets{};
+			dynamic_array< unique_ptr<widget> > widgets{};
 			// buffer that is cut by window size
 			unique_ptr<i8[]> viewport{};
 			// buffer that contains all content inside

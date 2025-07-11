@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\CP437 chars.txt" />
+    <Text Include="resources\tui_structure.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\flx_tui.hpp" />
