@@ -128,8 +128,6 @@ void test(flx::unique_ptr<widget>& new_widget)
 
 int main()
 {
-	std::forward
-	flx::dynamic_array<int> a{};
 	//unique_ptr<widget> up(new widget());
 
 	//test(up);
