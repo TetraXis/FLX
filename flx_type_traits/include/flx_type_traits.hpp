@@ -9,7 +9,7 @@ namespace flx
 	constexpr bool is_same = false;
 
 	template <typename a>
-	constexpr bool is_same<a, a> = true; // was false, WHY?
+	constexpr bool is_same<a, a> = true;
 
 
 

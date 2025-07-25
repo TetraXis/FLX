@@ -126,10 +126,9 @@ void test(flx::unique_ptr<widget>& new_widget)
 	widgets.emplace_back(flx::move(new_widget.release()));
 }
 
-
 int main()
 {
-	dynamic_array<int> a{};
+	flx::dynamic_array<int> a{};
 	//unique_ptr<widget> up(new widget());
 
 	//test(up);

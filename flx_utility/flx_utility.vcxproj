@@ -19,49 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="resources\CP437 chars.txt" />
-    <Text Include="resources\TUI Layout Constraints.txt" />
-    <Text Include="resources\TUI Structure.txt" />
+    <ClInclude Include="include\flx_utility.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\flx_tui.hpp" />
-    <ClInclude Include="include\imp_flx_tui_base.hpp" />
-    <ClInclude Include="include\imp_flx_tui_display.hpp" />
-    <ClInclude Include="include\imp_flx_tui_encoding.hpp" />
-    <ClInclude Include="include\imp_flx_tui_window.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="source\flx_tui.cpp" />
-    <ClCompile Include="source\imp_flx_tui_base.cpp" />
-    <ClCompile Include="source\imp_flx_tui_display_windows.cpp" />
-    <ClCompile Include="source\imp_flx_tui_encoding.cpp" />
-    <ClCompile Include="source\imp_flx_tui_window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\flx_concepts\flx_concepts.vcxproj">
-      <Project>{3075ec5a-35ef-4efe-8f03-61606df9493c}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\flx_dynamic_array\flx_dynamic_array.vcxproj">
-      <Project>{20104b01-860e-4f7b-8c9d-10f23048cc4f}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\flx_types\flx_types.vcxproj">
-      <Project>{8d091046-4017-4dd8-839a-64bf21e1c48e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\flx_type_traits\flx_type_traits.vcxproj">
-      <Project>{2b810ae7-c3e5-459b-9ac5-9bf917186d18}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\flx_unique_ptr\flx_unique_ptr.vcxproj">
-      <Project>{5c009859-8260-44c4-bc2a-b0fd8ae8d672}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\flx_vec\flx_vec.vcxproj">
-      <Project>{4b260447-15dc-444e-a5c9-0c23c53be5f3}</Project>
-    </ProjectReference>
+    <ClCompile Include="source\flx_utility.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{489ac4ba-cd5b-4d96-a5bf-707d90047a3c}</ProjectGuid>
-    <RootNamespace>flx_tui</RootNamespace>
+    <ProjectGuid>{c4222efa-60da-47ed-9060-782cf3316662}</ProjectGuid>
+    <RootNamespace>flx_utility</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -154,7 +121,7 @@
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_utility\include;D:\C++\Visual Studio Projects\FLX\flx_new\include;D:\C++\Visual Studio Projects\FLX\flx_concepts\include;D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_vec\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;$(SolutionDir)flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -176,7 +143,7 @@
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_utility\include;D:\C++\Visual Studio Projects\FLX\flx_new\include;D:\C++\Visual Studio Projects\FLX\flx_concepts\include;D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_vec\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;$(SolutionDir)flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>

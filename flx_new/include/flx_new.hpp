@@ -15,7 +15,7 @@
 /// operator new can only be global or class specific
 /// Forcing all types to implement placement new is bad
 /// MSVC doesn't have weak linking, so we need entierly unique placement new
-///                              This makes this placement new unique    vvvvvvvvvvvv
+///                                               This makes this placement new unique    vvvvvvvvvvvv
 constexpr inline void* operator new ([[maybe_unused]] unsigned long long size, void* ptr, [[maybe_unused]] bool use_flx) noexcept
 {
 	return ptr;
