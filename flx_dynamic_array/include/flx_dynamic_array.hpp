@@ -6,10 +6,6 @@
 #include "flx_concepts.hpp"
 #include "flx_new.hpp"
 
-// TODO: remove this header
-//#include <memory> // uncluding this fixes placement new
-//#include <new>
-
 #ifndef NDEBUG
 #include <cassert>
 #else

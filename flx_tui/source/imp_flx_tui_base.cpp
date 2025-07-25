@@ -1,9 +1,6 @@
 #include "imp_flx_tui_base.hpp"
 #include "flx_utility.hpp"
 
-// TODO: remove this header
-//#include <utility>
-
 flx::tui::widget::widget(widget_type new_type) : type(new_type)
 {
 }
@@ -21,7 +18,6 @@ void flx::tui::widget::set_size(const vec2<u16>& new_size)
 {
 	size =
 	{
-		// TODO: revome std::
 		flx::max(min_size.x, new_size.x),
 		flx::max(min_size.y, new_size.y)
 	};

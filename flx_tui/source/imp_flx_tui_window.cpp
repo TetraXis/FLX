@@ -89,7 +89,7 @@ void flx::tui::window::populate_buffer()
 {
 	draw_border();
 	return;
-	// TODO: fix it
+	//  fix it
 	//memset(viewport.get(), ' ', view_size.x * view_size.y);
 
 	/*for (u16 i = 0; i < size.x * size.y; i++)
@@ -98,7 +98,7 @@ void flx::tui::window::populate_buffer()
 	}
 	return;*/
 
-	for (u16 i = 2; i < size.x - 1; i++)
+	/*for (u16 i = 2; i < size.x - 1; i++)
 	{
 		viewport[i] = symbols::box_double_horizontal[symbols::HORIZONTAL];
 	}
@@ -128,7 +128,7 @@ void flx::tui::window::populate_buffer()
 	}
 
 	viewport[size.x * (size.y - 1)] = symbols::box_lite[symbols::UP_RIGHT];
-	viewport[size.x * size.y - 1] = symbols::box_lite[symbols::UP_LEFT];
+	viewport[size.x * size.y - 1] = symbols::box_lite[symbols::UP_LEFT];*/
 }
 
 void flx::tui::window::draw_border()

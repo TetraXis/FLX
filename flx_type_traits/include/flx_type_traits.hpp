@@ -45,6 +45,16 @@ namespace flx
 	constexpr bool is_volatile<volatile ty> = true;
 
 
+
+	// ===== is_lvalue_reference ===== //
+
+	template <typename>
+	constexpr bool is_lvalue_reference = false;
+
+	template <typename ty>
+	constexpr bool is_lvalue_reference<ty&> = true;
+
+
 	// ===== is_trivially_constructible ===== //
 
 #if defined(__clang__) || defined(_MSC_VER)
@@ -148,7 +158,7 @@ namespace flx
 	template<typename ty>
 	constexpr ty&& forward(remove_reference<ty>&& val) noexcept
 	{
-		// TODO: add "Cannot forward rvalue as lvalue"
+		static_assert(!is_lvalue_reference<ty>, "flx_type_traits.hpp::forward bad forward call");
 		return static_cast<ty&&>(val);
 	}
 } // namespace flx
