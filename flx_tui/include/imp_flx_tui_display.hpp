@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Windows.h>
-
 #include "imp_flx_tui_encoding.hpp"
 #include "imp_flx_tui_base.hpp"
 #include "imp_flx_tui_window.hpp"

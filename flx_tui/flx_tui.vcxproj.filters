@@ -16,7 +16,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\CP437 chars.txt" />
-    <Text Include="resources\tui_structure.txt" />
+    <Text Include="resources\TUI Structure.txt" />
+    <Text Include="resources\TUI Layout Constraints.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\flx_tui.hpp">
@@ -25,7 +26,7 @@
     <ClInclude Include="include\imp_flx_tui_base.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\imp_flx_tui_display_windows.hpp">
+    <ClInclude Include="include\imp_flx_tui_display.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\imp_flx_tui_encoding.hpp">

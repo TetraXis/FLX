@@ -1,0 +1,20 @@
+Layout is built using binary trees.
+
+Docks are divided in half horizontally or vertically.
+
+widgets (including docks) can be:
+
+aligned to up/down/left/right and ony of these combinations			4 BITS
+Size changed vertically/horizontally								2 BITS
+Fill mode fill/flex (if sizing is forbidden fixed is implied)		1 BIT
+Flex mode weight													2 BITS
+(bc chars are so small, steps of ~25% would be plenty)
+
+
+								Layout behaviour
+		 ________________________/             \________________________     
+		/																\
+	In linear dock (ver/hor)		 				In free mode
+	- size change matters
+	- flex weight matters							
+	- if overfilling scrollbar should appear		

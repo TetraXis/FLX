@@ -4,6 +4,11 @@
 #include "flx_types.hpp"
 #include "flx_type_traits.hpp"
 #include "flx_concepts.hpp"
+#include "flx_new.hpp"
+
+// TODO: remove this header
+//#include <memory> // uncluding this fixes placement new
+//#include <new>
 
 #ifndef NDEBUG
 #include <cassert>
@@ -16,8 +21,13 @@ namespace flx
 	template <typename ty>
 	struct dynamic_array
 	{
-		static constexpr u64 PREALLOCATED_CAPACITY = 4;
+		static constexpr u64 PREALLOCATED_CAPACITY = 0;
 		static constexpr u64 GROWTH_RATE = 2;
+
+		/*constexpr inline void* operator new (unsigned long long size, void* ptr) noexcept
+		{
+			return ptr;
+		}*/
 
 		struct iterator
 		{
@@ -302,7 +312,7 @@ namespace flx
 				reallocate();
 			}
 
-			new (&data[size_]) ty(flx::forward<val_ty>(vals)...);
+			::new (&data[size_], true) ty( flx::forward<val_ty>(vals)... );
 			++size_;
 		}
 
@@ -391,11 +401,18 @@ namespace flx
 		constexpr void reallocate() noexcept
 		{
 			capacity_ *= GROWTH_RATE;
+			if constexpr (PREALLOCATED_CAPACITY == 0)
+			{
+				if (capacity_ == 0)
+				{
+					capacity_ = 1;
+				}
+			}
 			ty* new_data = static_cast<ty*>(::operator new(capacity_ * sizeof(ty)));
 
 			for (u64 i = 0; i < size_; i++)
 			{
-				new (&new_data[i]) ty(flx::move(data[i]));
+				::new (&new_data[i], true) ty(flx::move(data[i]));
 				if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)
 				{
 					data[i].~ty();
@@ -415,7 +432,7 @@ namespace flx
 
 			for (u64 i = 0; i < size_; i++)
 			{
-				new (&new_data[i]) ty(flx::move(data[i]));
+				::new (&new_data[i], true) ty(flx::move(data[i]));
 				if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)
 				{
 					data[i].~ty();

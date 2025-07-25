@@ -137,7 +137,7 @@ namespace flx
 
 		constexpr vec2& normalize() noexcept
 		{
-			assert(lenght != 0.0 && "flx_vec.hpp::vec2::normalize vec length is 0.0.");
+			assert(length() != 0.0 && "flx_vec.hpp::vec2::normalize vec length is 0.0.");
 
 			f64 len = length();
 			x /= len;
@@ -147,12 +147,12 @@ namespace flx
 
 		constexpr vec2 normalized() const noexcept
 		{
-			assert(lenght != 0.0 && "flx_vec.hpp::vec2::normalized vec length is 0.0.");
+			assert(length() != 0.0 && "flx_vec.hpp::vec2::normalized vec length is 0.0.");
 
 			f64 len = length();
 			return { x / len, y / len };
 		}
-	};
+	}; // vec2
 } // namespace flx
 
 #endif // !FLX_VEC_HPP

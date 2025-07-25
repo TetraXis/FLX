@@ -21,7 +21,7 @@ namespace flx
 			button,
 			display,		// handles io and all widgets
 			custom			// Custom type
-		};
+		}; // widget_type
 
 		struct window;
 
@@ -48,7 +48,7 @@ namespace flx
 			widget() = default;
 			virtual ~widget();
 
-			vec2<u16>	get_size() const;
+			vec2<u16> get_size() const;
 			virtual	void set_size(const vec2<u16>&);
 
 			virtual void hover_begin();
@@ -60,6 +60,6 @@ namespace flx
 			/// Fills the buffer with chars
 			/// </summary>
 			virtual void populate_buffer();
-		};
-	}
-}
+		}; // widget
+	} // namespace tui
+} // namespace flx

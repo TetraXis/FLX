@@ -3,7 +3,6 @@
 #include "flx_types.hpp"
 
 // CP437
-// Do not use below 0x20
 
 
 #define FLX_TUI_ENCODING_ASCII 0
@@ -21,7 +20,7 @@ namespace flx
 	{
 		namespace symbols
 		{
-			enum box_flags
+			enum box_flags : u8
 			{
 				U = 1,		// up
 				D = 2,		// down
@@ -52,6 +51,6 @@ namespace flx
 			extern const i8 box_double[];
 			extern const i8 box_double_horizontal[];
 			extern const i8 box_double_vertical[];
-		}
-	}
-}
+		} // namespace symbols
+	} // namespace tui
+} // namespace flx

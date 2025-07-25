@@ -9,23 +9,25 @@ namespace flx
 	constexpr bool is_same = false;
 
 	template <typename a>
-	constexpr bool is_same<a, a> = false;
+	constexpr bool is_same<a, a> = true; // was false, WHY?
 
 
 
 	// ===== is_array ===== //
+
 	template <typename>
 	constexpr bool is_array = false;
 
 	template <typename ty>
 	constexpr bool is_array<ty[]> = true;
 
-	template <typename ty, size_t size>
+	template <typename ty, unsigned long long size>
 	constexpr bool is_array<ty[size]> = true;
 
 
 
 	// ===== is_const ===== //
+
 	template <typename>
 	constexpr bool is_const = false;
 
@@ -35,6 +37,7 @@ namespace flx
 
 
 	// ===== is_volatile ===== //
+
 	template <typename>
 	constexpr bool is_volatile = false;
 
@@ -43,6 +46,7 @@ namespace flx
 
 
 	// ===== is_trivially_constructible ===== //
+
 #if defined(__clang__) || defined(_MSC_VER)
 	// Clang,  MSVC
 	#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) __is_trivially_constructible(ty)
@@ -61,6 +65,7 @@ namespace flx
 
 
 	// ===== is_trivially_destructible ===== //
+
 #if defined(__clang__) || defined(_MSC_VER)
 	// Clang,  MSVC
 	#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) __is_trivially_destructible(ty)
@@ -79,6 +84,7 @@ namespace flx
 
 
 	// ===== is_class ===== //
+
 #if defined(__clang__) || defined(_MSC_VER)
 	// Clang,  MSVC
 	#define FLX_IS_CLASS(ty) __is_class(ty)
@@ -97,6 +103,7 @@ namespace flx
 
 
 	// ===== remove_reference ===== //
+
 	template <typename ty>
 	struct remove_reference_struct
 	{
@@ -121,22 +128,27 @@ namespace flx
 
 
 	// ===== move ====== //
+
 	template<typename ty>
 	constexpr remove_reference<ty>&& move(ty&& obj) noexcept
 	{
 		return static_cast<remove_reference<ty>&&>(obj);
 	}
 
+
+
 	// ===== forward ===== //
+
 	template<typename ty>
-	constexpr ty&& forward(ty& val) noexcept
+	constexpr ty&& forward(remove_reference<ty>& val) noexcept
 	{
 		return static_cast<ty&&>(val);
 	}
 
 	template<typename ty>
-	constexpr ty&& forward(ty&& val) noexcept
+	constexpr ty&& forward(remove_reference<ty>&& val) noexcept
 	{
+		// TODO: add "Cannot forward rvalue as lvalue"
 		return static_cast<ty&&>(val);
 	}
 } // namespace flx

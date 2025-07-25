@@ -20,12 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\CP437 chars.txt" />
-    <Text Include="resources\tui_structure.txt" />
+    <Text Include="resources\TUI Layout Constraints.txt" />
+    <Text Include="resources\TUI Structure.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\flx_tui.hpp" />
     <ClInclude Include="include\imp_flx_tui_base.hpp" />
-    <ClInclude Include="include\imp_flx_tui_display_windows.hpp" />
+    <ClInclude Include="include\imp_flx_tui_display.hpp" />
     <ClInclude Include="include\imp_flx_tui_encoding.hpp" />
     <ClInclude Include="include\imp_flx_tui_window.hpp" />
   </ItemGroup>
@@ -153,7 +154,7 @@
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_concepts\include;D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_vec\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;$(SolutionDir)flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_new\include;D:\C++\Visual Studio Projects\FLX\flx_concepts\include;D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_vec\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;$(SolutionDir)flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -175,7 +176,7 @@
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_concepts\include;D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_vec\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;$(SolutionDir)flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Visual Studio Projects\FLX\flx_new\include;D:\C++\Visual Studio Projects\FLX\flx_concepts\include;D:\C++\Visual Studio Projects\FLX\flx_type_traits\include;D:\C++\Visual Studio Projects\FLX\flx_vec\include;D:\C++\Visual Studio Projects\FLX\flx_unique_ptr\include;$(SolutionDir)flx_types\include;D:\C++\Visual Studio Projects\FLX\flx_dynamic_array\include;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>

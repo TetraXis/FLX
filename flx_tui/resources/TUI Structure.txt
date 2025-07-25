@@ -1,5 +1,20 @@
 ﻿Structure of TUI lib
 
+Layout works by using horizontal and vertical docks.
+
+Elements can have these anchors:
+- begin (left for hor and up for vert)
+- end (right for hor and down for vert)
+
+Elements themselves can be changable size or not.
+Vertically or horizontally
+
+Dock will render a thin line between two elements if size of both are 
+allowed to change. Grabbing and moving this line will allow for changing both sizes.
+
+If dock becomes too big for window to render, it causes scroll bars to appear.
+
+
 Main UI elements:
 
 - viewport (display)
@@ -8,16 +23,21 @@ Main UI elements:
 	- bound to a terminal window (meaning setting and size can be changed)
 
 - window
+	+ style (borders, only top, no borders, minimized)
+	+ tags for name and three buttons
+	+ type
+		- with layout (docks are built-in)
+		- free (other windows can move freely inside of it)
 	- displays content inside of it
 	- can be dragged around
 	- can be changed size of
 	- should allow to scroll (vertically and horizontally) content if doesnt fit
 
 
+
 Possible designs:
 
 window:
-
 
 1. Window with name and all tree control buttons
 
@@ -108,7 +128,7 @@ F											  	   │
 A │                                ▼│              │ 
 B │◄----■■■----------------------► ⌂│              │ 
 C └─────────────────────────────────┘              │ 
-D	                 Space nedded? ↑▲               │
+D	                Space nedded? ↑▲               │
 E						Resize window to fit	   │
 F						content without scrolls	   │
 │											  	   │

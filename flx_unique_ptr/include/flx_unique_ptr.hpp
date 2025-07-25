@@ -14,6 +14,11 @@ namespace flx
     template<typename ty>
     struct unique_ptr
     {
+        /*constexpr inline void* operator new (unsigned long long size, void* ptr) noexcept
+        {
+            return ptr;
+        }*/
+
     flx_private:
         ty* owned_ptr = nullptr;
 
@@ -113,7 +118,7 @@ namespace flx
             owned_ptr = other.owned_ptr;
             other.owned_ptr = temp_ptr;
         }
-    };
+    }; // unique_ptr<ty>
 
     template<typename ty>
     struct unique_ptr<ty[]>
@@ -208,7 +213,7 @@ namespace flx
             owned_ptr = other.owned_ptr;
             other.owned_ptr = temp_ptr;
         }
-    };
+    }; // unique_ptr<ty[]>
 
     template<typename ty, typename... args_ty>
     constexpr flx::unique_ptr<ty> make_unique(args_ty&&... args)

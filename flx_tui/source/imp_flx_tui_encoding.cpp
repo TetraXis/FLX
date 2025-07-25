@@ -37,6 +37,6 @@ namespace flx
 			const i8 box_double_horizontal[]	= "#########|=";
 			const i8 box_double_vertical[]		= "#########H-";
 #endif // FLX_TUI_ENCODING != FLX_TUI_ENCODING_CP437
-		}
-	}
-}
+		} // namespace symbols
+	} // namespace tui
+} // namespace flx
