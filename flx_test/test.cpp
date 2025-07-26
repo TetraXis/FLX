@@ -128,6 +128,8 @@ void test(flx::unique_ptr<widget>& new_widget)
 
 int main()
 {
+	dynamic_array<int> a;
+	//dynamic_array<int, float> c;
 	//unique_ptr<widget> up(new widget());
 
 	//test(up);

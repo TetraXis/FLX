@@ -21,6 +21,13 @@ namespace flx
 		ty{ val };
 		{ [](const ty& test) { return test; }(val) } -> same_as<ty>;
 	};
+
+
+
+	// ===== unsigned_integral ===== //
+
+	template <typename ty>
+	concept unsigned_integral = is_unsigned_integral<ty>;
 } // namespace flx
 
 #endif // !FLX_CONCEPTS_HPP

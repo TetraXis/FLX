@@ -14,16 +14,11 @@
 
 namespace flx
 {
-	template <typename ty, typename>
+	template <typename ty, flx::unsigned_integral size_ty = u64>
 	struct dynamic_array
 	{
-		static constexpr u64 PREALLOCATED_CAPACITY = 0;
-		static constexpr u64 GROWTH_RATE = 2;
-
-		/*constexpr inline void* operator new (unsigned long long size, void* ptr) noexcept
-		{
-			return ptr;
-		}*/
+		static constexpr size_ty PREALLOCATED_CAPACITY = 0;
+		static constexpr size_ty GROWTH_RATE = 2;
 
 		struct iterator
 		{
@@ -194,8 +189,8 @@ namespace flx
 
 	flx_private:
 		ty* data = static_cast<ty*>(::operator new(PREALLOCATED_CAPACITY * sizeof(ty)));
-		u64 size_ = 0;
-		u64 capacity_ = PREALLOCATED_CAPACITY;
+		size_ty size_ = 0;
+		size_ty capacity_ = PREALLOCATED_CAPACITY;
 
 	flx_public:
 		constexpr dynamic_array() noexcept
