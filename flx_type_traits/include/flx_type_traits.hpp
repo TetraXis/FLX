@@ -13,6 +13,13 @@ namespace flx
 
 
 
+	// ===== is_any_of ===== //
+
+	template<typename ty, typename... types>
+	constexpr bool is_any_of = (is_same<ty, types> || ...);
+
+
+
 	// ===== is_array ===== //
 
 	template <typename>
@@ -55,6 +62,71 @@ namespace flx
 	constexpr bool is_lvalue_reference<ty&> = true;
 
 
+	// ===== is_integral ===== //
+
+	template <typename ty>
+	constexpr bool is_integral = is_any_of
+	<
+		ty,
+		signed char,
+		unsigned char,
+		signed short,
+		unsigned short,
+		signed int,
+		unsigned int,
+		signed long,
+		unsigned long,
+		signed long long,
+		unsigned long long
+	>;
+
+
+	// ===== is_signed_integral ===== //
+
+	template <typename ty>
+	constexpr bool is_signed_integral = is_any_of
+	<
+		ty,
+		signed char,
+		signed short,
+		signed int,
+		signed long,
+		signed long long
+	>;
+
+
+	// ===== is_unsigned_integral ===== //
+
+	template <typename ty>
+	constexpr bool is_unsigned_integral = is_any_of
+	<
+		ty,
+		unsigned char,
+		unsigned short,
+		unsigned int,
+		unsigned long,
+		unsigned long long
+	>;
+
+
+	// ===== is_class ===== //
+
+#if defined(__clang__) || defined(_MSC_VER)
+	// Clang,  MSVC
+#define FLX_IS_CLASS(ty) __is_class(ty)
+#elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
+	// GCC, Intel ICC, EDG-based compilers
+#define FLX_IS_CLASS(ty) __is_class(ty)
+#else
+	// unknown compiler - raise error
+#error "flx_type_traits.hpp::is_class unkown compiler. Could not generate 'is_class' trait. Replace with your eqivalent of '__is_class' in the 'flx_type_traits.hpp' header."
+#define FLX_IS_CLASS(ty) false // you replacement here
+#endif
+
+	template <typename ty>
+	constexpr bool is_class = FLX_IS_CLASS(ty);
+
+
 	// ===== is_trivially_constructible ===== //
 
 #if defined(__clang__) || defined(_MSC_VER)
@@ -90,25 +162,6 @@ namespace flx
 
 	template <typename ty>
 	constexpr bool is_trivially_destructible = FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty);
-
-
-
-	// ===== is_class ===== //
-
-#if defined(__clang__) || defined(_MSC_VER)
-	// Clang,  MSVC
-	#define FLX_IS_CLASS(ty) __is_class(ty)
-#elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
-	// GCC, Intel ICC, EDG-based compilers
-	#define FLX_IS_CLASS(ty) __is_class(ty)
-#else
-	// unknown compiler - raise error
-	#error "flx_type_traits.hpp::is_class unkown compiler. Could not generate 'is_class' trait. Replace with your eqivalent of '__is_class' in the 'flx_type_traits.hpp' header."
-	#define FLX_IS_CLASS(ty) false // you replacement here
-#endif
-
-	template <typename ty>
-	constexpr bool is_class = FLX_IS_CLASS(ty);
 
 
 

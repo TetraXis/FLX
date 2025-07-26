@@ -14,7 +14,7 @@
 
 namespace flx
 {
-	template <typename ty>
+	template <typename ty, typename>
 	struct dynamic_array
 	{
 		static constexpr u64 PREALLOCATED_CAPACITY = 0;
