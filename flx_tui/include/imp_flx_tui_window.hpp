@@ -32,7 +32,7 @@ namespace flx
 		flx_public:
 			i8 name[NAME_SIZE]{};
 		flx_protected:
-			dynamic_array< unique_ptr<widget> > widgets{};
+			dynamic_array< unique_ptr<widget>, u32 > widgets{};
 			// buffer that is cut by window size
 			unique_ptr<i8[]> viewport{};
 			// buffer that contains all content inside

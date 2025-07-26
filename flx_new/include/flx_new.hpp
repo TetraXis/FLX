@@ -7,7 +7,7 @@
 #define assert(expr) ((void)0)
 #endif // !NDEBUG
 
-// NOTE: fix placment new problem
+// HACK: Added unique placement new to avoid collision with std one
 // It is now used in flx_dynamic_array.hpp
 
 /// Defines placement new to be used in flx libraries

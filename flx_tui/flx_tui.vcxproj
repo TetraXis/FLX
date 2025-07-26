@@ -27,12 +27,14 @@
     <ClInclude Include="include\flx_tui.hpp" />
     <ClInclude Include="include\imp_flx_tui_base.hpp" />
     <ClInclude Include="include\imp_flx_tui_controller.hpp" />
+    <ClInclude Include="include\imp_flx_tui_controller_windows.hpp" />
     <ClInclude Include="include\imp_flx_tui_encoding.hpp" />
     <ClInclude Include="include\imp_flx_tui_window.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\flx_tui.cpp" />
     <ClCompile Include="source\imp_flx_tui_base.cpp" />
+    <ClCompile Include="source\imp_flx_tui_controller.cpp" />
     <ClCompile Include="source\imp_flx_tui_controller_windows.cpp" />
     <ClCompile Include="source\imp_flx_tui_encoding.cpp" />
     <ClCompile Include="source\imp_flx_tui_window.cpp" />
