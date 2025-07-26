@@ -1,4 +1,5 @@
-#pragma once
+#ifndef IMP_FLX_TUI_WINDOW_HPP
+#define IMP_FLX_TUI_WINDOW_HPP
 
 #include "imp_flx_tui_base.hpp"
 #include "imp_flx_tui_encoding.hpp"
@@ -63,6 +64,8 @@ namespace flx
 #ifndef NDEBUG
 			void print() const;
 #endif // NDEBUG
-		};
-	}
-}
+		}; // window
+	} // namespace tui
+} // namespace flx
+
+#endif // IMP_FLX_TUI_WINDOW_HPP

@@ -1,9 +1,9 @@
-﻿#pragma once
+﻿#ifndef IMP_FLX_TUI_ENCODING_HPP
+#define IMP_FLX_TUI_ENCODING_HPP
 
 #include "flx_types.hpp"
 
 // CP437
-
 
 #define FLX_TUI_ENCODING_ASCII 0
 #define FLX_TUI_ENCODING_CP437 437
@@ -54,3 +54,5 @@ namespace flx
 		} // namespace symbols
 	} // namespace tui
 } // namespace flx
+
+#endif // IMP_FLX_TUI_ENCODING_HPP

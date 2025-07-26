@@ -1,4 +1,5 @@
-#pragma once
+#ifndef IMP_FLX_TUI_BASE_HPP
+#define IMP_FLX_TUI_BASE_HPP
 
 #include "flx_types.hpp"
 #include "flx_vec.hpp"
@@ -63,3 +64,5 @@ namespace flx
 		}; // widget
 	} // namespace tui
 } // namespace flx
+
+#endif // !IMP_FLX_TUI_BASE_HPP
