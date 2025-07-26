@@ -109,6 +109,18 @@ namespace flx
 	>;
 
 
+	// ===== is_floating_point ===== //
+
+	template <typename ty>
+	constexpr bool is_floating_point = is_any_of
+	<
+		ty,
+		float,
+		double,
+		long double
+	>;
+
+
 	// ===== is_class ===== //
 
 #if defined(__clang__) || defined(_MSC_VER)

@@ -128,7 +128,6 @@ void test(flx::unique_ptr<widget>& new_widget)
 
 int main()
 {
-	std::is_integral<int>;
 	//unique_ptr<widget> up(new widget());
 
 	//test(up);
