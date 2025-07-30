@@ -13,6 +13,9 @@ namespace flx
 	{
 		struct tui_controller_windows : tui_controller_base
 		{
+		flx_public:
+			void start() noexcept override;
+
 		flx_protected:
 			HANDLE console_input;
 			HANDLE console_output;

@@ -128,6 +128,8 @@ void test(flx::unique_ptr<widget>& new_widget)
 
 int main()
 {
+	tui::tui_controller ctrl;
+	ctrl.start();
 	//dynamic_array<int> a;
 	//dynamic_array<int, unsigned int> b;
 	//dynamic_array<int, float> c;
