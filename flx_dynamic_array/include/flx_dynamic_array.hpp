@@ -36,7 +36,7 @@ namespace flx
 			{
 			}
 
-			constexpr iterator(const dynamic_array& arr, u64 idx = 0) noexcept
+			constexpr iterator(const dynamic_array& arr, size_ty idx = 0) noexcept
 				: ptr(arr.data + idx)
 			{
 			}
@@ -66,12 +66,12 @@ namespace flx
 				return ptr != other.ptr;
 			}
 
-			constexpr iterator operator+(u64 idx) const noexcept
+			constexpr iterator operator+(size_ty idx) const noexcept
 			{
 				return iterator(ptr + idx);
 			}
 
-			constexpr iterator& operator+=(u64 idx) noexcept
+			constexpr iterator& operator+=(size_ty idx) noexcept
 			{
 				ptr += idx;
 				return *this;
@@ -83,12 +83,12 @@ namespace flx
 				return *this;
 			}
 
-			constexpr iterator operator-(u64 idx) const noexcept
+			constexpr iterator operator-(size_ty idx) const noexcept
 			{
 				return iterator(ptr - idx);
 			}
 
-			constexpr iterator& operator-=(u64 idx) noexcept
+			constexpr iterator& operator-=(size_ty idx) noexcept
 			{
 				ptr -= idx;
 				return *this;
@@ -117,7 +117,7 @@ namespace flx
 			{
 			}
 
-			constexpr const_iterator(const dynamic_array& arr, u64 idx = 0) noexcept
+			constexpr const_iterator(const dynamic_array& arr, size_ty idx = 0) noexcept
 				: ptr(arr.data + idx)
 			{
 			}
@@ -152,12 +152,12 @@ namespace flx
 				return ptr != other.ptr;
 			}
 
-			constexpr const_iterator operator+(u64 idx) const noexcept
+			constexpr const_iterator operator+(size_ty idx) const noexcept
 			{
 				return const_iterator(ptr + idx);
 			}
 
-			constexpr const_iterator& operator+=(u64 idx) noexcept
+			constexpr const_iterator& operator+=(size_ty idx) noexcept
 			{
 				ptr += idx;
 				return *this;
@@ -169,12 +169,12 @@ namespace flx
 				return *this;
 			}
 
-			constexpr const_iterator operator-(u64 idx) const noexcept
+			constexpr const_iterator operator-(size_ty idx) const noexcept
 			{
 				return const_iterator(ptr - idx);
 			}
 
-			constexpr const_iterator& operator-=(u64 idx) noexcept
+			constexpr const_iterator& operator-=(size_ty idx) noexcept
 			{
 				ptr -= idx;
 				return *this;
@@ -201,7 +201,7 @@ namespace flx
 		{
 			if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)
 			{
-				for (u64 i = 0; i < size_; ++i)
+				for (size_ty i = 0; i < size_; ++i)
 				{
 					data[i].~ty();
 				}
@@ -342,7 +342,7 @@ namespace flx
 			assert(first.get() <= last.get() && "flx_dynamic_array.hpp::dynamic_array::erase erase region is invalid.");
 			
 			iterator temp(first);
-			u64 diff = last.get() - first.get();
+			size_ty diff = last.get() - first.get();
 
 			if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)
 			{
@@ -364,24 +364,24 @@ namespace flx
 			size_ -= diff;
 		}
 
-		constexpr u64 size() const noexcept
+		constexpr size_ty size() const noexcept
 		{
 			return size_;
 		}
 
-		constexpr u64 capacity() const noexcept
+		constexpr size_ty capacity() const noexcept
 		{
 			return capacity_;
 		}
 
-		constexpr ty& operator[](u64 pos) noexcept
+		constexpr ty& operator[](size_ty pos) noexcept
 		{
 			assert(pos < size_ && "flx_dynamic_array.hpp::dynamic_array::operator[] position is out of bounds.");
 		
 			return data[pos];
 		}
 
-		constexpr const ty& operator[](u64 pos) const noexcept
+		constexpr const ty& operator[](size_ty pos) const noexcept
 		{
 			assert(pos < size_ && "flx_dynamic_array.hpp::dynamic_array::operator[] position is out of bounds.");
 		
@@ -401,7 +401,7 @@ namespace flx
 			}
 			ty* new_data = static_cast<ty*>(::operator new(capacity_ * sizeof(ty)));
 
-			for (u64 i = 0; i < size_; i++)
+			for (size_ty i = 0; i < size_; i++)
 			{
 				::new (&new_data[i], true) ty(flx::move(data[i]));
 				if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)
@@ -414,14 +414,14 @@ namespace flx
 			data = new_data;
 		}
 
-		constexpr void reallocate(u64 new_capacity) noexcept
+		constexpr void reallocate(size_ty new_capacity) noexcept
 		{
 			assert(new_capacity < size_ && "flx_dynamic_array.hpp::dynamic_array::reallocate new capacity is smaller than size.");
 
 			capacity_ = new_capacity;
 			ty* new_data = static_cast<ty*>(::operator new(capacity_ * sizeof(ty)));
 
-			for (u64 i = 0; i < size_; i++)
+			for (size_ty i = 0; i < size_; i++)
 			{
 				::new (&new_data[i], true) ty(flx::move(data[i]));
 				if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)

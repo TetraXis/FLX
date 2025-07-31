@@ -15,11 +15,15 @@ namespace flx
 		{
 		flx_public:
 			void start() noexcept override;
+			void process_input() noexcept override;
+			void populate_buffer() noexcept override;
+			void draw_buffer() noexcept override;
 
 		flx_protected:
 			HANDLE console_input;
 			HANDLE console_output;
 			DWORD prev_console_mode;
+			flx::unique_ptr<CHAR_INFO[]> buffer{};
 		};
 	} // tui
 } // flx
