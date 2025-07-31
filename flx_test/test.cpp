@@ -129,6 +129,15 @@ void test(flx::unique_ptr<widget>& new_widget)
 int main()
 {
 	tui::tui_controller ctrl;
+	flx::unique_ptr<tui::widget> wnd(static_cast<tui::widget*>(new tui::window("Balls", { 80, 20 })));
+
+	wnd->coord = { 5,2 };
+
+	ctrl.add_widget(flx::move(wnd));
+
+	//wnd->populate_buffer_debug();
+	//wnd->print();
+
 	ctrl.start();
 	//dynamic_array<int> a;
 	//dynamic_array<int, unsigned int> b;

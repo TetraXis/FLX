@@ -1,14 +1,11 @@
 #include "imp_flx_tui_window.hpp"
 
+#include "flx_utility.hpp"
+
 flx::tui::window::window() : widget(widget_type::window)
 {
 	min_size = { 7, 2 };
 	set_size(min_size);
-}
-
-inline constexpr flx::u16 flx::tui::window::XY_TO_IDX(u16 x, u16 y, u16 width)
-{
-	return x + y * width;
 }
 
 flx::tui::window::window(const char* new_name, const vec2<u16>& new_size) : widget(widget_type::window)
@@ -54,7 +51,7 @@ void flx::tui::window::add_widget(flx::unique_ptr<widget> new_widget)
 
 void flx::tui::window::remove_widget(flx::unique_ptr<widget>* widget_to_remove)
 {
-	for (u64 elem = 0; elem < widgets.size(); elem++)
+	for (u32 elem = 0; elem < widgets.size(); elem++)
 	{
 		if (&widgets[elem] == widget_to_remove)
 		{
@@ -64,7 +61,7 @@ void flx::tui::window::remove_widget(flx::unique_ptr<widget>* widget_to_remove)
 	}
 }
 
-void flx::tui::window::remove_widget(u64 remove_at)
+void flx::tui::window::remove_widget(u32 remove_at)
 {
 	widgets[remove_at].reset(widgets[widgets.size() - 1].release());
 	widgets.pop_back();
@@ -74,23 +71,24 @@ void flx::tui::window::update_buffer_size()
 {
 	if 
 	(
-		size.x * size.y > view_size.x * view_size.y
+		size.x * size.y > buffer_size.x * buffer_size.y
 		||
-		size.x * size.y < view_size.x * view_size.y * MAX_UNUSED_BUFFER
+		size.x * size.y < buffer_size.x * buffer_size.y/* * MAX_UNUSED_BUFFER*/
 	)
 	{
-		viewport.reset(new i8[size.x * size.y]);
-		view_size.x = size.x;
-		view_size.y = size.y;
+		buffer.reset(new i8[size.x * size.y]);
+		buffer_size.x = size.x;
+		buffer_size.y = size.y;
 	}
 }
 
 void flx::tui::window::populate_buffer()
 {
-	draw_border();
+	populate_buffer_debug();
+	//draw_border();
 	return;
 	//  fix it
-	//memset(viewport.get(), ' ', view_size.x * view_size.y);
+	//memset(buffer.get(), ' ', view_size.x * view_size.y);
 
 	/*for (u16 i = 0; i < size.x * size.y; i++)
 	{
@@ -100,35 +98,35 @@ void flx::tui::window::populate_buffer()
 
 	/*for (u16 i = 2; i < size.x - 1; i++)
 	{
-		viewport[i] = symbols::box_double_horizontal[symbols::HORIZONTAL];
+		buffer[i] = symbols::box_double_horizontal[symbols::HORIZONTAL];
 	}
 
 	for (u16 i = 0; ; i++)
 	{
 		if (i >= NAME_SIZE || name[i] == '\0' || i + 2 >= size.x - 2)
 		{
-			viewport[i + 2] = ' ';
+			buffer[i + 2] = ' ';
 			break;
 		}
-		viewport[i + 2] = name[i];
+		buffer[i + 2] = name[i];
 	}
 
-	viewport[0] = symbols::box_double_horizontal[symbols::DOWN_RIGHT];
-	viewport[size.x - 1] = symbols::box_double_horizontal[symbols::DOWN_LEFT];
+	buffer[0] = symbols::box_double_horizontal[symbols::DOWN_RIGHT];
+	buffer[size.x - 1] = symbols::box_double_horizontal[symbols::DOWN_LEFT];
 
 	for (u16 y = 1; y < size.y - 1; y++)
 	{
-		viewport[size.x * y] = symbols::box_lite[symbols::VERTICAL];
-		viewport[size.x * y + size.x - 1] = symbols::box_lite[symbols::VERTICAL];
+		buffer[size.x * y] = symbols::box_lite[symbols::VERTICAL];
+		buffer[size.x * y + size.x - 1] = symbols::box_lite[symbols::VERTICAL];
 	}
 
 	for (u16 i = 1; i < size.x - 1; i++)
 	{
-		viewport[size.x * (size.y - 1) + i] = symbols::box_lite[symbols::HORIZONTAL];
+		buffer[size.x * (size.y - 1) + i] = symbols::box_lite[symbols::HORIZONTAL];
 	}
 
-	viewport[size.x * (size.y - 1)] = symbols::box_lite[symbols::UP_RIGHT];
-	viewport[size.x * size.y - 1] = symbols::box_lite[symbols::UP_LEFT];*/
+	buffer[size.x * (size.y - 1)] = symbols::box_lite[symbols::UP_RIGHT];
+	buffer[size.x * size.y - 1] = symbols::box_lite[symbols::UP_LEFT];*/
 }
 
 void flx::tui::window::draw_border()
@@ -139,52 +137,53 @@ void flx::tui::window::draw_border()
 	u16 x{}, y{}, i{};
 
 	// top
-	viewport[XY_TO_IDX(0, 0, view_size.x)] = box_drawing[R | D | DH];
-	viewport[XY_TO_IDX(1, 0, view_size.x)] = '[';
+	buffer[xy_to_idx<u16>(0, 0, view_size.x)] = box_drawing[R | D | DH];
+	buffer[xy_to_idx<u16>(1, 0, view_size.x)] = '[';
 	
 	if (view_size.x >= MIN_WIDTH_FOR_BUTTONS)
 	{
 		for (i = 0, x = 3; x < view_size.x - 11 && i < NAME_SIZE && name[i] != '\0'; x++, i++)
 		{
-			viewport[XY_TO_IDX(x, 0, view_size.x)] = name[i];
+			buffer[xy_to_idx<u16>(x, 0, view_size.x)] = name[i];
 		}
 
-		viewport[XY_TO_IDX(x, 0, view_size.x)] = ']';
+		buffer[xy_to_idx<u16>(x, 0, view_size.x)] = ']';
 
 		for (x++; x < view_size.x - 11; x++)
 		{
-			viewport[XY_TO_IDX(x, 0, view_size.x)] = box_drawing[L | R | DH];
+			buffer[xy_to_idx<u16>(x, 0, view_size.x)] = box_drawing[L | R | DH];
 		}
 
-		viewport[XY_TO_IDX(view_size.x - 10, 0, view_size.x)] = '[';
-		viewport[XY_TO_IDX(view_size.x - 9,  0, view_size.x)] = '_';
-		viewport[XY_TO_IDX(view_size.x - 8,  0, view_size.x)] = ']';
-		viewport[XY_TO_IDX(view_size.x - 7,  0, view_size.x)] = '[';
-		viewport[XY_TO_IDX(view_size.x - 6,  0, view_size.x)] = 'o';
-		viewport[XY_TO_IDX(view_size.x - 5,  0, view_size.x)] = ']';
-		viewport[XY_TO_IDX(view_size.x - 4,  0, view_size.x)] = '[';
-		viewport[XY_TO_IDX(view_size.x - 3,  0, view_size.x)] = 'X';
-		viewport[XY_TO_IDX(view_size.x - 2,  0, view_size.x)] = ']';
+		buffer[xy_to_idx<u16>(view_size.x - 10, 0, view_size.x)] = '[';
+		buffer[xy_to_idx<u16>(view_size.x - 9,  0, view_size.x)] = '_';
+		buffer[xy_to_idx<u16>(view_size.x - 8,  0, view_size.x)] = ']';
+		buffer[xy_to_idx<u16>(view_size.x - 7,  0, view_size.x)] = '[';
+		buffer[xy_to_idx<u16>(view_size.x - 6,  0, view_size.x)] = 'o';
+		buffer[xy_to_idx<u16>(view_size.x - 5,  0, view_size.x)] = ']';
+		buffer[xy_to_idx<u16>(view_size.x - 4,  0, view_size.x)] = '[';
+		buffer[xy_to_idx<u16>(view_size.x - 3,  0, view_size.x)] = 'X';
+		buffer[xy_to_idx<u16>(view_size.x - 2,  0, view_size.x)] = ']';
 	}
 	else
 	{
 		for (i = 0, x = 3; x < view_size.x - 1 && i < NAME_SIZE && name[i] != '\0'; x++, i++)
 		{
-			viewport[XY_TO_IDX(x, 0, view_size.x)] = name[i];
+			buffer[xy_to_idx<u16>(x, 0, view_size.x)] = name[i];
 		}
 
-		viewport[XY_TO_IDX(x, 0, view_size.x)] = ']';
+		buffer[xy_to_idx<u16>(x, 0, view_size.x)] = ']';
 
 		for (x++; x < view_size.x - 1; x++)
 		{
-			viewport[XY_TO_IDX(x, 0, view_size.x)] = box_drawing[L | R | DH];
+			buffer[xy_to_idx<u16>(x, 0, view_size.x)] = box_drawing[L | R | DH];
 		}
 	}
 
-	viewport[XY_TO_IDX(view_size.x - 1, 0, view_size.x)]	= box_drawing[L | D | DH];
+	buffer[xy_to_idx<u16>(view_size.x - 1, 0, view_size.x)]	= box_drawing[L | D | DH];
 }
 
 #ifndef NDEBUG
+
 void flx::tui::window::print() const
 {
 	std::stringstream ss{};
@@ -198,4 +197,16 @@ void flx::tui::window::print() const
 	}
 	std::cout << ss.str() << '\n';
 }
+
+void flx::tui::window::populate_buffer_debug() noexcept
+{
+	for (u16 y = 0; y < buffer_size.y; y++)
+	{
+		for (u16 x = 0; x < buffer_size.x; x++)
+		{
+			buffer[xy_to_idx<u16>(x, y, buffer_size.x)] = 'A' + i8(y);
+		}
+	}
+}
+
 #endif // NDEBUG

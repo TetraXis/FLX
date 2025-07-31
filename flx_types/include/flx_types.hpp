@@ -35,6 +35,8 @@ namespace flx
 	using f64	=			double;
 	using f80	=			long double;
 
+	//constexpr flx::u16 operator ""_u16(flx::u64 value) noexcept;
+
 	// made so users can "using" only types
 	namespace types
 	{

@@ -16,6 +16,8 @@ namespace flx
 		flx_public:
 			void start() noexcept override;
 			void process_input() noexcept override;
+
+			void clear_buffer() noexcept override;
 			void populate_buffer() noexcept override;
 			void draw_buffer() noexcept override;
 
@@ -23,6 +25,7 @@ namespace flx
 			HANDLE console_input;
 			HANDLE console_output;
 			DWORD prev_console_mode;
+			SMALL_RECT write_region;
 			flx::unique_ptr<CHAR_INFO[]> buffer{};
 		};
 	} // tui

@@ -3,6 +3,8 @@
 #include "imp_flx_tui_encoding.hpp"
 #include "imp_flx_tui_controller_windows.hpp"
 
+#include "flx_utility.hpp"
+
 void flx::tui::tui_controller_windows::start() noexcept
 {
     // below is AI generated
@@ -29,13 +31,17 @@ void flx::tui::tui_controller_windows::start() noexcept
     
 
     // Simple message
-    const char welcomeMsg[] = "Click and drag in console (LMB/RMB) or press ESC to exit:\n";
-    WriteConsoleA(console_output, welcomeMsg, sizeof(welcomeMsg) - 1, NULL, NULL);
+    //const char welcomeMsg[] = "Click and drag in console (LMB/RMB) or press ESC to exit:\n";
+    //WriteConsoleA(console_output, welcomeMsg, sizeof(welcomeMsg) - 1, NULL, NULL);
 
     // Main input loop
+
+    populate_buffer();
+
     while (true) 
     {
         process_input();
+        draw_buffer();
     }
 
     FreeConsole();
@@ -155,19 +161,59 @@ void flx::tui::tui_controller_windows::process_input() noexcept
     }
 }
 
+void flx::tui::tui_controller_windows::clear_buffer() noexcept
+{
+    for (u16 y = 0; y < buffer_size.y; y++)
+    {
+        for (u16 x = 0; x < buffer_size.x; x++)
+        {
+            buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Attributes = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+            buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Char.AsciiChar = ' ';
+        }
+    }
+}
+
+
 void flx::tui::tui_controller_windows::populate_buffer() noexcept
 {
+    i8* buff_ptr{};
+    u16 pos_x{};
+    u16 pos_y{};
+    u16 size_x{};
+    u16 size_y{};
+
     buffer.reset(new CHAR_INFO[buffer_size.x * buffer_size.y]);
+    write_region = { 0, 0, (SHORT)(buffer_size.x - 1), (SHORT)(buffer_size.y - 1) };
 
-    for (i32 i = widgets.size() - 1; i >= 0; --i)
+    clear_buffer();
+
+    for (u32 i = 0; i < widgets.size(); i++)
     {
+        buff_ptr = widgets[i]->buffer.get();
+        pos_x = widgets[i]->coord.x;
+        pos_y = widgets[i]->coord.y;
+        size_x = widgets[i]->size.x;
+        size_y = widgets[i]->size.y;
 
+        for (u16 y = 0; y < size_y; y++)
+        {
+            for (u16 x = 0; x < size_x; x++)
+            {
+                buffer[xy_to_idx<u16>(pos_x + x, pos_y + y, size_y)].Char.AsciiChar = buff_ptr[xy_to_idx(x, y, size_y)];
+            }
+        }
     }
 }
 
 void flx::tui::tui_controller_windows::draw_buffer() noexcept
 {
-
+    WriteConsoleOutputA(
+        console_output,          // Console handle
+        buffer.get(),            // Buffer to draw
+        {(SHORT)buffer_size.x, (SHORT)buffer_size.y},        // Size of buffer (cols x rows)
+        {0,0},       // Where to start copying (usually 0,0)
+        &write_region       // Screen area to update
+    );
 }
 
 #endif // Windows

@@ -2,6 +2,7 @@
 #define FLX_UNIQUE_PTR_HPP
 
 #include "flx_types.hpp"
+#include "flx_type_traits.hpp"
 
 #ifndef NDEBUG
 #include <cassert>
@@ -216,9 +217,10 @@ namespace flx
     }; // unique_ptr<ty[]>
 
     template<typename ty, typename... args_ty>
-    constexpr flx::unique_ptr<ty> make_unique(args_ty&&... args)
+    [[nodiscard("Discarding creaded flx::unique_ptr will result in memory leak.")]]
+    inline constexpr flx::unique_ptr<ty> make_unique(args_ty&&... args)
     {
-        return flx::unique_ptr<ty>(new ty(static_cast<args_ty&&>(args)...));
+        return flx::unique_ptr<ty>(new ty(flx::forward<args_ty>(args)...));
     }
 } // namespace flx
 

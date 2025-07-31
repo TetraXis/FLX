@@ -26,8 +26,6 @@ namespace flx
 			static constexpr u16 NAME_SIZE = 16;
 			// if window is slimmer than this, buttons are not shown
 			static constexpr u16 MIN_WIDTH_FOR_BUTTONS = 12;
-			// converts x, y, width to index for buffer array
-			static inline constexpr u16 XY_TO_IDX(u16, u16, u16);
 
 		flx_public:
 			i8 name[NAME_SIZE]{};
@@ -35,8 +33,6 @@ namespace flx
 			dynamic_array< unique_ptr<widget>, u32 > widgets{};
 			// buffer that is cut by window size
 			unique_ptr<i8[]> viewport{};
-			// buffer that contains all content inside
-			unique_ptr<i8[]> buffer{};
 			vec2<u16> buffer_size{};
 			vec2<u16> view_size{};
 			vec2<u16> view_offset{};
@@ -52,7 +48,7 @@ namespace flx
 
 			virtual void add_widget(flx::unique_ptr<widget>);
 			virtual void remove_widget(flx::unique_ptr<widget>*);
-			virtual void remove_widget(u64);
+			virtual void remove_widget(u32);
 
 			virtual void update_buffer_size();
 
@@ -62,7 +58,9 @@ namespace flx
 			virtual void draw_border();
 
 #ifndef NDEBUG
+		flx_public:
 			void print() const;
+			void populate_buffer_debug() noexcept;
 #endif // NDEBUG
 		}; // window
 	} // namespace tui

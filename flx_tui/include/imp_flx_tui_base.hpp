@@ -3,6 +3,7 @@
 
 #include "flx_types.hpp"
 #include "flx_vec.hpp"
+#include "flx_unique_ptr.hpp"
 
 #ifndef NDEBUG
 #include <cassert>
@@ -25,13 +26,19 @@ namespace flx
 		}; // widget_type
 
 		struct window;
+		struct tui_controller_base;
+		struct tui_controller_windows;
 
 		struct widget
 		{
 			friend window; // this drives me nuts
+			friend tui_controller_base;
+			friend tui_controller_windows;
 
 		flx_protected:
 			widget* parent = nullptr;
+			// buffer that contains all content inside
+			flx::unique_ptr<i8[]> buffer{};
 		flx_public:
 			vec2<i16> coord{};
 			vec2<u16> min_size{};
