@@ -22,8 +22,8 @@ namespace flx
 		// handles i/o, base for platform specific controllers
 		struct tui_controller_base
 		{
-			constexpr static u16 DEFAULT_SIZE_X = 256;
-			constexpr static u16 DEFAULT_SIZE_Y = 180;
+			constexpr static u16 DEFAULT_SIZE_X = 128;
+			constexpr static u16 DEFAULT_SIZE_Y = 64;
 
 		flx_protected:
 			flx::dynamic_array<flx::unique_ptr<widget>, u32> widgets{}; // widgets[0] is back layer
@@ -40,6 +40,7 @@ namespace flx
 			virtual void process_input() noexcept = 0;
 
 			virtual void clear_buffer() noexcept = 0;
+			virtual void update_buffer_size() noexcept = 0;
 			virtual void populate_buffer() noexcept = 0;
 			virtual void draw_buffer() noexcept = 0;
 		}; // tui_controller

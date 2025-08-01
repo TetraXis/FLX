@@ -40,6 +40,17 @@ void flx::tui::widget::click_end()
 {
 }
 
+void flx::tui::widget::clear_buffer() noexcept
+{
+	for (u16 y = 0; y < buffer_size.y; y++)
+	{
+		for (u16 x = 0; x < buffer_size.x; x++)
+		{
+			buffer[xy_to_idx<u16>(x, y, buffer_size.x)] = ' ';
+		}
+	}
+}
+
 void flx::tui::widget::populate_buffer()
 {
 }

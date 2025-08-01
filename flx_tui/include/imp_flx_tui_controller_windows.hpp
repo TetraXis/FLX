@@ -18,15 +18,21 @@ namespace flx
 			void process_input() noexcept override;
 
 			void clear_buffer() noexcept override;
+			void update_buffer_size() noexcept override;
 			void populate_buffer() noexcept override;
 			void draw_buffer() noexcept override;
 
 		flx_protected:
-			HANDLE console_input;
-			HANDLE console_output;
-			DWORD prev_console_mode;
-			SMALL_RECT write_region;
-			flx::unique_ptr<CHAR_INFO[]> buffer{};
+			HANDLE console_input{};
+			HANDLE console_output{};
+			DWORD prev_console_mode{};
+			SMALL_RECT write_region{};
+			flx::unique_ptr<CHAR_INFO[]> buffer{ new CHAR_INFO[DEFAULT_SIZE_X * DEFAULT_SIZE_Y] };
+
+#ifndef NDEBUG
+		flx_public:
+			void populate_buffer_debug() noexcept;
+#endif
 		};
 	} // tui
 } // flx

@@ -33,7 +33,6 @@ namespace flx
 			dynamic_array< unique_ptr<widget>, u32 > widgets{};
 			// buffer that is cut by window size
 			unique_ptr<i8[]> viewport{};
-			vec2<u16> buffer_size{};
 			vec2<u16> view_size{};
 			vec2<u16> view_offset{};
 			vec2<u16> PADDING{};

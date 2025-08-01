@@ -36,10 +36,11 @@ void flx::tui::tui_controller_windows::start() noexcept
 
     // Main input loop
 
-    populate_buffer();
+    //populate_buffer_debug();
 
     while (true) 
     {
+        populate_buffer();
         process_input();
         draw_buffer();
     }
@@ -161,6 +162,22 @@ void flx::tui::tui_controller_windows::process_input() noexcept
     }
 }
 
+void flx::tui::tui_controller_windows::update_buffer_size() noexcept
+{
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(console_output, &csbi);
+    //buffer_size.x = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+    //buffer_size.y = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+
+    if (buffer_size.x < csbi.srWindow.Right - csbi.srWindow.Left + 1 || buffer_size.y < csbi.srWindow.Bottom - csbi.srWindow.Top + 1)
+    {
+        buffer_size.x = flx::max<u16>(buffer_size.x, csbi.srWindow.Right - csbi.srWindow.Left + 1);
+        buffer_size.y = flx::max<u16>(buffer_size.y, csbi.srWindow.Bottom - csbi.srWindow.Top + 1);
+        buffer.reset(new CHAR_INFO[buffer_size.x * buffer_size.y]);
+        write_region = { 0, 0, (SHORT)(buffer_size.x - 1), (SHORT)(buffer_size.y - 1) };
+    }
+}   
+
 void flx::tui::tui_controller_windows::clear_buffer() noexcept
 {
     for (u16 y = 0; y < buffer_size.y; y++)
@@ -182,9 +199,7 @@ void flx::tui::tui_controller_windows::populate_buffer() noexcept
     u16 size_x{};
     u16 size_y{};
 
-    buffer.reset(new CHAR_INFO[buffer_size.x * buffer_size.y]);
-    write_region = { 0, 0, (SHORT)(buffer_size.x - 1), (SHORT)(buffer_size.y - 1) };
-
+    update_buffer_size();
     clear_buffer();
 
     for (u32 i = 0; i < widgets.size(); i++)
@@ -195,11 +210,11 @@ void flx::tui::tui_controller_windows::populate_buffer() noexcept
         size_x = widgets[i]->size.x;
         size_y = widgets[i]->size.y;
 
-        for (u16 y = 0; y < size_y; y++)
+        for (u16 y = 0; y < size_y && y < buffer_size.y; y++)
         {
-            for (u16 x = 0; x < size_x; x++)
+            for (u16 x = 0; x < size_x && x < buffer_size.x; x++)
             {
-                buffer[xy_to_idx<u16>(pos_x + x, pos_y + y, size_y)].Char.AsciiChar = buff_ptr[xy_to_idx(x, y, size_y)];
+                buffer[xy_to_idx<u16>(pos_x + x, pos_y + y, buffer_size.x)].Char.AsciiChar = buff_ptr[xy_to_idx(x, y, size_x)];
             }
         }
     }
@@ -215,5 +230,24 @@ void flx::tui::tui_controller_windows::draw_buffer() noexcept
         &write_region       // Screen area to update
     );
 }
+
+#ifndef NDEBUG
+
+void flx::tui::tui_controller_windows::populate_buffer_debug() noexcept
+{
+    
+    update_buffer_size();
+    clear_buffer();
+
+    for (u16 y = 0; y < buffer_size.y; y++)
+    {
+        for (u16 x = 0; x < buffer_size.x; x++)
+        {
+            buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Char.AsciiChar = 'A' + i8(y);
+        }
+    }
+}
+
+#endif
 
 #endif // Windows

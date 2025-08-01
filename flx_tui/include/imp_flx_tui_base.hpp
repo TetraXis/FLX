@@ -39,6 +39,7 @@ namespace flx
 			widget* parent = nullptr;
 			// buffer that contains all content inside
 			flx::unique_ptr<i8[]> buffer{};
+			vec2<u16> buffer_size{};
 		flx_public:
 			vec2<i16> coord{};
 			vec2<u16> min_size{};
@@ -64,6 +65,7 @@ namespace flx
 			virtual void click_begin();
 			virtual void click_end();
 
+			void clear_buffer() noexcept;
 			/// <summary>
 			/// Fills the buffer with chars
 			/// </summary>

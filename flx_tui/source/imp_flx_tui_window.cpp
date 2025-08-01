@@ -84,6 +84,7 @@ void flx::tui::window::update_buffer_size()
 
 void flx::tui::window::populate_buffer()
 {
+	clear_buffer();
 	populate_buffer_debug();
 	//draw_border();
 	return;
@@ -137,49 +138,49 @@ void flx::tui::window::draw_border()
 	u16 x{}, y{}, i{};
 
 	// top
-	buffer[xy_to_idx<u16>(0, 0, view_size.x)] = box_drawing[R | D | DH];
-	buffer[xy_to_idx<u16>(1, 0, view_size.x)] = '[';
+	buffer[xy_to_idx<u16>(0, 0, buffer_size.x)] = box_drawing[R | D | DH];
+	buffer[xy_to_idx<u16>(1, 0, buffer_size.x)] = '[';
 	
-	if (view_size.x >= MIN_WIDTH_FOR_BUTTONS)
+	if (buffer_size.x >= MIN_WIDTH_FOR_BUTTONS)
 	{
-		for (i = 0, x = 3; x < view_size.x - 11 && i < NAME_SIZE && name[i] != '\0'; x++, i++)
+		for (i = 0, x = 3; x < buffer_size.x - 11 && i < NAME_SIZE && name[i] != '\0'; x++, i++)
 		{
-			buffer[xy_to_idx<u16>(x, 0, view_size.x)] = name[i];
+			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = name[i];
 		}
 
-		buffer[xy_to_idx<u16>(x, 0, view_size.x)] = ']';
+		buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = ']';
 
-		for (x++; x < view_size.x - 11; x++)
+		for (x++; x < buffer_size.x - 11; x++)
 		{
-			buffer[xy_to_idx<u16>(x, 0, view_size.x)] = box_drawing[L | R | DH];
+			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = box_drawing[L | R | DH];
 		}
 
-		buffer[xy_to_idx<u16>(view_size.x - 10, 0, view_size.x)] = '[';
-		buffer[xy_to_idx<u16>(view_size.x - 9,  0, view_size.x)] = '_';
-		buffer[xy_to_idx<u16>(view_size.x - 8,  0, view_size.x)] = ']';
-		buffer[xy_to_idx<u16>(view_size.x - 7,  0, view_size.x)] = '[';
-		buffer[xy_to_idx<u16>(view_size.x - 6,  0, view_size.x)] = 'o';
-		buffer[xy_to_idx<u16>(view_size.x - 5,  0, view_size.x)] = ']';
-		buffer[xy_to_idx<u16>(view_size.x - 4,  0, view_size.x)] = '[';
-		buffer[xy_to_idx<u16>(view_size.x - 3,  0, view_size.x)] = 'X';
-		buffer[xy_to_idx<u16>(view_size.x - 2,  0, view_size.x)] = ']';
+		buffer[xy_to_idx<u16>(buffer_size.x - 10, 0, buffer_size.x)] = '[';
+		buffer[xy_to_idx<u16>(buffer_size.x - 9,  0, buffer_size.x)] = '_';
+		buffer[xy_to_idx<u16>(buffer_size.x - 8,  0, buffer_size.x)] = ']';
+		buffer[xy_to_idx<u16>(buffer_size.x - 7,  0, buffer_size.x)] = '[';
+		buffer[xy_to_idx<u16>(buffer_size.x - 6,  0, buffer_size.x)] = 'o';
+		buffer[xy_to_idx<u16>(buffer_size.x - 5,  0, buffer_size.x)] = ']';
+		buffer[xy_to_idx<u16>(buffer_size.x - 4,  0, buffer_size.x)] = '[';
+		buffer[xy_to_idx<u16>(buffer_size.x - 3,  0, buffer_size.x)] = 'X';
+		buffer[xy_to_idx<u16>(buffer_size.x - 2,  0, buffer_size.x)] = ']';
 	}
 	else
 	{
-		for (i = 0, x = 3; x < view_size.x - 1 && i < NAME_SIZE && name[i] != '\0'; x++, i++)
+		for (i = 0, x = 3; x < buffer_size.x - 1 && i < NAME_SIZE && name[i] != '\0'; x++, i++)
 		{
-			buffer[xy_to_idx<u16>(x, 0, view_size.x)] = name[i];
+			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = name[i];
 		}
 
-		buffer[xy_to_idx<u16>(x, 0, view_size.x)] = ']';
+		buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = ']';
 
-		for (x++; x < view_size.x - 1; x++)
+		for (x++; x < buffer_size.x - 1; x++)
 		{
-			buffer[xy_to_idx<u16>(x, 0, view_size.x)] = box_drawing[L | R | DH];
+			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = box_drawing[L | R | DH];
 		}
 	}
 
-	buffer[xy_to_idx<u16>(view_size.x - 1, 0, view_size.x)]	= box_drawing[L | D | DH];
+	buffer[xy_to_idx<u16>(buffer_size.x - 1, 0, buffer_size.x)]	= box_drawing[L | D | DH];
 }
 
 #ifndef NDEBUG
