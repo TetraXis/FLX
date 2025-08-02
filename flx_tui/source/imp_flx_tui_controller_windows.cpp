@@ -231,7 +231,77 @@ void flx::tui::tui_controller_windows::draw_buffer() noexcept
     );
 }
 
+
 #ifndef NDEBUG
+
+void flx::tui::tui_controller_windows::start_debug_console() noexcept
+{ 
+    // Create a new console process
+    STARTUPINFOA si = { sizeof(si) };
+    PROCESS_INFORMATION pi;
+
+    // Create the child process with its own console
+    if (CreateProcessA(
+        NULL,
+        (char*)"cmd.exe",  // Start with cmd.exe
+        NULL,
+        NULL,
+        FALSE,      // Don't inherit handles
+        CREATE_NEW_CONSOLE,
+        NULL,
+        NULL,
+        &si,
+        &pi))
+    {
+        debug_console_process = pi.hProcess;
+
+        // Wait for console to initialize
+        Sleep(100);
+
+        // Attach to the new console
+        if (AttachConsole(pi.dwProcessId))
+        {
+            // Get console handles
+            debug_console_output = GetStdHandle(STD_OUTPUT_HANDLE);
+            debug_console_input = GetStdHandle(STD_INPUT_HANDLE);
+
+            // Save original console mode
+            GetConsoleMode(debug_console_input, &debug_prev_console_mode);
+
+            // Set up console properties
+            SetConsoleTitleA("Debug Console");
+            CONSOLE_SCREEN_BUFFER_INFO csbi;
+            GetConsoleScreenBufferInfo(debug_console_output, &csbi);
+            debug_write_region = csbi.srWindow;
+
+            // Detach from console to restore original state
+            FreeConsole();
+        }
+
+        // Close thread handle (we keep process handle)
+        CloseHandle(pi.hThread);
+    }
+}
+
+void flx::tui::tui_controller_windows::debug_log(const char* message)
+{
+    if (!debug_console_process) return;
+
+    // Attach to the debug console
+    if (AttachConsole(debug_console_process ? GetProcessId(debug_console_process) : 0))
+    {
+        // Get output handle
+        HANDLE hOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+
+        // Write the message
+        DWORD charsWritten;
+        WriteConsoleA(hOutput, message, strlen(message), &charsWritten, NULL);
+        WriteConsoleA(hOutput, "\n", 1, &charsWritten, NULL);
+
+        // Detach from console
+        FreeConsole();
+    }
+}
 
 void flx::tui::tui_controller_windows::populate_buffer_debug() noexcept
 {

@@ -22,6 +22,14 @@ namespace flx
 			void populate_buffer() noexcept override;
 			void draw_buffer() noexcept override;
 
+#ifndef NDEBUG
+			HANDLE debug_console_process{};
+			HANDLE debug_console_input{};
+			HANDLE debug_console_output{};
+			DWORD debug_prev_console_mode{};
+			SMALL_RECT debug_write_region{};
+#endif // NDEBUG
+
 		flx_protected:
 			HANDLE console_input{};
 			HANDLE console_output{};
@@ -32,6 +40,8 @@ namespace flx
 #ifndef NDEBUG
 		flx_public:
 			void populate_buffer_debug() noexcept;
+			void start_debug_console() noexcept;
+			void debug_log(const char* message);
 #endif
 		};
 	} // tui

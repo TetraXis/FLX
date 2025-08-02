@@ -138,6 +138,9 @@ int main()
 	//wnd->populate_buffer_debug();
 	//wnd->print();
 
+	ctrl.start_debug_console();
+	ctrl.debug_log("BALLS");
+
 	ctrl.start();
 	//dynamic_array<int> a;
 	//dynamic_array<int, unsigned int> b;
