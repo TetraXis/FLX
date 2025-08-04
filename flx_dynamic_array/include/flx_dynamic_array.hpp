@@ -227,7 +227,7 @@ namespace flx
 			other.data = static_cast<ty*>(::operator new(PREALLOCATED_CAPACITY * sizeof(ty)));
 		}
 
-		constexpr dynamic_array(i64 count, const ty& val = ty()) noexcept requires copy_constructible<ty>
+		constexpr dynamic_array(u64 count, const ty& val = ty()) noexcept requires flx::copy_constructible<ty>
 		{
 			reallocate(count);
 
@@ -416,7 +416,7 @@ namespace flx
 
 		constexpr void reallocate(size_ty new_capacity) noexcept
 		{
-			assert(new_capacity < size_ && "flx_dynamic_array.hpp::dynamic_array::reallocate new capacity is smaller than size.");
+			assert(new_capacity > size_ && "flx_dynamic_array.hpp::dynamic_array::reallocate new capacity is smaller than size.");
 
 			capacity_ = new_capacity;
 			ty* new_data = static_cast<ty*>(::operator new(capacity_ * sizeof(ty)));

@@ -38,11 +38,40 @@ void flx::tui::tui_controller_windows::start() noexcept
 
     //populate_buffer_debug();
 
+    timer t;
+    u64 frames = 0;
+    f64 fps;
+    std::string text;
+
+    static_assert(flx::copy_constructible<u64> == true);
+
+    constexpr u64 DELAYS_AMOUNT = 1024 * 8;
+
+    flx::dynamic_array<u16> delays{ DELAYS_AMOUNT, 0 };
+    u64 total_time = 0;
+
+    t.start();
+
     while (true) 
     {
+        t.start();
         populate_buffer();
         process_input();
         draw_buffer();
+        t.stop();
+
+
+        frames++;
+        total_time -= delays[frames % DELAYS_AMOUNT];
+        delays[frames % DELAYS_AMOUNT] = t.elapsed_milliseconds();
+        total_time += delays[frames % DELAYS_AMOUNT];
+        fps = min(frames, DELAYS_AMOUNT) * 1000 / max(1, total_time);
+        text = std::to_string(fps) + " fps";
+        if (frames < DELAYS_AMOUNT)
+        {
+            text += " (?)";
+        }
+        SetConsoleTitleA(text.c_str());
     }
 
     FreeConsole();
@@ -61,7 +90,10 @@ void flx::tui::tui_controller_windows::process_input() noexcept
     DWORD cNumRead;
 
     // Wait for and read console input
-    ReadConsoleInputA(console_input, irInBuf, 128, &cNumRead);
+    if (!PeekConsoleInputA(console_input, irInBuf, 128, &cNumRead) || cNumRead == 0)
+    {
+        ReadConsoleInputA(console_input, irInBuf, 128, &cNumRead);
+    }
 
     // Process each input event
     for (DWORD i = 0; i < cNumRead; i++) {
@@ -162,6 +194,8 @@ void flx::tui::tui_controller_windows::process_input() noexcept
     }
 }
 
+#include <iostream>
+
 void flx::tui::tui_controller_windows::update_buffer_size() noexcept
 {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -173,9 +207,18 @@ void flx::tui::tui_controller_windows::update_buffer_size() noexcept
     {
         buffer_size.x = flx::max<u16>(buffer_size.x, csbi.srWindow.Right - csbi.srWindow.Left + 1);
         buffer_size.y = flx::max<u16>(buffer_size.y, csbi.srWindow.Bottom - csbi.srWindow.Top + 1);
+
+        //std::cout << buffer_size.x << '\n';
+        //std::cout << buffer_size.y << '\n';
+
+
+        //system("pause");
+
         buffer.reset(new CHAR_INFO[buffer_size.x * buffer_size.y]);
-        write_region = { 0, 0, (SHORT)(buffer_size.x - 1), (SHORT)(buffer_size.y - 1) };
     }
+
+    SetConsoleScreenBufferSize(console_output, { (SHORT)(csbi.srWindow.Right - csbi.srWindow.Left + 1), (SHORT)(csbi.srWindow.Bottom - csbi.srWindow.Top + 1) });
+    write_region = { 0, 0, (SHORT)(csbi.srWindow.Right - csbi.srWindow.Left + 1), (SHORT)(csbi.srWindow.Bottom - csbi.srWindow.Top + 1) };
 }   
 
 void flx::tui::tui_controller_windows::clear_buffer() noexcept
@@ -189,7 +232,6 @@ void flx::tui::tui_controller_windows::clear_buffer() noexcept
         }
     }
 }
-
 
 void flx::tui::tui_controller_windows::populate_buffer() noexcept
 {
@@ -233,75 +275,6 @@ void flx::tui::tui_controller_windows::draw_buffer() noexcept
 
 
 #ifndef NDEBUG
-
-void flx::tui::tui_controller_windows::start_debug_console() noexcept
-{ 
-    // Create a new console process
-    STARTUPINFOA si = { sizeof(si) };
-    PROCESS_INFORMATION pi;
-
-    // Create the child process with its own console
-    if (CreateProcessA(
-        NULL,
-        (char*)"cmd.exe",  // Start with cmd.exe
-        NULL,
-        NULL,
-        FALSE,      // Don't inherit handles
-        CREATE_NEW_CONSOLE,
-        NULL,
-        NULL,
-        &si,
-        &pi))
-    {
-        debug_console_process = pi.hProcess;
-
-        // Wait for console to initialize
-        Sleep(100);
-
-        // Attach to the new console
-        if (AttachConsole(pi.dwProcessId))
-        {
-            // Get console handles
-            debug_console_output = GetStdHandle(STD_OUTPUT_HANDLE);
-            debug_console_input = GetStdHandle(STD_INPUT_HANDLE);
-
-            // Save original console mode
-            GetConsoleMode(debug_console_input, &debug_prev_console_mode);
-
-            // Set up console properties
-            SetConsoleTitleA("Debug Console");
-            CONSOLE_SCREEN_BUFFER_INFO csbi;
-            GetConsoleScreenBufferInfo(debug_console_output, &csbi);
-            debug_write_region = csbi.srWindow;
-
-            // Detach from console to restore original state
-            FreeConsole();
-        }
-
-        // Close thread handle (we keep process handle)
-        CloseHandle(pi.hThread);
-    }
-}
-
-void flx::tui::tui_controller_windows::debug_log(const char* message)
-{
-    if (!debug_console_process) return;
-
-    // Attach to the debug console
-    if (AttachConsole(debug_console_process ? GetProcessId(debug_console_process) : 0))
-    {
-        // Get output handle
-        HANDLE hOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-
-        // Write the message
-        DWORD charsWritten;
-        WriteConsoleA(hOutput, message, strlen(message), &charsWritten, NULL);
-        WriteConsoleA(hOutput, "\n", 1, &charsWritten, NULL);
-
-        // Detach from console
-        FreeConsole();
-    }
-}
 
 void flx::tui::tui_controller_windows::populate_buffer_debug() noexcept
 {

@@ -128,6 +128,7 @@ void test(flx::unique_ptr<widget>& new_widget)
 
 int main()
 {
+
 	tui::tui_controller ctrl;
 	flx::unique_ptr<tui::widget> wnd(static_cast<tui::widget*>(new tui::window("Balls", { 80, 20 })));
 
@@ -137,9 +138,6 @@ int main()
 
 	//wnd->populate_buffer_debug();
 	//wnd->print();
-
-	ctrl.start_debug_console();
-	ctrl.debug_log("BALLS");
 
 	ctrl.start();
 	//dynamic_array<int> a;

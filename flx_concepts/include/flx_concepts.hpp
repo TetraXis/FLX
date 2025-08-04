@@ -13,14 +13,52 @@ namespace flx
 
 
 
+	// ===== destructible ===== //
+
+	template <typename ty>
+	concept destructible = is_destructible<ty>;
+
+
+
+	// ===== nothrow_destructible ===== //
+
+	template <typename ty>
+	concept nothrow_destructible = is_nothrow_destructible<ty>;
+
+
+
+	// ===== constructible_from ===== //
+
+	template <typename ty, typename... args>
+	concept constructible_from = destructible<ty> && __is_constructible(ty, args...);
+
+
+
+	// ===== convertible_to ===== //
+
+	template <typename from, typename to>
+	concept convertible_to = __is_convertible_to(from, to) && requires
+	{
+		static_cast<to>(flx::declval<from>());
+	};
+
+
+
+	// ===== move_constructible ===== //
+
+	template <typename ty>
+	concept move_constructible = constructible_from<ty, ty> && convertible_to<ty, ty>;
+
+
+	
 	// ===== copy_constructible ===== //
 
 	template <typename ty>
-	concept copy_constructible = requires(const ty& val)
-	{
-		ty{ val };
-		{ [](const ty& test) { return test; }(val) } -> same_as<ty>;
-	};
+	concept copy_constructible =
+		move_constructible<ty> &&
+		constructible_from<ty, ty&> && convertible_to<ty&, ty> &&
+		constructible_from<ty, const ty> && convertible_to<const ty, ty> &&
+		constructible_from<ty, const ty&> && convertible_to<const ty&, ty>;
 
 
 

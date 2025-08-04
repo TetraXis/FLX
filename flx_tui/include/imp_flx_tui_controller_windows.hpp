@@ -7,6 +7,12 @@
 
 #include <Windows.h>
 
+#ifndef NDEBUG
+#include "D:\C++\Tools\timer.h"
+#include <string>
+#include <iostream>
+#endif // NDEBUG
+
 namespace flx
 {
 	namespace tui
@@ -34,14 +40,12 @@ namespace flx
 			HANDLE console_input{};
 			HANDLE console_output{};
 			DWORD prev_console_mode{};
-			SMALL_RECT write_region{};
+			SMALL_RECT write_region{ 0, 0, DEFAULT_SIZE_X, DEFAULT_SIZE_Y };
 			flx::unique_ptr<CHAR_INFO[]> buffer{ new CHAR_INFO[DEFAULT_SIZE_X * DEFAULT_SIZE_Y] };
 
 #ifndef NDEBUG
 		flx_public:
 			void populate_buffer_debug() noexcept;
-			void start_debug_console() noexcept;
-			void debug_log(const char* message);
 #endif
 		};
 	} // tui

@@ -125,18 +125,56 @@ namespace flx
 
 #if defined(__clang__) || defined(_MSC_VER)
 	// Clang,  MSVC
-#define FLX_IS_CLASS(ty) __is_class(ty)
+	#define FLX_IS_CLASS(ty) __is_class(ty)
 #elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
 	// GCC, Intel ICC, EDG-based compilers
-#define FLX_IS_CLASS(ty) __is_class(ty)
+	#define FLX_IS_CLASS(ty) __is_class(ty)
 #else
 	// unknown compiler - raise error
-#error "flx_type_traits.hpp::is_class unkown compiler. Could not generate 'is_class' trait. Replace with your eqivalent of '__is_class' in the 'flx_type_traits.hpp' header."
-#define FLX_IS_CLASS(ty) false // you replacement here
+	#error "flx_type_traits.hpp::is_class unkown compiler. Could not generate 'is_class' trait. Replace with your eqivalent of '__is_class' in the 'flx_type_traits.hpp' header."
+	#define FLX_IS_CLASS(ty) false // your replacement here
 #endif
 
 	template <typename ty>
 	constexpr bool is_class = FLX_IS_CLASS(ty);
+
+
+
+	// ===== is_destructible ===== //
+
+#if defined(__clang__) || defined(_MSC_VER)
+	// Clang,  MSVC
+	#define FLX_IS_DESTRUCTIBLE(ty) __is_destructible(ty)
+#elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
+	// GCC, Intel ICC, EDG-based compilers
+	#define FLX_IS_DESTRUCTIBLE(ty) __has_destructor(ty)
+#else
+	// unknown compiler - raise error
+	#error "flx_type_traits.hpp::is_destructible unkown compiler. Could not generate 'is_destructible' trait. Replace with your eqivalent of '__has_destructor' in the 'flx_type_traits.hpp' header."
+	#define FLX_IS_DESTRUCTIBLE(ty) false // your replacement here
+#endif
+
+	template <typename ty>
+	constexpr bool is_destructible = FLX_IS_DESTRUCTIBLE(ty);
+
+
+	// ===== is_nothrow_destructible ===== //
+
+#if defined(__clang__) || defined(_MSC_VER)
+	// Clang, MSVC
+	#define FLX_IS_NOTHROW_DESTRUCTIBLE(ty) __is_nothrow_destructible(ty)
+#elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
+	// GCC, Intel ICC, EDG-based compilers
+	#define FLX_IS_NOTHROW_DESTRUCTIBLE(ty) __has_nothrow_destructor(ty)
+#else
+	// unknown compiler - raise error
+	#error "flx_type_traits.hpp::is_nothrow_destructible unknown compiler. Could not generate 'is_nothrow_destructible' trait. Replace with your equivalent of '__has_nothrow_destructor' in the 'flx_type_traits.hpp' header."
+	#define FLX_IS_NOTHROW_DESTRUCTIBLE(ty) false // your replacement here
+#endif
+
+	template <typename ty>
+	constexpr bool is_nothrow_destructible = FLX_IS_NOTHROW_DESTRUCTIBLE(ty);
+
 
 
 	// ===== is_trivially_constructible ===== //
@@ -148,9 +186,9 @@ namespace flx
 	// GCC, Intel ICC, EDG-based compilers
 	#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) __has_trivial_constructor(ty)
 #else
-	// unknown compiler - fallback
-	#warning "flx_type_traits.hpp::is_trivially_constructible unkown compiler. Could not generate 'is_trivially_constructible' trait. Replace with your eqivalent of '__has_trivial_constructor' in the 'flx_type_traits.hpp' header."
-	#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) false
+	// unknown compiler - raise error
+	#error "flx_type_traits.hpp::is_trivially_constructible unkown compiler. Could not generate 'is_trivially_constructible' trait. Replace with your eqivalent of '__has_trivial_constructor' in the 'flx_type_traits.hpp' header."
+	#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) false // your replacement here
 #endif
 
 	template <typename ty>
@@ -167,9 +205,9 @@ namespace flx
 	// GCC, Intel ICC, EDG-based compilers
 	#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) __has_trivial_destructor(ty)
 #else
-	// unknown compiler - fallback
-	#warning "flx_type_traits.hpp::is_trivially_destructible unkown compiler. Could not generate 'is_trivially_destructible' trait. Replace with your eqivalent of '__has_trivial_destructor' in the 'flx_type_traits.hpp' header."
-	#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) false
+	// unknown compiler - raise error
+	#error "flx_type_traits.hpp::is_trivially_destructible unkown compiler. Could not generate 'is_trivially_destructible' trait. Replace with your eqivalent of '__has_trivial_destructor' in the 'flx_type_traits.hpp' header."
+	#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) false // your replacement here
 #endif
 
 	template <typename ty>
@@ -177,28 +215,63 @@ namespace flx
 
 
 
+	// ===== add_rvalue_reference ===== //
+
+	template <typename ty>
+	struct imp_add_rvalue_reference
+	{
+		using type = ty&&;
+	};
+
+	template <typename ty>
+	struct imp_add_rvalue_reference<ty&>
+	{
+		using type = ty&;
+	};
+
+	template <typename ty>
+	struct imp_add_rvalue_reference<ty&&>
+	{
+		using type = ty&&;
+	};
+
+	template <typename ty>
+	using add_rvalue_reference = typename imp_add_rvalue_reference<ty>::type;
+
+
+
 	// ===== remove_reference ===== //
 
 	template <typename ty>
-	struct remove_reference_struct
+	struct imp_remove_reference
 	{
 		using type = ty;
 	};
 
 	template <typename ty>
-	struct remove_reference_struct<ty&>
+	struct imp_remove_reference<ty&>
 	{
 		using type = ty;
 	};
 
 	template <typename ty>
-	struct remove_reference_struct<ty&&>
+	struct imp_remove_reference<ty&&>
 	{
 		using type = ty;
 	};
 
 	template <typename ty>
-	using remove_reference = typename remove_reference_struct<ty>::type;
+	using remove_reference = typename imp_remove_reference<ty>::type;
+
+
+
+	// ===== declval ===== //
+
+	template<typename ty>
+	add_rvalue_reference<ty> declval() noexcept
+	{
+		static_assert(false, "Calling declval is ill-formed, see N4950 [declval]/2.");
+	}
 
 
 

@@ -85,8 +85,8 @@ void flx::tui::window::update_buffer_size()
 void flx::tui::window::populate_buffer()
 {
 	clear_buffer();
-	populate_buffer_debug();
-	//draw_border();
+	//populate_buffer_debug();
+	draw_border();
 	return;
 	//  fix it
 	//memset(buffer.get(), ' ', view_size.x * view_size.y);
@@ -143,14 +143,14 @@ void flx::tui::window::draw_border()
 	
 	if (buffer_size.x >= MIN_WIDTH_FOR_BUTTONS)
 	{
-		for (i = 0, x = 3; x < buffer_size.x - 11 && i < NAME_SIZE && name[i] != '\0'; x++, i++)
+		for (i = 0, x = 2; x < buffer_size.x - 11 && i < NAME_SIZE && name[i] != '\0'; x++, i++)
 		{
 			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = name[i];
 		}
 
 		buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = ']';
 
-		for (x++; x < buffer_size.x - 11; x++)
+		for (x++; x < buffer_size.x - 10; x++)
 		{
 			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = box_drawing[L | R | DH];
 		}
