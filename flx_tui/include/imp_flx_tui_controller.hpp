@@ -10,6 +10,9 @@ namespace flx
 {
 	namespace tui
 	{
+		struct widget;
+		struct window;
+
 		struct tui_controller_windows;
 		struct tui_controller_linux;
 
@@ -25,16 +28,22 @@ namespace flx
 			constexpr static u16 DEFAULT_SIZE_X = 32;
 			constexpr static u16 DEFAULT_SIZE_Y = 10;
 
+			friend widget;
+			friend window;
+
 		flx_protected:
 			flx::dynamic_array<flx::unique_ptr<widget>, u32> widgets{}; // widgets[0] is back layer
 			vec2<u16> size{ DEFAULT_SIZE_X, DEFAULT_SIZE_Y };
 			vec2<u16> buffer_size{ DEFAULT_SIZE_X, DEFAULT_SIZE_Y };
+			u64 ticks = 0;
 
 		flx_public:
 			tui_controller_base() = default;
 			~tui_controller_base() = default;
 
 			void add_widget(flx::unique_ptr<widget>) noexcept;
+
+			void tick() noexcept;
 
 			virtual void start() noexcept = 0;
 			virtual void process_input() noexcept = 0;

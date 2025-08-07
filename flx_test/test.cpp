@@ -3,6 +3,8 @@
 #include "flx_unique_ptr.hpp"
 #include "flx_dynamic_array.hpp"
 #include "flx_vec.hpp"
+#include "flx_utility.hpp"
+#include "flx_tui.hpp"
 
 
 #include <iostream>
@@ -13,7 +15,6 @@
 #include <unordered_set>
 #include <map>
 
-#include "flx_tui.hpp"
 
 using namespace flx;
 
@@ -131,10 +132,30 @@ int main()
 
 	tui::tui_controller ctrl;
 	flx::unique_ptr<tui::widget> wnd(static_cast<tui::widget*>(new tui::window("Balls", { 80, 20 })));
+	flx::unique_ptr<tui::widget> wnd2(static_cast<tui::widget*>(new tui::window("Balls2", { 8, 15 })));
 
 	wnd->coord = { 5,2 };
+	wnd2->coord = { 10,8 };
+
+	wnd->update_func =
+		[](flx::tui::widget* self)
+		{
+			self->populate_buffer();
+			self->buffer[self->buffer_size.x + (self->parent.controller_ptr->ticks +    0) / 50 % ((self->buffer_size.x - 1) * (self->buffer_size.y - 1))] = '\x01';
+			self->buffer[self->buffer_size.x + (self->parent.controller_ptr->ticks +  500) / 50 % ((self->buffer_size.x - 1) * (self->buffer_size.y - 1))] = '\x01';
+			self->buffer[self->buffer_size.x + (self->parent.controller_ptr->ticks + 1000) / 50 % ((self->buffer_size.x - 1) * (self->buffer_size.y - 1))] = '\x01';
+			self->buffer[self->buffer_size.x + (self->parent.controller_ptr->ticks + 1500) / 50 % ((self->buffer_size.x - 1) * (self->buffer_size.y - 1))] = '\x01';
+			//for (u16 y = 1; y < self->buffer_size.y - 1; y++)
+			//{
+			//	for (u16 x = 1; x < self->buffer_size.x - 1; x++)
+			//	{
+			//		//self->buffer[xy_to_idx<u16>(x, y, self->buffer_size.x)] = i8(((self->parent.controller_ptr->ticks / 250) % 2 + x + y) % 2 + 1);
+			//	}
+			//}
+		};
 
 	ctrl.add_widget(flx::move(wnd));
+	ctrl.add_widget(flx::move(wnd2));
 
 	//wnd->populate_buffer_debug();
 	//wnd->print();

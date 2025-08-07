@@ -7,9 +7,6 @@
 
 void flx::tui::tui_controller_windows::start() noexcept
 {
-    // below is AI generated
-    // throw it out after testing
-
     // Allocate a console for this program
     AllocConsole();
 
@@ -28,7 +25,8 @@ void flx::tui::tui_controller_windows::start() noexcept
         ENABLE_MOUSE_INPUT |
         (prev_console_mode & ~ENABLE_QUICK_EDIT_MODE));
 
-    
+    SetConsoleOutputCP(FLX_TUI_ENCODING);
+    SetConsoleCP(FLX_TUI_ENCODING);
 
     // Simple message
     //const char welcomeMsg[] = "Click and drag in console (LMB/RMB) or press ESC to exit:\n";
@@ -39,7 +37,6 @@ void flx::tui::tui_controller_windows::start() noexcept
     //populate_buffer_debug();
 
     timer t;
-    u64 frames = 0;
     f64 fps;
     std::string text;
 
@@ -55,19 +52,22 @@ void flx::tui::tui_controller_windows::start() noexcept
     while (true) 
     {
         t.start();
-        populate_buffer();
         process_input();
+        tick();
+        populate_buffer();
         draw_buffer();
+        ticks++;
         t.stop();
 
 
-        frames++;
-        total_time -= delays[frames % DELAYS_AMOUNT];
-        delays[frames % DELAYS_AMOUNT] = t.elapsed_milliseconds();
-        total_time += delays[frames % DELAYS_AMOUNT];
-        fps = min(frames, DELAYS_AMOUNT) * 1000 / max(1, total_time);
+
+
+        total_time -= delays[ticks % DELAYS_AMOUNT];
+        delays[ticks % DELAYS_AMOUNT] = t.elapsed_milliseconds();
+        total_time += delays[ticks % DELAYS_AMOUNT];
+        fps = min(ticks, DELAYS_AMOUNT) * 1000 / max(1, total_time);
         text = std::to_string(fps) + " fps";
-        if (frames < DELAYS_AMOUNT)
+        if (ticks < DELAYS_AMOUNT)
         {
             text += " (?)";
         }

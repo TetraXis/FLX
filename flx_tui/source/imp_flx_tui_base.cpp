@@ -14,6 +14,15 @@ flx::vec2<flx::u16> flx::tui::widget::get_size() const
 	return size;
 }
 
+void flx::tui::widget::update() noexcept
+{
+	update_func(this);
+	for (const auto& widget_uptr : widgets)
+	{
+		widget_uptr->update();
+	}
+}
+
 void flx::tui::widget::set_size(const vec2<u16>& new_size)
 {
 	size =

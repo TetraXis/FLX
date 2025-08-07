@@ -4,6 +4,7 @@
 #include "flx_types.hpp"
 #include "flx_vec.hpp"
 #include "flx_unique_ptr.hpp"
+#include "flx_dynamic_array.hpp"
 
 #ifndef NDEBUG
 #include <cassert>
@@ -36,7 +37,12 @@ namespace flx
 			friend tui_controller_windows;
 
 		flx_protected:
-			widget* parent = nullptr;
+			union
+			{
+				widget* widget_ptr;
+				tui_controller_base* controller_ptr;
+			} parent{ nullptr };
+			//widget* parent = nullptr;
 			// buffer that contains all content inside
 			flx::unique_ptr<i8[]> buffer{};
 			vec2<u16> buffer_size{};
@@ -46,9 +52,11 @@ namespace flx
 		flx_protected:
 			vec2<u16> size{};
 		flx_public:
+			flx::dynamic_array< unique_ptr<widget>, u32 > widgets{};
 			u16 id{};
 			const widget_type type = widget_type::none;
 			u8 flags{}; // For possible future uses
+			void (*update_func) (widget*) = [](widget*){};
 
 		flx_protected:
 			widget(widget_type);
@@ -59,6 +67,8 @@ namespace flx
 
 			vec2<u16> get_size() const;
 			virtual	void set_size(const vec2<u16>&);
+
+			void update() noexcept;
 
 			virtual void hover_begin();
 			virtual void hover_end();
