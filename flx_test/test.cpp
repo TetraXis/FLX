@@ -132,10 +132,10 @@ int main()
 
 	tui::tui_controller ctrl;
 	flx::unique_ptr<tui::widget> wnd(static_cast<tui::widget*>(new tui::window("Balls", { 80, 20 })));
-	flx::unique_ptr<tui::widget> wnd2(static_cast<tui::widget*>(new tui::window("Balls2", { 8, 15 })));
+	flx::unique_ptr<tui::widget> wnd2(static_cast<tui::widget*>(new tui::window("Balls2", { 8, 2 })));
 
 	wnd->coord = { 5,2 };
-	wnd2->coord = { 10,8 };
+	wnd2->coord = { 5,20 };
 
 	wnd->update_func =
 		[](flx::tui::widget* self)

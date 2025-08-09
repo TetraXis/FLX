@@ -37,7 +37,7 @@ namespace flx
 			friend tui_controller_windows;
 
 		flx_protected:
-			union
+			union parent_union
 			{
 				widget* widget_ptr;
 				tui_controller_base* controller_ptr;
