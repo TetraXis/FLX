@@ -15,7 +15,7 @@ namespace flx
 {
 	namespace tui
 	{
-		namespace symbols
+		namespace characters
 		{
 			enum box_flags : u8
 			{
@@ -24,12 +24,42 @@ namespace flx
 				L = 4,		// left
 				R = 8,		// right
 				DH = 16,	// double horizontal
-				DV = 32		// double vertical
+				DV = 32,		// double vertical};
 			};
 
 			extern const i8 box_drawing[64];
 			extern const i8 box_shadow[4];
-		} // namespace symbols
+		} // namespace characters
+
+		namespace colors
+		{
+			enum color_flags : u8
+			{
+				FOREGROUND_BLUE			= 0x01,
+				FOREGROUND_GREEN		= 0x02,
+				FOREGROUND_RED			= 0x04,
+				FOREGROUND_INTENSITY	= 0x08,
+				BACKGROUND_BLUE			= 0x10,
+				BACKGROUND_GREEN		= 0x20,
+				BACKGROUND_RED			= 0x40,
+				BACKGROUND_INTENSITY	= 0x80,
+
+				F_B = 0x01,
+				F_G = 0x02,
+				F_R = 0x04,
+				F_I = 0x08,
+				B_B = 0x10,
+				B_G = 0x20,
+				B_R = 0x40,
+				B_I = 0x80
+			};
+		} // colors
+
+		struct cell
+		{
+			i8 character = ' ';
+			u8 color = 0x07;
+		};
 	} // namespace tui
 } // namespace flx
 

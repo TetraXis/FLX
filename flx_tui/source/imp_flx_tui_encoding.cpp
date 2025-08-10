@@ -4,8 +4,9 @@ namespace flx
 {
 	namespace tui
 	{
-		namespace symbols
+		namespace characters
 		{
+
 #if FLX_TUI_ENCODING == FLX_TUI_ENCODING_CP437
 			
 			const i8 box_drawing[64] =
@@ -26,6 +27,6 @@ namespace flx
 #if FLX_TUI_ENCODING == FLX_TUI_ENCODING_ASCII
 #error "imp_flx_encoding.cpp: no ascii encoding is given."
 #endif // FLX_TUI_ENCODING != FLX_TUI_ENCODING_CP437
-		} // namespace symbols
+		} // namespace characters
 	} // namespace tui
 } // namespace flx

@@ -129,6 +129,7 @@ void test(flx::unique_ptr<widget>& new_widget)
 
 int main()
 {
+	using namespace flx::tui::characters;
 
 	tui::tui_controller ctrl;
 	flx::unique_ptr<tui::widget> wnd(static_cast<tui::widget*>(new tui::window("Balls", { 80, 20 })));

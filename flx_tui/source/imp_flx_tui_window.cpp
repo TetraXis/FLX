@@ -92,8 +92,9 @@ void flx::tui::window::populate_buffer()
 
 void flx::tui::window::draw_border()
 {
-	using enum tui::symbols::box_flags;
-	using tui::symbols::box_drawing;
+	using namespace tui::characters;
+	using namespace tui::colors;
+	//using tui::characters::box_drawing;
 
 	u16 x{}, y{}, i{};
 
