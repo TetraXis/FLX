@@ -31,6 +31,6 @@ constexpr inline void* operator new ([[maybe_unused]] unsigned int size, void* p
 
 // To use this placement new we need:
 //                  vvvvvv
-// new (&new_data[i], true) ty(flx::move(data[i]));
+// new (&new_data[i], true) ty(flx::move(data_[i]));
 
 #endif // !FLX_NEW_HPP

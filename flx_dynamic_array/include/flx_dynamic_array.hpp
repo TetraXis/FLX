@@ -37,7 +37,7 @@ namespace flx
 			}
 
 			constexpr iterator(const dynamic_array& arr, size_ty idx = 0) noexcept
-				: ptr(arr.data + idx)
+				: ptr(arr.data_ + idx)
 			{
 			}
 
@@ -118,7 +118,7 @@ namespace flx
 			}
 
 			constexpr const_iterator(const dynamic_array& arr, size_ty idx = 0) noexcept
-				: ptr(arr.data + idx)
+				: ptr(arr.data_ + idx)
 			{
 			}
 
@@ -188,7 +188,7 @@ namespace flx
 		};
 
 	flx_private:
-		ty* data = static_cast<ty*>(::operator new(PREALLOCATED_CAPACITY * sizeof(ty)));
+		ty* data_ = static_cast<ty*>(::operator new(PREALLOCATED_CAPACITY * sizeof(ty)));
 		size_ty size_ = 0;
 		size_ty capacity_ = PREALLOCATED_CAPACITY;
 
@@ -203,28 +203,28 @@ namespace flx
 			{
 				for (size_ty i = 0; i < size_; ++i)
 				{
-					data[i].~ty();
+					data_[i].~ty();
 				}
 			}
 
-			::operator delete(data);
+			::operator delete(data_);
 		}
 
 		constexpr dynamic_array(const dynamic_array& other) noexcept requires copy_constructible<ty>
 			: capacity_(other.capacity_),
-			data(static_cast<ty*>(::operator new(other.capacity_ * sizeof(ty))))
+			data_(static_cast<ty*>(::operator new(other.capacity_ * sizeof(ty))))
 		{
 			for (size_ = 0; size_ < other.size_; size_++)
 			{
-				new (&data[size_]) ty(other.data[size_]);
+				new (&data_[size_]) ty(other.data_[size_]);
 			}
 		}
 
 		constexpr dynamic_array(dynamic_array&& other) noexcept
 			: size_(other.size_), capacity_(other.capacity_),
-			data(other.data)
+			data_(other.data_)
 		{
-			other.data = static_cast<ty*>(::operator new(PREALLOCATED_CAPACITY * sizeof(ty)));
+			other.data_ = static_cast<ty*>(::operator new(PREALLOCATED_CAPACITY * sizeof(ty)));
 		}
 
 		constexpr dynamic_array(u64 count, const ty& val = ty()) noexcept requires flx::copy_constructible<ty>
@@ -233,39 +233,44 @@ namespace flx
 
 			while (size_ != count)
 			{
-				new (&data[size_]) ty(val);
+				new (&data_[size_]) ty(val);
 				++size_;
 			}
 		}
 
+		constexpr ty* data() noexcept
+		{
+			return data_;
+		}
+
 		constexpr iterator begin() noexcept
 		{
-			return iterator(data);
+			return iterator(data_);
 		}
 
 		constexpr iterator end() noexcept
 		{
-			return iterator(data + size_);
+			return iterator(data_ + size_);
 		}
 
 		constexpr const_iterator begin() const noexcept
 		{
-			return const_iterator(data);
+			return const_iterator(data_);
 		}
 
 		constexpr const_iterator end() const noexcept
 		{
-			return const_iterator(data + size_);
+			return const_iterator(data_ + size_);
 		}
 
 		constexpr const_iterator cbegin() const noexcept
 		{
-			return const_iterator(data);
+			return const_iterator(data_);
 		}
 
 		constexpr const_iterator cend() const noexcept
 		{
-			return const_iterator(data + size_);
+			return const_iterator(data_ + size_);
 		}
 
 		constexpr bool empty() const noexcept
@@ -275,35 +280,35 @@ namespace flx
 
 		constexpr void push_back(const ty& val) noexcept requires copy_constructible<ty>
 		{
-			if (size_ == capacity_)
+			if (size_ >= capacity_)
 			{
 				reallocate();
 			}
 
-			new (&data[size_]) ty(val);
+			new (&data_[size_]) ty(val);
 			++size_;
 		}
 
 		constexpr void push_back(ty&& val) noexcept
 		{
-			if (size_ == capacity_)
+			if (size_ >= capacity_)
 			{
 				reallocate();
 			}
 
-			data[size_] = flx::move(val);
+			data_[size_] = flx::move(val);
 			++size_;
 		}
 
 		template<typename... val_ty>
 		constexpr void emplace_back(val_ty&&... vals) noexcept
 		{
-			if (size_ == capacity_)
+			if (size_ >= capacity_)
 			{
 				reallocate();
 			}
 
-			::new (&data[size_], true) ty( flx::forward<val_ty>(vals)... );
+			::new (&data_[size_], true) ty( flx::forward<val_ty>(vals)... );
 			++size_;
 		}
 
@@ -314,7 +319,7 @@ namespace flx
 			--size_; 
 			if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)
 			{
-				data[size_].~ty();
+				data_[size_].~ty();
 			}
 		}
 
@@ -378,14 +383,14 @@ namespace flx
 		{
 			assert(pos < size_ && "flx_dynamic_array.hpp::dynamic_array::operator[] position is out of bounds.");
 		
-			return data[pos];
+			return data_[pos];
 		}
 
 		constexpr const ty& operator[](size_ty pos) const noexcept
 		{
 			assert(pos < size_ && "flx_dynamic_array.hpp::dynamic_array::operator[] position is out of bounds.");
 		
-			return data[pos];
+			return data_[pos];
 		}
 
 	flx_private:
@@ -403,15 +408,15 @@ namespace flx
 
 			for (size_ty i = 0; i < size_; i++)
 			{
-				::new (&new_data[i], true) ty(flx::move(data[i]));
+				::new (&new_data[i], true) ty(flx::move(data_[i]));
 				if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)
 				{
-					data[i].~ty();
+					data_[i].~ty();
 				}
 			}
 
-			::operator delete(data);
-			data = new_data;
+			::operator delete(data_);
+			data_ = new_data;
 		}
 
 		constexpr void reallocate(size_ty new_capacity) noexcept
@@ -423,15 +428,15 @@ namespace flx
 
 			for (size_ty i = 0; i < size_; i++)
 			{
-				::new (&new_data[i], true) ty(flx::move(data[i]));
+				::new (&new_data[i], true) ty(flx::move(data_[i]));
 				if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)
 				{
-					data[i].~ty();
+					data_[i].~ty();
 				}
 			}
 
-			::operator delete(data);
-			data = new_data;
+			::operator delete(data_);
+			data_ = new_data;
 		}
 	}; // dynamic_array
 } // namespace flx

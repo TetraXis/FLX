@@ -15,11 +15,6 @@ namespace flx
     template<typename ty>
     struct unique_ptr
     {
-        /*constexpr inline void* operator new (unsigned long long size, void* ptr) noexcept
-        {
-            return ptr;
-        }*/
-
     flx_private:
         ty* owned_ptr = nullptr;
 
@@ -217,7 +212,7 @@ namespace flx
     }; // unique_ptr<ty[]>
 
     template<typename ty, typename... args_ty>
-    [[nodiscard("Discarding creaded flx::unique_ptr will result in memory leak.")]]
+    [[nodiscard("Discarding created flx::unique_ptr will result in memory leak.")]]
     inline constexpr flx::unique_ptr<ty> make_unique(args_ty&&... args)
     {
         return flx::unique_ptr<ty>(new ty(flx::forward<args_ty>(args)...));

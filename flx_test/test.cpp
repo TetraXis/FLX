@@ -24,22 +24,22 @@ using namespace flx;
 struct test_str
 {
 	int a = 0;
-	//int* data;
+	//int* data_;
 
 	//test_str() noexcept = default;
 	//{
-	//	data = new int[10];
+	//	data_ = new int[10];
 	//}
 
 	//test_str(test_str&& other) noexcept = default;
-	//	:data(other.data)
+	//	:data_(other.data_)
 	//{
-	//	other.data = nullptr;
+	//	other.data_ = nullptr;
 	//}
 
 	//~test_str() noexcept = default;
 	//{
-	//	delete[] data;
+	//	delete[] data_;
 	//}
 
 	//test_str(test_str&&) = default;
@@ -79,45 +79,45 @@ using test_t = std::vector<test_str>;
 //{
 //	new_widget->parent = nullptr;
 //	widgets.emplace_back(flx::move(new_widget.release()));
-//}
-
-
-enum struct widget_type : u8
-{
-	none,			// Not defined primitive type
-	window,			// Can be moved or changed size by user
-	textview,		// Read-only text view
-	button,
-	display,		// handles io and all widgets
-	custom			// Custom type
-};
-
-struct widget
-{
-
-flx_protected:
-	widget* parent = nullptr;
-flx_public:
-	vec2<i16> coord{};
-	vec2<u16> min_size{};
-flx_protected:
-	vec2<u16> size{};
-flx_public:
-	u16 id{};
-	const widget_type type = widget_type::none;
-	u8 flags{}; // For possible future uses
-
-flx_protected:
-	widget(widget_type new_type) : type(new_type)
-	{
-	}
-
-flx_public:
-	widget() = default;
-	virtual ~widget()
-	{
-	}
-};
+////}
+//
+//
+//enum struct widget_type : u8
+//{
+//	none,			// Not defined primitive type
+//	window,			// Can be moved or changed size by user
+//	textview,		// Read-only text view
+//	button,
+//	display,		// handles io and all widgets
+//	custom			// Custom type
+//};
+//
+//struct widget
+//{
+//
+//flx_protected:
+//	widget* parent = nullptr;
+//flx_public:
+//	vec2<i16> coord{};
+//	vec2<u16> min_size{};
+//flx_protected:
+//	vec2<u16> size{};
+//flx_public:
+//	u16 id{};
+//	const widget_type type = widget_type::none;
+//	u8 flags{}; // For possible future uses
+//
+//flx_protected:
+//	widget(widget_type new_type) : type(new_type)
+//	{
+//	}
+//
+//flx_public:
+//	widget() = default;
+//	virtual ~widget()
+//	{
+//	}
+//};
 
 dynamic_array< unique_ptr<widget> > widgets{};
 

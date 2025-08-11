@@ -15,7 +15,7 @@
 /// 
 /// This double linked list is backed by an std::vector
 /// This allows for a cache frindly approach
-/// Because std::vector will move data at some point,
+/// Because std::vector will move data_ at some point,
 /// nodes will use indexes to point to `next` and `prev`.
 /// 
 /// When moving nodes inside std::vector, neigbours should be updated.
@@ -33,7 +33,7 @@ namespace flx
 	/// !!! All iterators and pointers to elements will get invalid after
 	/// any function call that changes amount of elements or changes their order.
 	/// </summary>
-	/// <typeparam name="ty"> - Type of data</typeparam>
+	/// <typeparam name="ty"> - Type of data_</typeparam>
 	template<typename ty>
 	struct contiguous_doubly_linked_list
 	{
