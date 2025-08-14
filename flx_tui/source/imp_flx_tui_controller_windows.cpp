@@ -40,8 +40,6 @@ void flx::tui::tui_controller_windows::start() noexcept
     f64 fps;
     std::string text;
 
-    static_assert(flx::copy_constructible<u64> == true);
-
     constexpr u64 DELAYS_AMOUNT = 1024 * 8;
 
     flx::dynamic_array<u16> delays{ DELAYS_AMOUNT, 0 };
@@ -49,13 +47,16 @@ void flx::tui::tui_controller_windows::start() noexcept
 
     t.start();
 
+    populate_buffer();
+    draw_buffer();
+
     while (true) 
     {
         t.start();
         process_input();
-        tick();
-        populate_buffer();
-        draw_buffer();
+        tick(t.elapsed_milliseconds());
+        //populate_buffer();
+        //draw_buffer();
         ticks++;
         t.stop();
 
@@ -194,6 +195,28 @@ void flx::tui::tui_controller_windows::process_input() noexcept
     }
 }
 
+void flx::tui::tui_controller_windows::redraw_window(flx::tui::window* window_to_redraw, const flx::vec2<flx::u16>& top_left, const flx::vec2<flx::u16>& bottom_right) noexcept
+{
+    auto it = windows.begin();
+
+    while (&**it != window_to_redraw)
+    {
+        ++it;
+    }
+
+    while (it != windows.end())
+    {
+        for (u16 y = flx::max<u16>(top_left.y, (**it).pos.y); y < flx::min<u16>(bottom_right.y, (**it).pos.y + (**it).size.y); y++)
+        {
+            for (u16 x = flx::max<u16>(top_left.x, (**it).pos.x); x < flx::min<u16>(bottom_right.x, (**it).pos.x + (**it).size.x); x++)
+            {
+                buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Char.AsciiChar = (**it).buffer[xy_to_idx<u16>(x - (**it).pos.x, y - (**it).pos.y, buffer_size.x)].character;
+                buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Attributes = (**it).buffer[xy_to_idx<u16>(x - (**it).pos.x, y - (**it).pos.y, buffer_size.x)].color;
+            }
+        }
+    }
+}
+
 #include <iostream>
 
 void flx::tui::tui_controller_windows::update_buffer_size() noexcept
@@ -235,7 +258,7 @@ void flx::tui::tui_controller_windows::clear_buffer() noexcept
 
 void flx::tui::tui_controller_windows::populate_buffer() noexcept
 {
-    i8* buff_ptr{};
+    cell* buff_ptr{};
     u16 pos_x{};
     u16 pos_y{};
     u16 size_x{};
@@ -244,19 +267,20 @@ void flx::tui::tui_controller_windows::populate_buffer() noexcept
     update_buffer_size();
     clear_buffer();
 
-    for (u32 i = 0; i < widgets.size(); i++)
+    for (u32 i = 0; i < windows.size(); i++)
     {
-        buff_ptr = widgets[i]->buffer.get();
-        pos_x = widgets[i]->coord.x;
-        pos_y = widgets[i]->coord.y;
-        size_x = widgets[i]->size.x;
-        size_y = widgets[i]->size.y;
+        buff_ptr = windows[i]->buffer.get();
+        pos_x = windows[i]->pos.x;
+        pos_y = windows[i]->pos.y;
+        size_x = windows[i]->size.x;
+        size_y = windows[i]->size.y;
 
         for (u16 y = 0; y < size_y && y < buffer_size.y; y++)
         {
             for (u16 x = 0; x < size_x && x < buffer_size.x; x++)
             {
-                buffer[xy_to_idx<u16>(pos_x + x, pos_y + y, buffer_size.x)].Char.AsciiChar = buff_ptr[xy_to_idx(x, y, size_x)];
+                buffer[xy_to_idx<u16>(pos_x + x, pos_y + y, buffer_size.x)].Char.AsciiChar = buff_ptr[xy_to_idx(x, y, size_x)].character;
+                buffer[xy_to_idx<u16>(pos_x + x, pos_y + y, buffer_size.x)].Attributes = buff_ptr[xy_to_idx(x, y, size_x)].color;
             }
         }
     }
@@ -265,11 +289,11 @@ void flx::tui::tui_controller_windows::populate_buffer() noexcept
 void flx::tui::tui_controller_windows::draw_buffer() noexcept
 {
     WriteConsoleOutputA(
-        console_output,          // Console handle
-        buffer.get(),            // Buffer to draw
-        {(SHORT)buffer_size.x, (SHORT)buffer_size.y},        // Size of buffer (cols x rows)
-        {0,0},       // Where to start copying (usually 0,0)
-        &write_region       // Screen area to update
+        console_output,
+        buffer.get(),
+        {(SHORT)buffer_size.x, (SHORT)buffer_size.y},
+        {0,0},
+        &write_region
     );
 }
 

@@ -29,13 +29,13 @@
     <ClInclude Include="include\imp_flx_tui_controller.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\imp_flx_tui_encoding.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\imp_flx_tui_window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\imp_flx_tui_controller_windows.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imp_flx_tui_encoding.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -46,9 +46,6 @@
     <ClCompile Include="source\imp_flx_tui_controller_windows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\imp_flx_tui_encoding.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\imp_flx_tui_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -56,6 +53,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\imp_flx_tui_controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\imp_flx_tui_encoding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

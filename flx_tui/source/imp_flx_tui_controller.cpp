@@ -1,18 +1,22 @@
 #include "imp_flx_tui_controller.hpp"
 
-void flx::tui::tui_controller_base::add_widget(flx::unique_ptr<widget> new_widget) noexcept
+void flx::tui::tui_controller_base::add_window(flx::unique_ptr<flx::tui::window> new_window) noexcept
 {
-	new_widget->populate_buffer();
-	new_widget->parent.controller_ptr = this;
-	widgets.emplace_back(new_widget.release());
+	new_window->redraw_buffer();
+	new_window->parent.controller = this;
+	windows.emplace_back(new_window.release());
 
 	return;
 }
 
-void flx::tui::tui_controller_base::tick() noexcept
+void flx::tui::tui_controller_base::tick(u32 delta_time) noexcept
 {
-	for (const auto& widget_uptr : widgets)
+	// TODO: this should be at customer's class
+	for (const auto& window_uptr : windows)
 	{
-		widget_uptr->update();
+		if (window_uptr->actions.size() > 0)
+		{
+			window_uptr->actions[0](window_uptr.get(), 0, (void**)(delta_time));
+		}
 	}
 }

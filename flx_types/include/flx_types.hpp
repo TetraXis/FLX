@@ -19,11 +19,11 @@ namespace flx
 	using b8	=			bool;
 	using b08	=			bool;
 
-	using i8	= signed	char;
-	using i08	= signed	char;
-	using i16	= signed	short;
-	using i32	= signed	int;
-	using i64	= signed	long long;
+	using i8	= 			char;
+	using i08	=			char;
+	using i16	=			short;
+	using i32	=			int;
+	using i64	=			long long;
 
 	using u8	= unsigned	char;
 	using u08	= unsigned	char;
@@ -46,11 +46,11 @@ namespace flx
 		using b8	=			bool;
 		using b08	=			bool;
 
-		using i8	= signed	char;
-		using i08	= signed	char;
-		using i16	= signed	short;
-		using i32	= signed	int;
-		using i64	= signed	long long;
+		using i8	=			char;
+		using i08	=			char;
+		using i16	=			short;
+		using i32	=			int;
+		using i64	=			long long;
 
 		using u8	= unsigned	char;
 		using u08	= unsigned	char;

@@ -1,4 +1,4 @@
-﻿#include "imp_flx_tui_encoding.hpp"
+#include "imp_flx_tui_encoding.hpp"
 
 namespace flx
 {
@@ -8,7 +8,7 @@ namespace flx
 		{
 
 #if FLX_TUI_ENCODING == FLX_TUI_ENCODING_CP437
-			
+
 			const i8 box_drawing[64] =
 			{
 				// lite
@@ -25,8 +25,31 @@ namespace flx
 #endif // FLX_TUI_ENCODING != FLX_TUI_ENCODING_CP437
 
 #if FLX_TUI_ENCODING == FLX_TUI_ENCODING_ASCII
-#error "imp_flx_encoding.cpp: no ascii encoding is given."
-#endif // FLX_TUI_ENCODING != FLX_TUI_ENCODING_CP437
+#error "imp_flx_encoding.cpp: no ascii encoding is provided."
+#endif // FLX_TUI_ENCODING != FLX_TUI_ENCODING_ASCII
+
 		} // namespace characters
+
+		cell::cell(i8 new_char) noexcept
+			: character(new_char)
+		{
+		}
+
+		cell::cell(u8 new_color) noexcept
+			: color(new_color)
+		{
+		}
+
+		cell& cell::operator=(i8 new_char) noexcept
+		{
+			character = new_char;
+			return *this;
+		}
+
+		cell& cell::operator=(u8 new_color) noexcept
+		{
+			color = new_color;
+			return *this;
+		}
 	} // namespace tui
 } // namespace flx

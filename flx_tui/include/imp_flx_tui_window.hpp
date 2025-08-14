@@ -27,40 +27,22 @@ namespace flx
 			// if window is slimmer than this, buttons are not shown
 			static constexpr u16 MIN_WIDTH_FOR_BUTTONS = 12;
 
-		flx_public:
 			i8 name[NAME_SIZE]{};
-		flx_protected:
-			// array of widgets was here
-			// buffer that is cut by window size
-			unique_ptr<i8[]> viewport{};
-			vec2<u16> view_size{};
-			vec2<u16> view_offset{};
-			vec2<u16> PADDING{};
+			unique_ptr<cell[]> buffer{ new cell[MIN_SIZE.x * MIN_SIZE.y] };
+			vec2<u16> buffer_size{ MIN_SIZE.x, MIN_SIZE.y };
+			vec2<i16> viewport_pos{};
 
-		flx_public:
 			window();
 			window(const char*, const vec2<u16>& = {7, 2});
-			virtual ~window();
 
-			virtual void set_size(const vec2<u16>&) override;
-			void set_name(const i8*);
+			void redraw_buffer() noexcept;
+			void draw_border() noexcept;
 
-			virtual void add_widget(flx::unique_ptr<widget>);
-			virtual void remove_widget(flx::unique_ptr<widget>*);
-			virtual void remove_widget(u32);
-
-			virtual void update_buffer_size();
-
-			virtual void populate_buffer() override;
-
-		flx_protected:
-			virtual void draw_border();
-
-#ifndef NDEBUG
-		flx_public:
-			void print() const;
-			void populate_buffer_debug() noexcept;
-#endif // NDEBUG
+//#ifndef NDEBUG
+//		flx_public:
+//			void print() const;
+//			void populate_buffer_debug() noexcept;
+//#endif // NDEBUG
 		}; // window
 	} // namespace tui
 } // namespace flx

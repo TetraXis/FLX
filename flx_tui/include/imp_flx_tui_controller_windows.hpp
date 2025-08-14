@@ -23,6 +23,8 @@ namespace flx
 			void start() noexcept override;
 			void process_input() noexcept override;
 
+			void redraw_window(window* window_to_redraw, const vec2<u16>& top_left, const vec2<u16>& bottom_right) noexcept override;
+
 			void clear_buffer() noexcept override;
 			void update_buffer_size() noexcept override;
 			void populate_buffer() noexcept override;
@@ -36,7 +38,7 @@ namespace flx
 			SMALL_RECT debug_write_region{};
 #endif // NDEBUG
 
-		flx_protected:
+		//flx_protected:
 			HANDLE console_input{};
 			HANDLE console_output{};
 			DWORD prev_console_mode{};

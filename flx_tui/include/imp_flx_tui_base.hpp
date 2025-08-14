@@ -5,6 +5,7 @@
 #include "flx_vec.hpp"
 #include "flx_unique_ptr.hpp"
 #include "flx_dynamic_array.hpp"
+#include "flx_utility.hpp"
 
 #ifndef NDEBUG
 #include <cassert>
@@ -26,39 +27,42 @@ namespace flx
 			custom			// Custom type
 		}; // widget_type
 
-		/// When contructed by default:
-		/// automatically assigns 'va' to next free id
+		/// When constructed by default:
+		/// automatically assigns 'val' to next ''free'' id
 		struct id_t
 		{
 			static inline u32 last_id = 0;
 
 			u32 val;
 
-			constexpr id_t() noexcept;
-			constexpr explicit id_t(u32 new_val) noexcept;
-			constexpr explicit operator u32() noexcept;
+			id_t() noexcept;
+			explicit id_t(u32) noexcept;
+			explicit operator u32() noexcept
+			{
+				return val;
+			}
 
-			constexpr bool operator== (const id_t&) noexcept;
+			bool operator== (const id_t&) const noexcept;
 		};
 
 		struct window;
 		struct tui_controller_base;
-		struct tui_controller_windows;
 
 		struct widget
 		{
 			static constexpr vec2<u16> MIN_SIZE = { 5,2 };
 
-			widget* parent{};
+			union parent_union
+			{
+				widget* widget;
+				tui_controller_base* controller;
+			} parent{};
 			dynamic_array<unique_ptr<widget>, u32> widgets{};
 			/// Actions can be used for anything
 			/// 
 			/// 'argc' - amount of arguments
 			/// 'argv' - arguments
-			/// 
-			/// Have a habit of passing the caller as 0th argument
-			/// Actions should not free 'argv'
-			dynamic_array<bool (*) (u32 argc, void* argv[]), u32> actions;
+			dynamic_array<bool (*) (widget*, u64 argc, void* argv[]), u32> actions;
 			vec2<i16> pos{};
 			vec2<u16> size = MIN_SIZE;
 			id_t id{};
@@ -66,61 +70,21 @@ namespace flx
 			const widget_type type = widget_type::none;
 			//u8 PADDING; // unused space 
 
-			constexpr void set_size(const vec2<u16>&) noexcept;
+			widget(widget_type = widget_type::none) noexcept;
 
-			constexpr void add_widget(unique_ptr<widget>) noexcept;
-			constexpr unique_ptr<widget> remove_widget(id_t removed_id) noexcept;
-			constexpr unique_ptr<widget> remove_widget(u32 removed_idx) noexcept;
+			void set_size(const vec2<u16>& new_size) noexcept;
 
+			void add_widget(unique_ptr<widget>) noexcept;
+			unique_ptr<widget> remove_widget(id_t removed_id) noexcept;
+			unique_ptr<widget> remove_widget(u32 removed_idx) noexcept;
 
-		//	friend window; // this drives me nuts
-		//	friend tui_controller_base;
-		//	friend tui_controller_windows;
-
-		//flx_protected:
-		//	union parent_union
-		//	{
-		//		widget* widget_ptr;
-		//		tui_controller_base* controller_ptr;
-		//	} parent{ nullptr };
-		//	//widget* parent = nullptr;
-		//	// buffer that contains all content inside
-		//	flx::unique_ptr<i8[]> buffer{};
-		//	vec2<u16> buffer_size{};
-		//flx_public:
-		//	vec2<i16> coord{};
-		//	vec2<u16> min_size{};
-		//flx_protected:
-		//	vec2<u16> size{};
-		//flx_public:
-		//	flx::dynamic_array< unique_ptr<widget>, u32 > widgets{};
-		//	u16 id{};
-		//	const widget_type type = widget_type::none;
-		//	u8 flags{}; // For possible future uses
-		//	void (*update_func) (widget*) = [](widget*){};
-
-		//flx_protected:
-		//	widget(widget_type);
-
-		//flx_public:
-		//	widget() = default;
-		//	virtual ~widget();
-
-		//	vec2<u16> get_size() const;
-		//	virtual	void set_size(const vec2<u16>&);
-
-		//	void update() noexcept;
-
-		//	virtual void hover_begin();
-		//	virtual void hover_end();
-		//	virtual void click_begin();
-		//	virtual void click_end();
-
-		//	void clear_buffer() noexcept;
-		//	/// <summary>
-		//	/// Fills the buffer with chars
-		//	/// </summary>
-		//	virtual void populate_buffer();
+			/// <summary>
+			/// Redraws a given widget. This call should propagate to all the parents.
+			/// </summary>
+			/// <param name="widget_to_redraw"> - Original widget caller</param>
+			/// <param name="top_left"> - Top left corner of dirty rectangle</param>
+			/// <param name="bottom_right"> - Bottom right corner of dirty rectangle</param>
+			virtual void redraw_widget(widget* widget_to_redraw, const vec2<u16>& top_left, const vec2<u16>& bottom_right) noexcept;
 		}; // widget
 	} // namespace tui
 } // namespace flx

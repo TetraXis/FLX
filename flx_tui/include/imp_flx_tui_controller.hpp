@@ -4,6 +4,7 @@
 #include "flx_vec.hpp"
 #include "flx_unique_ptr.hpp"
 #include "imp_flx_tui_base.hpp"
+#include "imp_flx_tui_window.hpp"
 #include "flx_dynamic_array.hpp"
 
 namespace flx
@@ -28,11 +29,11 @@ namespace flx
 			constexpr static u16 DEFAULT_SIZE_X = 32;
 			constexpr static u16 DEFAULT_SIZE_Y = 10;
 
-			friend widget;
-			friend window;
+			//friend widget;
+			//friend window;
 
-		flx_protected:
-			flx::dynamic_array<flx::unique_ptr<widget>, u32> widgets{}; // widgets[0] is back layer
+		//flx_protected:
+			flx::dynamic_array<flx::unique_ptr<window>, u32> windows{}; // windows[0] is back layer
 			vec2<u16> size{ DEFAULT_SIZE_X, DEFAULT_SIZE_Y };
 			vec2<u16> buffer_size{ DEFAULT_SIZE_X, DEFAULT_SIZE_Y };
 			u64 ticks = 0;
@@ -41,9 +42,10 @@ namespace flx
 			tui_controller_base() = default;
 			~tui_controller_base() = default;
 
-			void add_widget(flx::unique_ptr<widget>) noexcept;
+			void add_window(flx::unique_ptr<window>) noexcept;
 
-			void tick() noexcept;
+			virtual void tick(u32 delta_milliseconds) noexcept; // u32 for x86-32 support
+			virtual void redraw_window(window* window_to_redraw, const vec2<u16>& top_left, const vec2<u16>& bottom_right) noexcept = 0;
 
 			virtual void start() noexcept = 0;
 			virtual void process_input() noexcept = 0;
