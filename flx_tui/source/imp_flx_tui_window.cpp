@@ -20,6 +20,20 @@ flx::tui::window::window(const char* new_name, const vec2<u16>& new_size) : widg
 	set_size(new_size);
 }
 
+void flx::tui::window::set_size(const vec2<u16>& new_size) noexcept
+{
+	widget::set_size(new_size);
+	update_buffer_size();
+}
+
+void flx::tui::window::update_buffer_size() noexcept
+{
+	if (size.x * size.y > buffer_size.x * buffer_size.y || size.x * size.y < buffer_size.x * buffer_size.y * MAX_UNUSED_BUFFER)
+	{
+		buffer.reset( new cell[size.x * size.y] );
+	}
+}
+
 void flx::tui::window::redraw_buffer() noexcept
 {
 	draw_border();
@@ -48,7 +62,7 @@ void flx::tui::window::draw_border() noexcept
 
 		for (x++; x < buffer_size.x - 10; x++)
 		{
-			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = box_drawing[L | R | DH];
+			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = box_drawing[L | R | DH | DV];
 		}
 
 		buffer[xy_to_idx<u16>(buffer_size.x - 10, 0, buffer_size.x)] = '[';
@@ -76,7 +90,7 @@ void flx::tui::window::draw_border() noexcept
 
 		for (x++; x < buffer_size.x - 1; x++)
 		{
-			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = box_drawing[L | R | DH];
+			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = box_drawing[L | R | DH | DV];
 		}
 	}
 
@@ -85,8 +99,8 @@ void flx::tui::window::draw_border() noexcept
 	// sides
 	for (y = 1; y < buffer_size.y - 1; y++)
 	{
-		buffer[xy_to_idx<u16>(0, y, buffer_size.x)] = box_drawing[U | D | DV];
-		buffer[xy_to_idx<u16>(buffer_size.x - 1, y, buffer_size.x)] = box_drawing[U | D | DV];
+		buffer[xy_to_idx<u16>(0, y, buffer_size.x)] = box_drawing[U | D | DH | DV];
+		buffer[xy_to_idx<u16>(buffer_size.x - 1, y, buffer_size.x)] = box_drawing[U | D | DH | DV];
 	}
 
 	// bottom
@@ -96,7 +110,7 @@ void flx::tui::window::draw_border() noexcept
 
 	for (x = 1; x < buffer_size.x - 1; x++)
 	{
-		buffer[xy_to_idx<u16>(x, y, buffer_size.x)] = box_drawing[L | R | DH];
+		buffer[xy_to_idx<u16>(x, y, buffer_size.x)] = box_drawing[L | R | DH | DV];
 	}
 
 	buffer[xy_to_idx<u16>(buffer_size.x - 1, y, buffer_size.x)] = box_drawing[L | U | DH | DV];

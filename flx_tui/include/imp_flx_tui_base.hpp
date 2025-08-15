@@ -72,7 +72,7 @@ namespace flx
 
 			widget(widget_type = widget_type::none) noexcept;
 
-			void set_size(const vec2<u16>& new_size) noexcept;
+			virtual void set_size(const vec2<u16>&) noexcept;
 
 			void add_widget(unique_ptr<widget>) noexcept;
 			unique_ptr<widget> remove_widget(id_t removed_id) noexcept;

@@ -40,12 +40,10 @@ void flx::tui::tui_controller_windows::start() noexcept
     f64 fps;
     std::string text;
 
-    constexpr u64 DELAYS_AMOUNT = 1024 * 8;
+    constexpr u64 DELAYS_AMOUNT = 1024 * 64;
 
     flx::dynamic_array<u16> delays{ DELAYS_AMOUNT, 0 };
     u64 total_time = 0;
-
-    t.start();
 
     populate_buffer();
     draw_buffer();
@@ -191,6 +189,11 @@ void flx::tui::tui_controller_windows::process_input() noexcept
             }
             break;
         }
+        case WINDOW_BUFFER_SIZE_EVENT: {
+            // The console window size has changed
+            update_buffer_size();
+            break;
+        }
         }
     }
 }
@@ -263,6 +266,8 @@ void flx::tui::tui_controller_windows::populate_buffer() noexcept
     u16 pos_y{};
     u16 size_x{};
     u16 size_y{};
+    u16 end_y{};
+    u16 end_x{};
 
     update_buffer_size();
     clear_buffer();
@@ -274,13 +279,27 @@ void flx::tui::tui_controller_windows::populate_buffer() noexcept
         pos_y = windows[i]->pos.y;
         size_x = windows[i]->size.x;
         size_y = windows[i]->size.y;
+        end_y = flx::min<u16>(buffer_size.y, pos_y + size_y);
+        end_x = flx::min<u16>(buffer_size.x, pos_x + size_x);
 
-        for (u16 y = 0; y < size_y && y < buffer_size.y; y++)
+        for (u16 y = pos_y; y < end_y; y++)
         {
-            for (u16 x = 0; x < size_x && x < buffer_size.x; x++)
+            for (u16 x = pos_x; x < end_x; x++)
             {
-                buffer[xy_to_idx<u16>(pos_x + x, pos_y + y, buffer_size.x)].Char.AsciiChar = buff_ptr[xy_to_idx(x, y, size_x)].character;
-                buffer[xy_to_idx<u16>(pos_x + x, pos_y + y, buffer_size.x)].Attributes = buff_ptr[xy_to_idx(x, y, size_x)].color;
+                /*std::cout << "x           :" << x          << '\n';
+                std::cout << "y           :" << y          << '\n';
+                std::cout << "buff_ptr    :" << buff_ptr   << '\n';
+                std::cout << "pos_x       :" << pos_x      << '\n';
+                std::cout << "pos_y       :" << pos_y      << '\n';
+                std::cout << "size_x      :" << size_x     << '\n';
+                std::cout << "size_y      :" << size_y     << '\n';
+                std::cout << "end_y       :" << end_y      << '\n';
+                std::cout << "end_x       :" << end_x      << '\n';
+
+                system("pause");*/
+
+                buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Char.AsciiChar = buff_ptr[xy_to_idx<u16>(x - pos_x, y - pos_y, size_x)].character;
+                buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Attributes = buff_ptr[xy_to_idx<u16>(x - pos_x, y - pos_y, size_x)].color;
             }
         }
     }
@@ -288,7 +307,8 @@ void flx::tui::tui_controller_windows::populate_buffer() noexcept
 
 void flx::tui::tui_controller_windows::draw_buffer() noexcept
 {
-    WriteConsoleOutputA(
+    WriteConsoleOutputA
+    (
         console_output,
         buffer.get(),
         {(SHORT)buffer_size.x, (SHORT)buffer_size.y},

@@ -35,6 +35,10 @@ namespace flx
 			window();
 			window(const char*, const vec2<u16>& = {7, 2});
 
+			void set_size(const vec2<u16>&) noexcept override;
+
+			void update_buffer_size() noexcept;
+
 			void redraw_buffer() noexcept;
 			void draw_border() noexcept;
 
