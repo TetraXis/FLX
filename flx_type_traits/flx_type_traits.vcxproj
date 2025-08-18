@@ -24,6 +24,11 @@
   <ItemGroup>
     <ClCompile Include="source\flx_type_traits.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\flx_types\flx_types.vcxproj">
+      <Project>{8d091046-4017-4dd8-839a-64bf21e1c48e}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

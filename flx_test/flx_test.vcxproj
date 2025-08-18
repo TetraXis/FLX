@@ -94,7 +94,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)flx_utility\include;$(SolutionDir)flx_new\include;$(SolutionDir)flx_vec\include;$(SolutionDir)flx_tui\include;$(SolutionDir)flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(SolutionDir)flx_unique_ptr\include;$(SolutionDir)flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)flx_utility\include;$(SolutionDir)flx_new\include;$(SolutionDir)flx_vec\include;$(SolutionDir)flx_tui\include;$(SolutionDir)flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(SolutionDir)flx_timer_windows\include;$(SolutionDir)flx_unique_ptr\include;$(SolutionDir)flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeaderFile />
@@ -114,7 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)flx_utility\include;$(SolutionDir)flx_new\include;$(SolutionDir)flx_vec\include;$(SolutionDir)flx_tui\include;$(SolutionDir)flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(SolutionDir)flx_unique_ptr\include;$(SolutionDir)flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)flx_utility\include;$(SolutionDir)flx_new\include;$(SolutionDir)flx_vec\include;$(SolutionDir)flx_tui\include;$(SolutionDir)flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(SolutionDir)flx_timer_windows\include;$(SolutionDir)flx_unique_ptr\include;$(SolutionDir)flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeaderFile />
@@ -136,7 +136,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)flx_utility\include;$(SolutionDir)flx_new\include;$(SolutionDir)flx_vec\include;$(SolutionDir)flx_tui\include;$(SolutionDir)flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(SolutionDir)flx_unique_ptr\include;$(SolutionDir)flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)flx_utility\include;$(SolutionDir)flx_new\include;$(SolutionDir)flx_vec\include;$(SolutionDir)flx_tui\include;$(SolutionDir)flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(SolutionDir)flx_timer_windows\include;$(SolutionDir)flx_unique_ptr\include;$(SolutionDir)flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -156,7 +156,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)flx_utility\include;$(SolutionDir)flx_new\include;$(SolutionDir)flx_vec\include;$(SolutionDir)flx_tui\include;$(SolutionDir)flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(SolutionDir)flx_unique_ptr\include;$(SolutionDir)flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)flx_utility\include;$(SolutionDir)flx_new\include;$(SolutionDir)flx_vec\include;$(SolutionDir)flx_tui\include;$(SolutionDir)flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(SolutionDir)flx_timer_windows\include;$(SolutionDir)flx_unique_ptr\include;$(SolutionDir)flx_dynamic_array\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -181,6 +181,15 @@
     <ProjectReference Include="..\flx_linked_list\flx_linked_list.vcxproj">
       <Project>{682c4697-830b-47f6-9423-20679eadbada}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\flx_math\flx_math.vcxproj">
+      <Project>{2525af9c-7368-4ac2-bb5b-971c801ec1f9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\flx_new\flx_new.vcxproj">
+      <Project>{5887c9b2-eff0-4a1c-a6fe-6b86a60f573f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\flx_timer_windows\flx_timer_windows.vcxproj">
+      <Project>{f4dba705-6eb5-4d0e-9322-3a35bef9200c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\flx_tui\flx_tui.vcxproj">
       <Project>{489ac4ba-cd5b-4d96-a5bf-707d90047a3c}</Project>
     </ProjectReference>
@@ -192,6 +201,12 @@
     </ProjectReference>
     <ProjectReference Include="..\flx_unique_ptr\flx_unique_ptr.vcxproj">
       <Project>{5c009859-8260-44c4-bc2a-b0fd8ae8d672}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\flx_utility\flx_utility.vcxproj">
+      <Project>{c4222efa-60da-47ed-9060-782cf3316662}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\flx_vec\flx_vec.vcxproj">
+      <Project>{4b260447-15dc-444e-a5c9-0c23c53be5f3}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

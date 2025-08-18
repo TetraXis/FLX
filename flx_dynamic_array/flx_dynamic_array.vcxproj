@@ -28,6 +28,9 @@
     <ProjectReference Include="..\flx_concepts\flx_concepts.vcxproj">
       <Project>{3075ec5a-35ef-4efe-8f03-61606df9493c}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\flx_new\flx_new.vcxproj">
+      <Project>{5887c9b2-eff0-4a1c-a6fe-6b86a60f573f}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\flx_types\flx_types.vcxproj">
       <Project>{8d091046-4017-4dd8-839a-64bf21e1c48e}</Project>
     </ProjectReference>

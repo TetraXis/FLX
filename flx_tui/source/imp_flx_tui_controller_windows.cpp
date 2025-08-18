@@ -1,5 +1,7 @@
 #if defined(_WIN32) || defined(_WIN64)
 
+#include <string> // TODO: remove this
+
 #include "imp_flx_tui_encoding.hpp"
 #include "imp_flx_tui_controller_windows.hpp"
 

@@ -63,6 +63,7 @@ namespace flx
 			/// 'argc' - amount of arguments
 			/// 'argv' - arguments
 			dynamic_array<bool (*) (widget*, u64 argc, void* argv[]), u32> actions;
+
 			vec2<i16> pos{};
 			vec2<u16> size = MIN_SIZE;
 			id_t id{};

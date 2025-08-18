@@ -3,12 +3,13 @@
 #ifndef IMP_FLX_TUI_CONTROLLER_WINDOWS_HPP
 #define IMP_FLX_TUI_CONTROLLER_WINDOWS_HPP
 
+#include "flx_timer_windows.hpp"
+
 #include "imp_flx_tui_controller.hpp"
 
 #include <Windows.h>
 
 #ifndef NDEBUG
-#include "D:\C++\Tools\timer.h"
 #include <string>
 #include <iostream>
 #endif // NDEBUG

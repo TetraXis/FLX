@@ -18,6 +18,7 @@
     <Text Include="resources\CP437 chars.txt" />
     <Text Include="resources\TUI Structure.txt" />
     <Text Include="resources\TUI Layout Constraints.txt" />
+    <Text Include="resources\UTF-16 Chars.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\flx_tui.hpp">

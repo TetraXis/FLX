@@ -28,6 +28,9 @@
     <ProjectReference Include="..\flx_types\flx_types.vcxproj">
       <Project>{8d091046-4017-4dd8-839a-64bf21e1c48e}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\flx_type_traits\flx_type_traits.vcxproj">
+      <Project>{2b810ae7-c3e5-459b-9ac5-9bf917186d18}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
