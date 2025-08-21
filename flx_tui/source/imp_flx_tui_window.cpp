@@ -30,7 +30,8 @@ void flx::tui::window::update_buffer_size() noexcept
 {
 	if (size.x * size.y > buffer_size.x * buffer_size.y || size.x * size.y < buffer_size.x * buffer_size.y * MAX_UNUSED_BUFFER)
 	{
-		buffer.reset( new cell[size.x * size.y] );
+		buffer_char.reset( new c16[size.x * size.y] );
+		buffer_color.reset( new u8[size.x * size.y] );
 	}
 }
 
@@ -48,72 +49,72 @@ void flx::tui::window::draw_border() noexcept
 	u16 x{}, y{}, i{};
 
 	// top
-	buffer[xy_to_idx<u16>(0, 0, buffer_size.x)] = box_drawing[R | D | DH | DV];
-	buffer[xy_to_idx<u16>(1, 0, buffer_size.x)] = '[';
+	buffer_char[xy_to_idx<u16>(0, 0, buffer_size.x)] = box_drawing[R | D | DH | DV];
+	buffer_char[xy_to_idx<u16>(1, 0, buffer_size.x)] = '[';
 	
 	if (buffer_size.x >= MIN_WIDTH_FOR_BUTTONS)
 	{
 		for (i = 0, x = 2; x < buffer_size.x - 11 && i < NAME_SIZE && name[i] != '\0'; x++, i++)
 		{
-			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = name[i];
+			buffer_char[xy_to_idx<u16>(x, 0, buffer_size.x)] = name[i];
 		}
 
-		buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = ']';
+		buffer_char[xy_to_idx<u16>(x, 0, buffer_size.x)] = ']';
 
 		for (x++; x < buffer_size.x - 10; x++)
 		{
-			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = box_drawing[L | R | DH | DV];
+			buffer_char[xy_to_idx<u16>(x, 0, buffer_size.x)] = box_drawing[L | R | DH | DV];
 		}
 
-		buffer[xy_to_idx<u16>(buffer_size.x - 10, 0, buffer_size.x)] = '[';
-		buffer[xy_to_idx<u16>(buffer_size.x - 9,  0, buffer_size.x)] = '_';
-		buffer[xy_to_idx<u16>(buffer_size.x - 8,  0, buffer_size.x)] = ']';
-		buffer[xy_to_idx<u16>(buffer_size.x - 7,  0, buffer_size.x)] = '[';
-		buffer[xy_to_idx<u16>(buffer_size.x - 6,  0, buffer_size.x)] = 'o';
-		buffer[xy_to_idx<u16>(buffer_size.x - 5,  0, buffer_size.x)] = ']';
-		buffer[xy_to_idx<u16>(buffer_size.x - 4,  0, buffer_size.x)] = '[';
-		buffer[xy_to_idx<u16>(buffer_size.x - 3,  0, buffer_size.x)] = 'X';
-		buffer[xy_to_idx<u16>(buffer_size.x - 2,  0, buffer_size.x)] = ']';
+		buffer_char[xy_to_idx<u16>(buffer_size.x - 10, 0, buffer_size.x)] = '[';
+		buffer_char[xy_to_idx<u16>(buffer_size.x - 9,  0, buffer_size.x)] = '_';
+		buffer_char[xy_to_idx<u16>(buffer_size.x - 8,  0, buffer_size.x)] = ']';
+		buffer_char[xy_to_idx<u16>(buffer_size.x - 7,  0, buffer_size.x)] = '[';
+		buffer_char[xy_to_idx<u16>(buffer_size.x - 6,  0, buffer_size.x)] = 'o';
+		buffer_char[xy_to_idx<u16>(buffer_size.x - 5,  0, buffer_size.x)] = ']';
+		buffer_char[xy_to_idx<u16>(buffer_size.x - 4,  0, buffer_size.x)] = '[';
+		buffer_char[xy_to_idx<u16>(buffer_size.x - 3,  0, buffer_size.x)] = 'X';
+		buffer_char[xy_to_idx<u16>(buffer_size.x - 2,  0, buffer_size.x)] = ']';
 	}
 	else
 	{
 		for (i = 0, x = 2; x < buffer_size.x - 2 && i < NAME_SIZE && name[i] != '\0'; x++, i++)
 		{
-			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = name[i];
+			buffer_char[xy_to_idx<u16>(x, 0, buffer_size.x)] = name[i];
 		}
 
-		buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = ']';
+		buffer_char[xy_to_idx<u16>(x, 0, buffer_size.x)] = ']';
 		if (i < NAME_SIZE && name[i] != '\0' && x > 2)
 		{
-			buffer[xy_to_idx<u16>(x - 1, 0, buffer_size.x)] = '.';
+			buffer_char[xy_to_idx<u16>(x - 1, 0, buffer_size.x)] = '.';
 		}
 
 		for (x++; x < buffer_size.x - 1; x++)
 		{
-			buffer[xy_to_idx<u16>(x, 0, buffer_size.x)] = box_drawing[L | R | DH | DV];
+			buffer_char[xy_to_idx<u16>(x, 0, buffer_size.x)] = box_drawing[L | R | DH | DV];
 		}
 	}
 
-	buffer[xy_to_idx<u16>(buffer_size.x - 1, 0, buffer_size.x)]	= box_drawing[L | D | DH | DV];
+	buffer_char[xy_to_idx<u16>(buffer_size.x - 1, 0, buffer_size.x)]	= box_drawing[L | D | DH | DV];
 
 	// sides
 	for (y = 1; y < buffer_size.y - 1; y++)
 	{
-		buffer[xy_to_idx<u16>(0, y, buffer_size.x)] = box_drawing[U | D | DH | DV];
-		buffer[xy_to_idx<u16>(buffer_size.x - 1, y, buffer_size.x)] = box_drawing[U | D | DH | DV];
+		buffer_char[xy_to_idx<u16>(0, y, buffer_size.x)] = box_drawing[U | D | DH | DV];
+		buffer_char[xy_to_idx<u16>(buffer_size.x - 1, y, buffer_size.x)] = box_drawing[U | D | DH | DV];
 	}
 
 	// bottom
 	y = buffer_size.y - 1;
 
-	buffer[xy_to_idx<u16>(0, y, buffer_size.x)] = box_drawing[R | U | DH | DV];
+	buffer_char[xy_to_idx<u16>(0, y, buffer_size.x)] = box_drawing[R | U | DH | DV];
 
 	for (x = 1; x < buffer_size.x - 1; x++)
 	{
-		buffer[xy_to_idx<u16>(x, y, buffer_size.x)] = box_drawing[L | R | DH | DV];
+		buffer_char[xy_to_idx<u16>(x, y, buffer_size.x)] = box_drawing[L | R | DH | DV];
 	}
 
-	buffer[xy_to_idx<u16>(buffer_size.x - 1, y, buffer_size.x)] = box_drawing[L | U | DH | DV];
+	buffer_char[xy_to_idx<u16>(buffer_size.x - 1, y, buffer_size.x)] = box_drawing[L | U | DH | DV];
 }
 
 //#ifndef NDEBUG

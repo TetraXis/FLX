@@ -42,7 +42,7 @@ void flx::tui::tui_controller_windows::start() noexcept
     f64 fps;
     std::string text;
 
-    constexpr u64 DELAYS_AMOUNT = 1024 * 64;
+    constexpr u64 DELAYS_AMOUNT = 1024 * 64 * 2;
 
     flx::dynamic_array<u16> delays{ DELAYS_AMOUNT, 0 };
     u64 total_time = 0;
@@ -215,8 +215,8 @@ void flx::tui::tui_controller_windows::redraw_window(flx::tui::window* window_to
         {
             for (u16 x = flx::max<u16>(top_left.x, (**it).pos.x); x < flx::min<u16>(bottom_right.x, (**it).pos.x + (**it).size.x); x++)
             {
-                buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Char.AsciiChar = (**it).buffer[xy_to_idx<u16>(x - (**it).pos.x, y - (**it).pos.y, buffer_size.x)].character;
-                buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Attributes = (**it).buffer[xy_to_idx<u16>(x - (**it).pos.x, y - (**it).pos.y, buffer_size.x)].color;
+                buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Char.AsciiChar = (**it).buffer_char[xy_to_idx<u16>(x - (**it).pos.x, y - (**it).pos.y, buffer_size.x)];
+                buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Attributes = (**it).buffer_color[xy_to_idx<u16>(x - (**it).pos.x, y - (**it).pos.y, buffer_size.x)];
             }
         }
     }
@@ -263,7 +263,8 @@ void flx::tui::tui_controller_windows::clear_buffer() noexcept
 
 void flx::tui::tui_controller_windows::populate_buffer() noexcept
 {
-    cell* buff_ptr{};
+    c16* buff_char_ptr{};
+    u8* buff_color_ptr{};
     u16 pos_x{};
     u16 pos_y{};
     u16 size_x{};
@@ -276,7 +277,8 @@ void flx::tui::tui_controller_windows::populate_buffer() noexcept
 
     for (u32 i = 0; i < windows.size(); i++)
     {
-        buff_ptr = windows[i]->buffer.get();
+        buff_char_ptr = windows[i]->buffer_char.get();
+        buff_color_ptr = windows[i]->buffer_color.get();
         pos_x = windows[i]->pos.x;
         pos_y = windows[i]->pos.y;
         size_x = windows[i]->size.x;
@@ -300,8 +302,8 @@ void flx::tui::tui_controller_windows::populate_buffer() noexcept
 
                 system("pause");*/
 
-                buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Char.AsciiChar = buff_ptr[xy_to_idx<u16>(x - pos_x, y - pos_y, size_x)].character;
-                buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Attributes = buff_ptr[xy_to_idx<u16>(x - pos_x, y - pos_y, size_x)].color;
+                buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Char.AsciiChar = buff_char_ptr[xy_to_idx<u16>(x - pos_x, y - pos_y, size_x)];
+                buffer[xy_to_idx<u16>(x, y, buffer_size.x)].Attributes = buff_color_ptr[xy_to_idx<u16>(x - pos_x, y - pos_y, size_x)];
             }
         }
     }

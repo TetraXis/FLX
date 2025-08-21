@@ -27,8 +27,9 @@ namespace flx
 			// if window is slimmer than this, buttons are not shown
 			static constexpr u16 MIN_WIDTH_FOR_BUTTONS = 12;
 
-			i8 name[NAME_SIZE]{};
-			unique_ptr<cell[]> buffer{ new cell[MIN_SIZE.x * MIN_SIZE.y] };
+			c8 name[NAME_SIZE]{};
+			unique_ptr<c16[]> buffer_char{ new c16[MIN_SIZE.x * MIN_SIZE.y] };
+			unique_ptr<u8[]> buffer_color{ new u8[MIN_SIZE.x * MIN_SIZE.y] };
 			vec2<u16> buffer_size{ MIN_SIZE.x, MIN_SIZE.y };
 			vec2<i16> viewport_pos{};
 

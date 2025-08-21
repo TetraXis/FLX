@@ -19,6 +19,11 @@ namespace flx
 	using b8	=			bool;
 	using b08	=			bool;
 
+	using c8	=			char;
+	using c08	=			char;
+	using c16	=			char16_t;
+	using c32	=			char32_t;
+
 	using i8	= 			char;
 	using i08	=			char;
 	using i16	=			short;
@@ -35,8 +40,6 @@ namespace flx
 	using f64	=			double;
 	using f80	=			long double;
 
-	//constexpr flx::u16 operator ""_u16(flx::u64 value) noexcept;
-
 	// made so users can "using" only types
 	namespace types
 	{
@@ -45,6 +48,11 @@ namespace flx
 
 		using b8	=			bool;
 		using b08	=			bool;
+
+		using c8	=			char;
+		using c08	=			char;
+		using c16	=			char16_t;
+		using c32	=			char32_t;
 
 		using i8	=			char;
 		using i08	=			char;
