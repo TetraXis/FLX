@@ -1,6 +1,15 @@
 #ifndef IMP_FLX_TUI_CONTROLLER_HPP
 #define IMP_FLX_TUI_CONTROLLER_HPP
 
+#define FLX_TUI_DEFAULT_MAX_TPS 250
+
+#ifndef FLX_TUI_MAX_TPS
+#define FLX_TUI_MAX_TPS FLX_TUI_DEFAULT_MAX_TPS
+#endif // !FLX_TUI_MAX_TPS
+
+#define IMP_FLX_TUI_TICK_TARGET_MS (1'000.0 / FLX_TUI_MAX_TPS)
+#define IMP_FLX_TUI_TICK_TARGET_US (1'000'000.0 / FLX_TUI_MAX_TPS)
+
 #include "flx_vec.hpp"
 #include "flx_unique_ptr.hpp"
 #include "imp_flx_tui_base.hpp"

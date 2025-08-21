@@ -81,22 +81,22 @@ namespace flx
             /// </summary>
             constexpr c16 box_drawing[256] =
             {
-                u'\x0020',  // 0
-                u'\x2576',  // 1
-                u'\x257A',  // 2
-                u'\xFFFF',  // 3
-                u'\x2574',  // 4
-                u'\x2500',  // 5
-                u'\x257C',  // 6
-                u'\xFFFF',  // 7
-                u'\x2578',  // 8
-                u'\x257E',  // 9
-                u'\x2501',  // A
-                u'\xFFFF',  // B
-                u'\xFFFF',  // C
-                u'\xFFFF',  // D
-                u'\xFFFF',  // E
-                u'\x2550',  // F
+                u'\x0020',  // 00
+                u'\x2576',  // 01
+                u'\x257A',  // 02
+                u'\xFFFF',  // 03
+                u'\x2574',  // 04
+                u'\x2500',  // 05
+                u'\x257C',  // 06
+                u'\xFFFF',  // 07
+                u'\x2578',  // 08
+                u'\x257E',  // 09
+                u'\x2501',  // 0A
+                u'\xFFFF',  // 0B
+                u'\xFFFF',  // 0C
+                u'\xFFFF',  // 0D
+                u'\xFFFF',  // 0E
+                u'\x2550',  // 0F
                 u'\x2577',  // 10
                 u'\x250C',  // 11
                 u'\x250D',  // 12

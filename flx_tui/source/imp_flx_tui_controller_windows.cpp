@@ -1,6 +1,7 @@
 #if defined(_WIN32) || defined(_WIN64)
 
 #include <string> // TODO: remove this
+#include <iostream> // TODO: remove this
 
 #include "imp_flx_tui_encoding.hpp"
 #include "imp_flx_tui_controller_windows.hpp"
@@ -42,7 +43,7 @@ void flx::tui::tui_controller_windows::start() noexcept
     f64 fps;
     std::string text;
 
-    constexpr u64 DELAYS_AMOUNT = 1024 * 64 * 2;
+    constexpr u64 DELAYS_AMOUNT = 5 /** 64 * 2*/;
 
     flx::dynamic_array<u16> delays{ DELAYS_AMOUNT, 0 };
     u64 total_time = 0;
@@ -50,9 +51,17 @@ void flx::tui::tui_controller_windows::start() noexcept
     populate_buffer();
     draw_buffer();
 
-    while (true) 
+    t.start();
+    while (true)
     {
-        t.start();
+        PeekConsoleInputW(console_input, irInBuf, 128, &cNumRead);
+        //SetConsoleTitleA(std::to_string(t.elapsed_microseconds() < IMP_FLX_TUI_TICK_TARGET_US && cNumRead == 0).c_str());
+        //SetConsoleTitleA(std::to_string(cNumRead).c_str());
+        //std::cout << ((t.elapsed_microseconds() < IMP_FLX_TUI_TICK_TARGET_US && cNumRead == 0) ? "Skipping" : "Drawing") << '\n';
+        if (t.elapsed_microseconds() < IMP_FLX_TUI_TICK_TARGET_US && cNumRead == 0 /*&& (!PeekConsoleInputW(console_input, irInBuf, 128, &cNumRead) || cNumRead == 0)*/)
+        {
+            continue;
+        }
         process_input();
         tick(t.elapsed_milliseconds());
         //populate_buffer();
@@ -73,6 +82,10 @@ void flx::tui::tui_controller_windows::start() noexcept
             text += " (?)";
         }
         SetConsoleTitleA(text.c_str());
+
+        //Sleep(IMP_FLX_TUI_TICK_TARGET_MS - t.elapsed_milliseconds());
+        t.start();
+        //Sleep(300);
     }
 
     FreeConsole();
@@ -81,17 +94,9 @@ void flx::tui::tui_controller_windows::start() noexcept
 
 void flx::tui::tui_controller_windows::process_input() noexcept
 {
-    // Track mouse button states
-    bool leftButtonDown = false;
-    bool rightButtonDown = false;
-    COORD lastMousePos = { 0,0 };
-
-    // Buffer for reading input
-    INPUT_RECORD irInBuf[128];
-    DWORD cNumRead;
 
     // Wait for and read console input
-    if (!PeekConsoleInputA(console_input, irInBuf, 128, &cNumRead) || cNumRead == 0)
+    if (PeekConsoleInputA(console_input, irInBuf, 128, &cNumRead) && cNumRead > 0)
     {
         ReadConsoleInputA(console_input, irInBuf, 128, &cNumRead);
     }
@@ -198,6 +203,7 @@ void flx::tui::tui_controller_windows::process_input() noexcept
         }
         }
     }
+    FlushConsoleInputBuffer(console_input);
 }
 
 void flx::tui::tui_controller_windows::redraw_window(flx::tui::window* window_to_redraw, const flx::vec2<flx::u16>& top_left, const flx::vec2<flx::u16>& bottom_right) noexcept

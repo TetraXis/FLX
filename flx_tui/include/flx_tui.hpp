@@ -1,5 +1,7 @@
 #pragma once
 
+// FLX_TUI_MAX_TPS can be used to set TPS limit
+
 #include "imp_flx_tui_encoding.hpp"
 #include "imp_flx_tui_base.hpp"
 #include "imp_flx_tui_window.hpp"

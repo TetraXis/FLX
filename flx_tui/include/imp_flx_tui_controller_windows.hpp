@@ -45,6 +45,14 @@ namespace flx
 			DWORD prev_console_mode{};
 			SMALL_RECT write_region{ 0, 0, DEFAULT_SIZE_X, DEFAULT_SIZE_Y };
 			flx::unique_ptr<CHAR_INFO[]> buffer{ new CHAR_INFO[DEFAULT_SIZE_X * DEFAULT_SIZE_Y] };
+			// Track mouse button states
+			bool leftButtonDown = false;
+			bool rightButtonDown = false;
+			COORD lastMousePos = { 0,0 };
+
+			// Buffer for reading input
+			INPUT_RECORD irInBuf[128];
+			DWORD cNumRead;
 
 #ifndef NDEBUG
 		flx_public:

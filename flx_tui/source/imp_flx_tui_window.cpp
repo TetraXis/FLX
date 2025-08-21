@@ -44,12 +44,12 @@ void flx::tui::window::draw_border() noexcept
 {
 	using namespace tui::characters;
 	using namespace tui::colors;
-	//using tui::characters::box_drawing;
+	using enum tui::characters::box_flags;
 
 	u16 x{}, y{}, i{};
 
 	// top
-	buffer_char[xy_to_idx<u16>(0, 0, buffer_size.x)] = box_drawing[R | D | DH | DV];
+	buffer_char[xy_to_idx<u16>(0, 0, buffer_size.x)] = udlr_to_char(NONE, SINGLE, NONE, DOUBLE);
 	buffer_char[xy_to_idx<u16>(1, 0, buffer_size.x)] = '[';
 	
 	if (buffer_size.x >= MIN_WIDTH_FOR_BUTTONS)
@@ -63,7 +63,7 @@ void flx::tui::window::draw_border() noexcept
 
 		for (x++; x < buffer_size.x - 10; x++)
 		{
-			buffer_char[xy_to_idx<u16>(x, 0, buffer_size.x)] = box_drawing[L | R | DH | DV];
+			buffer_char[xy_to_idx<u16>(x, 0, buffer_size.x)] = udlr_to_char(NONE, NONE, DOUBLE, DOUBLE);
 		}
 
 		buffer_char[xy_to_idx<u16>(buffer_size.x - 10, 0, buffer_size.x)] = '[';
@@ -91,30 +91,30 @@ void flx::tui::window::draw_border() noexcept
 
 		for (x++; x < buffer_size.x - 1; x++)
 		{
-			buffer_char[xy_to_idx<u16>(x, 0, buffer_size.x)] = box_drawing[L | R | DH | DV];
+			buffer_char[xy_to_idx<u16>(x, 0, buffer_size.x)] = udlr_to_char(NONE, NONE, DOUBLE, DOUBLE);
 		}
 	}
 
-	buffer_char[xy_to_idx<u16>(buffer_size.x - 1, 0, buffer_size.x)]	= box_drawing[L | D | DH | DV];
+	buffer_char[xy_to_idx<u16>(buffer_size.x - 1, 0, buffer_size.x)]	= udlr_to_char(NONE, SINGLE, DOUBLE, NONE);
 
 	// sides
 	for (y = 1; y < buffer_size.y - 1; y++)
 	{
-		buffer_char[xy_to_idx<u16>(0, y, buffer_size.x)] = box_drawing[U | D | DH | DV];
-		buffer_char[xy_to_idx<u16>(buffer_size.x - 1, y, buffer_size.x)] = box_drawing[U | D | DH | DV];
+		buffer_char[xy_to_idx<u16>(0, y, buffer_size.x)] = udlr_to_char(SINGLE, SINGLE, NONE, NONE);
+		buffer_char[xy_to_idx<u16>(buffer_size.x - 1, y, buffer_size.x)] = udlr_to_char(SINGLE, SINGLE, NONE, NONE);
 	}
 
 	// bottom
 	y = buffer_size.y - 1;
 
-	buffer_char[xy_to_idx<u16>(0, y, buffer_size.x)] = box_drawing[R | U | DH | DV];
+	buffer_char[xy_to_idx<u16>(0, y, buffer_size.x)] = udlr_to_char(SINGLE, NONE, NONE, SINGLE);
 
 	for (x = 1; x < buffer_size.x - 1; x++)
 	{
-		buffer_char[xy_to_idx<u16>(x, y, buffer_size.x)] = box_drawing[L | R | DH | DV];
+		buffer_char[xy_to_idx<u16>(x, y, buffer_size.x)] = udlr_to_char(NONE, NONE, SINGLE, SINGLE);
 	}
 
-	buffer_char[xy_to_idx<u16>(buffer_size.x - 1, y, buffer_size.x)] = box_drawing[L | U | DH | DV];
+	buffer_char[xy_to_idx<u16>(buffer_size.x - 1, y, buffer_size.x)] = udlr_to_char(SINGLE, NONE, SINGLE, NONE);
 }
 
 //#ifndef NDEBUG
