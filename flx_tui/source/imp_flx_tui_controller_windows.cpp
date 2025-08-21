@@ -54,22 +54,37 @@ void flx::tui::tui_controller_windows::start() noexcept
     t.start();
     while (true)
     {
-        PeekConsoleInputW(console_input, irInBuf, 128, &cNumRead);
-        //SetConsoleTitleA(std::to_string(t.elapsed_microseconds() < IMP_FLX_TUI_TICK_TARGET_US && cNumRead == 0).c_str());
-        //SetConsoleTitleA(std::to_string(cNumRead).c_str());
-        //std::cout << ((t.elapsed_microseconds() < IMP_FLX_TUI_TICK_TARGET_US && cNumRead == 0) ? "Skipping" : "Drawing") << '\n';
-        if (t.elapsed_microseconds() < IMP_FLX_TUI_TICK_TARGET_US && cNumRead == 0 /*&& (!PeekConsoleInputW(console_input, irInBuf, 128, &cNumRead) || cNumRead == 0)*/)
+#if FLX_TUI_UPDATE_STRATEGY == FLX_TUI_UPDATE_STRATEGY_DYNAMIC_SLEEP
+        WaitForSingleObject(console_input, IMP_FLX_TUI_TICK_TARGET_MS);
+#endif // FLX_TUI_UPDATE_STRATEGY == FLX_TUI_UPDATE_STRATEGY_DYNAMIC_SLEEP
+
+#if FLX_TUI_UPDATE_STRATEGY == FLX_TUI_UPDATE_STRATEGY_STATIC_BUSY_WAIT
+        if (t.elapsed_microseconds() < IMP_FLX_TUI_TICK_TARGET_US)
         {
             continue;
         }
+#endif // FLX_TUI_UPDATE_STRATEGY == FLX_TUI_UPDATE_STRATEGY_DYNAMIC_BUSY_WAIT
+
+#if FLX_TUI_UPDATE_STRATEGY == FLX_TUI_UPDATE_STRATEGY_DYNAMIC_BUSY_WAIT
+        PeekConsoleInputW(console_input, irInBuf, 128, &cNumRead);
+        if (t.elapsed_microseconds() < IMP_FLX_TUI_TICK_TARGET_US && cNumRead == 0)
+        {
+            continue;
+        }
+#endif // FLX_TUI_UPDATE_STRATEGY == FLX_TUI_UPDATE_STRATEGY_DYNAMIC_BUSY_WAIT
+
+#pragma region MAIN_LOOP
         process_input();
         tick(t.elapsed_milliseconds());
         //populate_buffer();
         //draw_buffer();
         ticks++;
+
+#if FLX_TUI_UPDATE_STRATEGY == FLX_TUI_UPDATE_STRATEGY_STATIC_SLEEP
+        Sleep(IMP_FLX_TUI_TICK_TARGET_MS - t.elapsed_milliseconds());
+#endif // FLX_TUI_UPDATE_STRATEGY == FLX_TUI_UPDATE_STRATEGY_STATIC_SLEEP
         t.stop();
-
-
+#pragma endregion MAIN_LOOP
 
 
         total_time -= delays[ticks % DELAYS_AMOUNT];
@@ -83,7 +98,6 @@ void flx::tui::tui_controller_windows::start() noexcept
         }
         SetConsoleTitleA(text.c_str());
 
-        //Sleep(IMP_FLX_TUI_TICK_TARGET_MS - t.elapsed_milliseconds());
         t.start();
         //Sleep(300);
     }

@@ -2,6 +2,8 @@
 
 // FLX_TUI_MAX_TPS can be used to set TPS limit
 
+// FLX_TUI_UPDATE_STRATEGY can be used to select an update strategy in main loop
+
 #include "imp_flx_tui_encoding.hpp"
 #include "imp_flx_tui_base.hpp"
 #include "imp_flx_tui_window.hpp"

@@ -1,6 +1,8 @@
 #ifndef IMP_FLX_TUI_CONTROLLER_HPP
 #define IMP_FLX_TUI_CONTROLLER_HPP
 
+// ===== TPS LIMITS ===== //
+
 #define FLX_TUI_DEFAULT_MAX_TPS 250
 
 #ifndef FLX_TUI_MAX_TPS
@@ -9,6 +11,33 @@
 
 #define IMP_FLX_TUI_TICK_TARGET_MS (1'000.0 / FLX_TUI_MAX_TPS)
 #define IMP_FLX_TUI_TICK_TARGET_US (1'000'000.0 / FLX_TUI_MAX_TPS)
+
+
+
+// ===== WAITING STRATEGY ===== //
+
+// Strategy of waiting by sleeping at the end of the main loop. TPS is locked. 
+// However, max TPS will be capped by OS clock resolution (expected ~64 TPS). Lowest CPU usage.
+#define FLX_TUI_UPDATE_STRATEGY_STATIC_SLEEP 0
+
+// Strategy of waiting by sleeping until input or timer. TPS will rise to match your input rate if necessary. 
+// However, max TPS in idle will be capped by OS clock resolution (expected ~64 TPS). Low CPU usage.
+#define FLX_TUI_UPDATE_STRATEGY_DYNAMIC_SLEEP 1
+
+// Strategy of waiting by checking the timer continuesly. TPS is static. High CPU usage.
+#define FLX_TUI_UPDATE_STRATEGY_STATIC_BUSY_WAIT 2
+
+// Strategy of waiting by checking the timer and user input continuesly. TPS will rise to match your input rate if necessary. Highest CPU usage.
+#define FLX_TUI_UPDATE_STRATEGY_DYNAMIC_BUSY_WAIT 3
+
+
+
+#define FLX_TUI_DEFAULT_UPDATE_STRATEGY FLX_TUI_UPDATE_STRATEGY_DYNAMIC_SLEEP
+
+#ifndef FLX_TUI_UPDATE_STRATEGY
+#define FLX_TUI_UPDATE_STRATEGY FLX_TUI_DEFAULT_UPDATE_STRATEGY
+#endif // !FLX_TUI_UPDATE_STRATEGY
+
 
 #include "flx_vec.hpp"
 #include "flx_unique_ptr.hpp"
