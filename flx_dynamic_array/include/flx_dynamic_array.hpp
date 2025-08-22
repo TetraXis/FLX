@@ -14,11 +14,12 @@
 
 namespace flx
 {
+	// Now assumes nothing will throw
+	// TODO: fix it, and check all the functions
 	template <typename ty, flx::unsigned_integral size_ty = u64>
 	struct dynamic_array
 	{
 		static constexpr size_ty PREALLOCATED_CAPACITY = 0;
-		static constexpr size_ty GROWTH_RATE = 2;
 
 		struct iterator
 		{
@@ -224,16 +225,18 @@ namespace flx
 			: size_(other.size_), capacity_(other.capacity_),
 			data_(other.data_)
 		{
-			other.data_ = static_cast<ty*>(::operator new(PREALLOCATED_CAPACITY * sizeof(ty)));
+			other.data_ = nullptr;
+			other.size_ = 0;
+			other.capacity_ = 0;
 		}
 
-		constexpr dynamic_array(u64 count, const ty& val = ty()) noexcept requires flx::copy_constructible<ty>
+		constexpr dynamic_array(const size_ty count, const ty& val = ty()) noexcept requires flx::copy_constructible<ty>
 		{
-			reallocate(count);
+			allocate_raw(count);
 
 			while (size_ != count)
 			{
-				new (&data_[size_]) ty(val);
+				::new (&data_[size_], true) ty(val);
 				++size_;
 			}
 		}
@@ -282,10 +285,10 @@ namespace flx
 		{
 			if (size_ >= capacity_)
 			{
-				reallocate();
+				reallocate(capacity_ + 1);
 			}
 
-			new (&data_[size_]) ty(val);
+			::new (&data_[size_], true) ty(val);
 			++size_;
 		}
 
@@ -293,7 +296,7 @@ namespace flx
 		{
 			if (size_ >= capacity_)
 			{
-				reallocate();
+				reallocate(capacity_ + 1);
 			}
 
 			data_[size_] = flx::move(val);
@@ -305,7 +308,7 @@ namespace flx
 		{
 			if (size_ >= capacity_)
 			{
-				reallocate();
+				reallocate(capacity_ + 1);
 			}
 
 			::new (&data_[size_], true) ty( flx::forward<val_ty>(vals)... );
@@ -394,7 +397,7 @@ namespace flx
 		}
 
 	flx_private:
-		constexpr void reallocate() noexcept
+		/*constexpr void reallocate() noexcept
 		{
 			capacity_ *= GROWTH_RATE;
 			if constexpr (PREALLOCATED_CAPACITY == 0)
@@ -417,13 +420,14 @@ namespace flx
 
 			::operator delete(data_);
 			data_ = new_data;
-		}
+		}*/
 
-		constexpr void reallocate(size_ty new_capacity) noexcept
+		constexpr void reallocate(const size_ty new_capacity) noexcept
 		{
-			assert(new_capacity > size_ && "flx_dynamic_array.hpp::dynamic_array::reallocate new capacity is smaller than size.");
+			capacity_ = calculate_growth(new_capacity);
 
-			capacity_ = new_capacity;
+			assert(capacity_ > size_ && "flx_dynamic_array.hpp::dynamic_array::reallocate new capacity is smaller than size.");
+
 			ty* new_data = static_cast<ty*>(::operator new(capacity_ * sizeof(ty)));
 
 			for (size_ty i = 0; i < size_; i++)
@@ -437,6 +441,23 @@ namespace flx
 
 			::operator delete(data_);
 			data_ = new_data;
+		}
+
+		// Allocates a chuck of [new_capacity]
+		constexpr void allocate_raw(const size_ty new_capacity)
+		{
+			assert(capacity_ > size_ && "flx_dynamic_array.hpp::dynamic_array::allocate_raw new capacity is smaller than size.");
+
+			capacity_ = new_capacity;
+			data_ = static_cast<ty*>(::operator new(capacity_ * sizeof(ty)));
+		}
+
+		// Should be called with (capacity + 1)
+		constexpr void calculate_growth(const size_ty new_capacity) const noexcept
+		{
+			size_ty desired = capacity_ + (capacity_ >> 1);
+
+			return desired > capacity_ ? desired : new_capacity;
 		}
 	}; // dynamic_array
 } // namespace flx

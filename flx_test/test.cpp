@@ -26,6 +26,8 @@ using namespace tui;
 int main()
 {
 	using namespace flx::tui::characters;
+
+	std::vector<int> a;
 	
 	tui::tui_controller ctrl;
 	flx::unique_ptr<tui::window> wnd(new tui::window("Balls", { 80, 20 }));

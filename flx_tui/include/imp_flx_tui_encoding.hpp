@@ -51,7 +51,7 @@ namespace flx
 
 #if FLX_TUI_ENCODING == FLX_TUI_ENCODING_CP437
 
-#error "imp_flx_tui_encoding.hpp: Code page 437 is not supported. Set FLX_TUI_ENCODING to FLX_TUI_ENCODING_UTF16."
+#error "imp_flx_tui_encoding.hpp Code page 437 is not supported. Set FLX_TUI_ENCODING to FLX_TUI_ENCODING_UTF16."
 
             //constexpr c16 box_drawing[64] =
             //{
