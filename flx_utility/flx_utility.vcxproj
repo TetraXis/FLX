@@ -25,8 +25,17 @@
     <ClCompile Include="source\flx_utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\flx_concepts\flx_concepts.vcxproj">
+      <Project>{3075ec5a-35ef-4efe-8f03-61606df9493c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\flx_new\flx_new.vcxproj">
+      <Project>{5887c9b2-eff0-4a1c-a6fe-6b86a60f573f}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\flx_types\flx_types.vcxproj">
       <Project>{8d091046-4017-4dd8-839a-64bf21e1c48e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\flx_type_traits\flx_type_traits.vcxproj">
+      <Project>{2b810ae7-c3e5-459b-9ac5-9bf917186d18}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -110,7 +119,7 @@
       </PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)flx_new\include;$(SolutionDir)flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -133,7 +142,7 @@
       </PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)flx_new\include;$(SolutionDir)flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -155,7 +164,7 @@
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)flx_new\include;$(SolutionDir)flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -178,7 +187,7 @@
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)flx_new\include;$(SolutionDir)flx_concepts\include;$(SolutionDir)flx_type_traits\include;$(SolutionDir)flx_types\include;$(ProjectDir)include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>

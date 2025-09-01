@@ -16,14 +16,8 @@ namespace flx
 	// ===== destructible ===== //
 
 	template <typename ty>
-	concept destructible = is_destructible<ty>;
-
-
-
-	// ===== nothrow_destructible ===== //
-
-	template <typename ty>
-	concept nothrow_destructible = is_nothrow_destructible<ty>;
+	concept destructible = __is_nothrow_destructible(ty);
+	// C++20 Standard requires 'destructible concept' to check for 'nothrow destructible'. See [concept.destructible].
 
 
 
@@ -59,6 +53,10 @@ namespace flx
 		constructible_from<ty, ty&> && convertible_to<ty&, ty> &&
 		constructible_from<ty, const ty> && convertible_to<const ty, ty> &&
 		constructible_from<ty, const ty&> && convertible_to<const ty&, ty>;
+
+
+
+	// ===== nothrow_copy_constructible ===== //
 
 
 

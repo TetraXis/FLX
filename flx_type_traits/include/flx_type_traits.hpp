@@ -125,18 +125,18 @@ namespace flx
 
 #if defined(__clang__) || defined(_MSC_VER)
 	// Clang,  MSVC
-	#define FLX_IS_CLASS(ty) __is_class(ty)
+	#define IMP_FLX_IS_CLASS(ty) __is_class(ty)
 #elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
 	// GCC, Intel ICC, EDG-based compilers
-	#define FLX_IS_CLASS(ty) __is_class(ty)
+	#define IMP_FLX_IS_CLASS(ty) __is_class(ty)
 #else
 	// unknown compiler - raise error
 	#error "flx_type_traits.hpp::is_class unkown compiler. Could not generate 'is_class' trait. Replace with your eqivalent of '__is_class' in the 'flx_type_traits.hpp' header."
-	#define FLX_IS_CLASS(ty) false // your replacement here
+	#define IMP_FLX_IS_CLASS(ty) false // your replacement here
 #endif
 
 	template <typename ty>
-	constexpr bool is_class = FLX_IS_CLASS(ty);
+	constexpr bool is_class = IMP_FLX_IS_CLASS(ty);
 
 
 
@@ -144,36 +144,44 @@ namespace flx
 
 #if defined(__clang__) || defined(_MSC_VER)
 	// Clang,  MSVC
-	#define FLX_IS_DESTRUCTIBLE(ty) __is_destructible(ty)
+	#define IMP_FLX_IS_DESTRUCTIBLE(ty) __is_destructible(ty)
 #elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
 	// GCC, Intel ICC, EDG-based compilers
-	#define FLX_IS_DESTRUCTIBLE(ty) __has_destructor(ty)
+	#define IMP_FLX_IS_DESTRUCTIBLE(ty) __has_destructor(ty)
 #else
 	// unknown compiler - raise error
 	#error "flx_type_traits.hpp::is_destructible unkown compiler. Could not generate 'is_destructible' trait. Replace with your eqivalent of '__has_destructor' in the 'flx_type_traits.hpp' header."
-	#define FLX_IS_DESTRUCTIBLE(ty) false // your replacement here
+	#define IMP_FLX_IS_DESTRUCTIBLE(ty) false // your replacement here
 #endif
 
 	template <typename ty>
-	constexpr bool is_destructible = FLX_IS_DESTRUCTIBLE(ty);
+	constexpr bool is_destructible = IMP_FLX_IS_DESTRUCTIBLE(ty);
+
+
+
+	// ===== is_nothrow_constructible ===== //
+
+	template <typename ty, typename... args>
+	constexpr bool is_nothrow_constructible = __is_nothrow_constructible(ty, args...); // Cannot create a macro to accepts variadic arguments.
+
 
 
 	// ===== is_nothrow_destructible ===== //
 
 #if defined(__clang__) || defined(_MSC_VER)
 	// Clang, MSVC
-	#define FLX_IS_NOTHROW_DESTRUCTIBLE(ty) __is_nothrow_destructible(ty)
+	#define IMP_FLX_IS_NOTHROW_DESTRUCTIBLE(ty) __is_nothrow_destructible(ty)
 #elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
 	// GCC, Intel ICC, EDG-based compilers
-	#define FLX_IS_NOTHROW_DESTRUCTIBLE(ty) __has_nothrow_destructor(ty)
+	#define IMP_FLX_IS_NOTHROW_DESTRUCTIBLE(ty) __has_nothrow_destructor(ty)
 #else
 	// unknown compiler - raise error
 	#error "flx_type_traits.hpp::is_nothrow_destructible unknown compiler. Could not generate 'is_nothrow_destructible' trait. Replace with your equivalent of '__has_nothrow_destructor' in the 'flx_type_traits.hpp' header."
-	#define FLX_IS_NOTHROW_DESTRUCTIBLE(ty) false // your replacement here
+	#define IMP_FLX_IS_NOTHROW_DESTRUCTIBLE(ty) false // your replacement here
 #endif
 
 	template <typename ty>
-	constexpr bool is_nothrow_destructible = FLX_IS_NOTHROW_DESTRUCTIBLE(ty);
+	constexpr bool is_nothrow_destructible = IMP_FLX_IS_NOTHROW_DESTRUCTIBLE(ty);
 
 
 
@@ -181,18 +189,18 @@ namespace flx
 
 #if defined(__clang__) || defined(_MSC_VER)
 	// Clang,  MSVC
-	#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) __is_trivially_constructible(ty)
+	#define IMP_FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) __is_trivially_constructible(ty)
 #elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
 	// GCC, Intel ICC, EDG-based compilers
-	#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) __has_trivial_constructor(ty)
+	#define IMP_FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) __has_trivial_constructor(ty)
 #else
 	// unknown compiler - raise error
 	#error "flx_type_traits.hpp::is_trivially_constructible unkown compiler. Could not generate 'is_trivially_constructible' trait. Replace with your eqivalent of '__has_trivial_constructor' in the 'flx_type_traits.hpp' header."
-	#define FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) false // your replacement here
+	#define IMP_FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty) false // your replacement here
 #endif
 
 	template <typename ty>
-	constexpr bool is_trivially_constructible = FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty);
+	constexpr bool is_trivially_constructible = IMP_FLX_IS_TRIVIALLY_CONSTRUCTIBLE(ty);
 
 
 
@@ -200,18 +208,18 @@ namespace flx
 
 #if defined(__clang__) || defined(_MSC_VER)
 	// Clang,  MSVC
-	#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) __is_trivially_destructible(ty)
+	#define IMP_FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) __is_trivially_destructible(ty)
 #elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
 	// GCC, Intel ICC, EDG-based compilers
-	#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) __has_trivial_destructor(ty)
+	#define IMP_FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) __has_trivial_destructor(ty)
 #else
 	// unknown compiler - raise error
 	#error "flx_type_traits.hpp::is_trivially_destructible unkown compiler. Could not generate 'is_trivially_destructible' trait. Replace with your eqivalent of '__has_trivial_destructor' in the 'flx_type_traits.hpp' header."
-	#define FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) false // your replacement here
+	#define IMP_FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty) false // your replacement here
 #endif
 
 	template <typename ty>
-	constexpr bool is_trivially_destructible = FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty);
+	constexpr bool is_trivially_destructible = IMP_FLX_IS_TRIVIALLY_DESTRUCTIBLE(ty);
 
 
 
@@ -265,6 +273,25 @@ namespace flx
 
 
 
+	// ===== is_nothrow_copy_constructible ===== //
+
+#if defined(__clang__) || defined(_MSC_VER)
+	// Clang, MSVC
+#define IMP_FLX_IS_NOTHROW_COPY_CONSTRUCTIBLE(ty) __is_nothrow_constructible(ty, add_lvalue_reference<ty) // TODO: here
+#elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
+	// GCC, Intel ICC, EDG-based compilers
+#define IMP_FLX_IS_NOTHROW_COPY_CONSTRUCTIBLE(ty) __is_nothrow_constructible(ty, add_lvalue_reference<ty)
+#else
+	// unknown compiler - raise error
+	#error "flx_type_traits.hpp::is_nothrow_copy_constructible unknown compiler. Could not generate 'is_nothrow_copy_constructible' trait. Replace with your equivalent of '__is_nothrow_constructible' in the 'flx_type_traits.hpp' header."
+	#define IMP_FLX_IS_NOTHROW_COPY_CONSTRUCTIBLE(ty) false // your replacement here
+#endif
+
+	template <typename ty>
+	constexpr bool is_nothrow_copy_constructible = IMP_FLX_IS_NOTHROW_COPY_CONSTRUCTIBLE(ty);
+
+
+
 	// ===== declval ===== //
 
 	template<typename ty>
@@ -296,7 +323,7 @@ namespace flx
 	template<typename ty>
 	constexpr ty&& forward(remove_reference<ty>&& val) noexcept
 	{
-		static_assert(!is_lvalue_reference<ty>, "flx_type_traits.hpp::forward bad forward call");
+		static_assert(!is_lvalue_reference<ty>, "flx_type_traits.hpp::forward bad forward call.");
 		return static_cast<ty&&>(val);
 	}
 } // namespace flx
