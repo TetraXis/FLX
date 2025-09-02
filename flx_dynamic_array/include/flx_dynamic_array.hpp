@@ -234,8 +234,7 @@ namespace flx
 			::operator delete(data_);
 		}
 
-		// TODO: nothrow copy
-		constexpr dynamic_array(const dynamic_array& other) noexcept requires flx::copy_constructible<ty>
+		constexpr dynamic_array(const dynamic_array& other) noexcept requires flx::is_nothrow_copy_constructible<ty>
 		{
 			try
 			{
@@ -268,7 +267,7 @@ namespace flx
 			other.capacity_ = 0;
 		}
 
-		constexpr dynamic_array(const size_ty count, const ty& val = ty()) noexcept requires flx::copy_constructible<ty>
+		constexpr dynamic_array(const size_ty count, const ty& val = ty()) noexcept requires flx::is_nothrow_copy_constructible<ty>
 		{
 			allocate_raw_array(count);
 
@@ -320,7 +319,7 @@ namespace flx
 			return size_ == 0;
 		}
 
-		constexpr void push_back(const ty& val) noexcept requires flx::copy_constructible<ty>
+		constexpr void push_back(const ty& val) noexcept requires flx::is_nothrow_copy_constructible<ty>
 		{
 			if (size_ >= capacity_)
 			{
@@ -469,8 +468,23 @@ namespace flx
 
 			assert(capacity_ > size_ && "flx_dynamic_array.hpp::dynamic_array::reallocate: new capacity is smaller than size.");
 
-			//ty* new_data = static_cast<ty*>(::operator new(capacity_ * sizeof(ty)));
-			ty* new_data = static_cast<ty*>(flx::allocate(capacity_ * sizeof(ty), flx::nothrow));
+			try
+			{
+				ty* new_data = static_cast<ty*>(::operator new(capacity_ * sizeof(ty)));
+			}
+			catch (...)
+			{
+				capacity_ = 0;
+				size_ = 0;
+				::operator delete(data_);
+				data_ = nullptr;
+
+				assert(false, "flx_dynamic_array.hpp::dynamic_array::reallocate: bad alloc.");
+				last_error = "flx_dynamic_array.hpp::dynamic_array::reallocate: bad alloc.";
+
+				return;
+			}
+			//ty* new_data = static_cast<ty*>(flx::allocate(capacity_ * sizeof(ty), flx::nothrow));
 
 			for (size_ty i = 0; i < size_; i++)
 			{
@@ -494,7 +508,19 @@ namespace flx
 			assert(capacity_ > size_ && "flx_dynamic_array.hpp::dynamic_array::allocate_raw_array: new capacity is smaller than size.");
 
 			capacity_ = new_capacity;
-			data_ = static_cast<ty*>(::operator new(capacity_ * sizeof(ty)));
+			try
+			{
+				data_ = static_cast<ty*>(::operator new(capacity_ * sizeof(ty)));
+			}
+			catch (...)
+			{
+				data_ = nullptr;
+				capacity_ = 0;
+				size_ = 0;
+
+				assert(false, "flx_dynamic_array.hpp::dynamic_array::allocate_raw_array: bad alloc.");
+				last_error = "flx_dynamic_array.hpp::dynamic_array::allocate_raw_array: bad alloc.";
+			}
 			//data_ = static_cast<ty*>(flx::allocate(capacity_ * sizeof(ty)), flx::nothrow);
 		}
 

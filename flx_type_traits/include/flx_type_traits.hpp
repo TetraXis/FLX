@@ -248,6 +248,43 @@ namespace flx
 
 
 
+	// ===== add_lvalue_reference ===== //
+
+	template <typename ty>
+	struct imp_add_lvalue_reference
+	{
+		using type = ty&;
+	};
+
+	template <>
+	struct imp_add_lvalue_reference<void>
+	{
+		using type = void;
+	};
+
+	template <>
+	struct imp_add_lvalue_reference<const void>
+	{
+		using type = const void;
+	};
+
+	template <>
+	struct imp_add_lvalue_reference<volatile void>
+	{
+		using type = volatile void;
+	};
+
+	template <>
+	struct imp_add_lvalue_reference<const volatile void>
+	{
+		using type = const volatile void;
+	};
+
+	template <typename ty>
+	using add_lvalue_reference = typename imp_add_lvalue_reference<ty>::type;
+
+
+
 	// ===== remove_reference ===== //
 
 	template <typename ty>
@@ -277,10 +314,10 @@ namespace flx
 
 #if defined(__clang__) || defined(_MSC_VER)
 	// Clang, MSVC
-#define IMP_FLX_IS_NOTHROW_COPY_CONSTRUCTIBLE(ty) __is_nothrow_constructible(ty, add_lvalue_reference<ty) // TODO: here
+#define IMP_FLX_IS_NOTHROW_COPY_CONSTRUCTIBLE(ty) __is_nothrow_constructible(ty, add_lvalue_reference<ty>)
 #elif defined(__GNUC__) || defined(__INTEL_COMPILER) || defined(__EDG__)
 	// GCC, Intel ICC, EDG-based compilers
-#define IMP_FLX_IS_NOTHROW_COPY_CONSTRUCTIBLE(ty) __is_nothrow_constructible(ty, add_lvalue_reference<ty)
+#define IMP_FLX_IS_NOTHROW_COPY_CONSTRUCTIBLE(ty) __is_nothrow_constructible(ty, add_lvalue_reference<ty>)
 #else
 	// unknown compiler - raise error
 	#error "flx_type_traits.hpp::is_nothrow_copy_constructible unknown compiler. Could not generate 'is_nothrow_copy_constructible' trait. Replace with your equivalent of '__is_nothrow_constructible' in the 'flx_type_traits.hpp' header."

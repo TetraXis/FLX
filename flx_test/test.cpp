@@ -8,9 +8,7 @@
 //#include <iostream>
 int main()
 {
-	flx::dynamic_array<int> a;
-
-	std::is_nothrow_copy_constructible<int> a;
+	flx::dynamic_array<int> a(10, 5);
 
 	a.push_back(1);
 
