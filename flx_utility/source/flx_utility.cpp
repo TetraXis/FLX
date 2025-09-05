@@ -2,7 +2,16 @@
 
 const flx::i8* flx::last_error = nullptr;
 
-void (*flx::on_terminate) () noexcept = []() noexcept {};
+void (*flx::on_terminate) () noexcept = []() noexcept
+	{
+		// Make program crash
+		*(int*)(nullptr) = 0;
+
+		while (true)
+		{
+			*(int*)(nullptr) = 0;
+		}
+	};
 
 void* flx::allocate(const flx::imp::size_type size)
 {
@@ -26,17 +35,14 @@ void flx::deallocate(void* ptr) noexcept
 	::operator delete(ptr);
 }
 
+void flx::terminate() noexcept
+{
+	on_terminate();
+}
+
 void flx::terminate(const flx::c8* const error_msg) noexcept
 {
 	last_error = error_msg;
 
 	on_terminate();
-
-	// Make program crash
-	*(int*)(nullptr) = 0;
-
-	while (true)
-	{
-		*(int*)(nullptr) = 0;
-	}
 }

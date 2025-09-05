@@ -23,6 +23,7 @@ namespace flx
 
 	void deallocate(void* ptr) noexcept;
 
+	void terminate() noexcept;
 	void terminate(const c8* const error_msg) noexcept;
 
 	// construct_at is always noexcept

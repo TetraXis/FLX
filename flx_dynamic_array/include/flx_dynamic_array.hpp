@@ -216,7 +216,8 @@ namespace flx
 				capacity_ = 0;
 
 				assert(false, "flx_dynamic_array.hpp::dynamic_array::dynamic_array(): bad alloc.");
-				last_error = "flx_dynamic_array.hpp::dynamic_array::dynamic_array(): bad alloc.";
+
+				flx::terminate("flx_dynamic_array.hpp::dynamic_array::dynamic_array(): bad alloc.");
 			}
 		}
 
@@ -254,7 +255,8 @@ namespace flx
 				size_ = 0;
 
 				assert(false, "flx_dynamic_array.hpp::dynamic_array::dynamic_array(const dynamic_array&): bad alloc.");
-				last_error = "flx_dynamic_array.hpp::dynamic_array::dynamic_array(const dynamic_array&): bad alloc.";
+
+				flx::terminate("flx_dynamic_array.hpp::dynamic_array::dynamic_array(const dynamic_array&): bad alloc.");
 			}
 		}
 
@@ -480,7 +482,8 @@ namespace flx
 				data_ = nullptr;
 
 				assert(false, "flx_dynamic_array.hpp::dynamic_array::reallocate: bad alloc.");
-				last_error = "flx_dynamic_array.hpp::dynamic_array::reallocate: bad alloc.";
+
+				flx::terminate("flx_dynamic_array.hpp::dynamic_array::reallocate: bad alloc.");
 
 				return;
 			}
