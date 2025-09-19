@@ -2,17 +2,21 @@
 
 #include "flx_dynamic_array.hpp"
 
+#include <intrin.h>
+#include <vcruntime_new.h>
+
 #include <vector>
 #include <iostream>
 
 //#include <iostream>
 int main()
 {
-	flx::dynamic_array<int> a(10, 5);
+	//constexpr flx::dynamic_array<int> a(10, 5);
+	constexpr std::vector<int> a{};
 
-	a.push_back(1);
+	
 
-	return a[0];
+	return a.max_size();
 }
 
 //#include "flx_unique_ptr.hpp"

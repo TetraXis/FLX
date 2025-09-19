@@ -7,8 +7,6 @@
 #include "flx_concepts.hpp"
 #include "flx_utility.hpp"
 
-//TODO: add exceptions
-
 #ifndef NDEBUG
 #include <cassert>
 #else
@@ -17,8 +15,6 @@
 
 namespace flx
 {
-	// Now assumes nothing will throw
-	// TODO: fix it, and check all the functions
 	template <typename ty, flx::unsigned_integral size_ty = u64>
 	struct dynamic_array
 	{
@@ -196,7 +192,7 @@ namespace flx
 	flx_private:
 		//ty* data_ = static_cast<ty*>(flx::allocate(PREALLOCATED_CAPACITY * sizeof(ty), flx::nothrow));
 		//ty* data_ = static_cast<ty*>(::operator new (PREALLOCATED_CAPACITY * sizeof(ty), flx::nothrow, flx::use_flx));
-		ty* data_{};
+		ty*		data_{};
 		size_ty size_{};
 		size_ty capacity_{};
 
@@ -215,7 +211,7 @@ namespace flx
 				size_ = 0;
 				capacity_ = 0;
 
-				assert(false, "flx_dynamic_array.hpp::dynamic_array::dynamic_array(): bad alloc.");
+				assert(false && "flx_dynamic_array.hpp::dynamic_array::dynamic_array(): bad alloc.");
 
 				flx::terminate("flx_dynamic_array.hpp::dynamic_array::dynamic_array(): bad alloc.");
 			}
@@ -223,13 +219,7 @@ namespace flx
 
 		constexpr ~dynamic_array() noexcept
 		{
-			if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)
-			{
-				for (size_ty i = 0; i < size_; ++i)
-				{
-					data_[i].~ty();
-				}
-			}
+			clear();
 
 			//flx::deallocate(data_);
 			::operator delete(data_);
@@ -239,7 +229,7 @@ namespace flx
 		{
 			try
 			{
-				data_(static_cast<ty*>(::operator new (other.capacity_ * sizeof(ty))));
+				data_ = static_cast<ty*>(::operator new (other.capacity_ * sizeof(ty)));
 				capacity_ = other.capacity_;
 				size_ = 0;
 				for (size_ = 0; size_ < other.size_; size_++)
@@ -254,7 +244,7 @@ namespace flx
 				capacity_ = 0;
 				size_ = 0;
 
-				assert(false, "flx_dynamic_array.hpp::dynamic_array::dynamic_array(const dynamic_array&): bad alloc.");
+				assert(false && "flx_dynamic_array.hpp::dynamic_array::dynamic_array(const dynamic_array&): bad alloc.");
 
 				flx::terminate("flx_dynamic_array.hpp::dynamic_array::dynamic_array(const dynamic_array&): bad alloc.");
 			}
@@ -281,7 +271,55 @@ namespace flx
 			}
 		}
 
+		constexpr dynamic_array& operator= (const dynamic_array& other) noexcept requires flx::is_nothrow_copy_constructible<ty>
+		{
+			clear();
+
+			if (capacity_ < other.size_)
+			{
+				try
+				{
+					::operator delete(data_);
+					data_ = static_cast<ty*>(::operator new (other.size_ * sizeof(ty)));
+				}
+				catch (...)
+				{
+					data_ = nullptr;
+					capacity_ = 0;
+					size_ = 0;
+
+					assert(false && "flx_dynamic_array.hpp::dynamic_array::operator=: bad alloc.");
+
+					flx::terminate("flx_dynamic_array.hpp::dynamic_array::operator=: bad alloc.");
+				}
+			}
+
+			for (size_ = 0; size_ < other.size_; size_++)
+			{
+				//::new (&data_[size_], true) ty(other.data_[size_]);
+				flx::copy_construct_at(&data_[size_], other.data_[size_]);
+			}
+
+			return *this;
+		}
+
+		constexpr void clear() noexcept
+		{
+			if constexpr (flx::is_class<ty> && !flx::is_trivially_destructible<ty>)
+			{
+				while (size_ > 0)
+				{
+					data_[--size_].~ty();
+				}
+			}
+		}
+
 		constexpr ty* data() noexcept
+		{
+			return data_;
+		}
+
+		constexpr const ty* data() const noexcept
 		{
 			return data_;
 		}
@@ -319,6 +357,12 @@ namespace flx
 		constexpr bool empty() const noexcept
 		{
 			return size_ == 0;
+		}
+
+		constexpr size_ty max_size() const noexcept
+		{
+			size_ty temp = 0;
+			return --temp;
 		}
 
 		constexpr void push_back(const ty& val) noexcept requires flx::is_nothrow_copy_constructible<ty>
@@ -470,9 +514,11 @@ namespace flx
 
 			assert(capacity_ > size_ && "flx_dynamic_array.hpp::dynamic_array::reallocate: new capacity is smaller than size.");
 
+			ty* new_data{};
+
 			try
 			{
-				ty* new_data = static_cast<ty*>(::operator new(capacity_ * sizeof(ty)));
+				new_data = static_cast<ty*>(::operator new(capacity_ * sizeof(ty)));
 			}
 			catch (...)
 			{
@@ -481,7 +527,7 @@ namespace flx
 				::operator delete(data_);
 				data_ = nullptr;
 
-				assert(false, "flx_dynamic_array.hpp::dynamic_array::reallocate: bad alloc.");
+				assert(false && "flx_dynamic_array.hpp::dynamic_array::reallocate: bad alloc.");
 
 				flx::terminate("flx_dynamic_array.hpp::dynamic_array::reallocate: bad alloc.");
 
@@ -508,7 +554,7 @@ namespace flx
 		// Allocates a chuck of [new_capacity]
 		constexpr void allocate_raw_array(const size_ty new_capacity)
 		{
-			assert(capacity_ > size_ && "flx_dynamic_array.hpp::dynamic_array::allocate_raw_array: new capacity is smaller than size.");
+			assert(new_capacity > size_ && "flx_dynamic_array.hpp::dynamic_array::allocate_raw_array: new capacity is smaller than size.");
 
 			capacity_ = new_capacity;
 			try
@@ -521,8 +567,8 @@ namespace flx
 				capacity_ = 0;
 				size_ = 0;
 
-				assert(false, "flx_dynamic_array.hpp::dynamic_array::allocate_raw_array: bad alloc.");
-				last_error = "flx_dynamic_array.hpp::dynamic_array::allocate_raw_array: bad alloc.";
+				assert(false && "flx_dynamic_array.hpp::dynamic_array::allocate_raw_array: bad alloc.");
+				flx::terminate("flx_dynamic_array.hpp::dynamic_array::allocate_raw_array: bad alloc.");
 			}
 			//data_ = static_cast<ty*>(flx::allocate(capacity_ * sizeof(ty)), flx::nothrow);
 		}
@@ -530,7 +576,12 @@ namespace flx
 		// Should be called with (capacity + 1)
 		constexpr size_ty calculate_growth(const size_ty new_capacity) const noexcept
 		{
-			size_ty desired = capacity_ + (capacity_ >> 1);
+			if (capacity_ > max_size() - (capacity_ >> 1))
+			{
+				return max_size();
+			}
+
+			const size_ty desired = capacity_ + (capacity_ >> 1);
 
 			return desired > capacity_ ? desired : new_capacity;
 		}
