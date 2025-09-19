@@ -1,0 +1,34 @@
+<Project>
+
+	<Target Name="ShowLoaded" BeforeTargets="Build">
+		<Message Text="===== Directory.Build.props LOADED for $(MSBuildProjectName) =====" Importance="high" />
+	</Target>
+
+	<Import Project="Settings.Shared.props" />
+
+	<PropertyGroup>
+		<_SourceDirExists Condition="Exists('$(ProjectDir)source')">true</_SourceDirExists>
+		<_SourceDirExists Condition="'$(_SourceDirExists)' == ''">false</_SourceDirExists>
+
+		<_HasMainFile Condition="'$(_SourceDirExists)' == 'true' and 
+                     (Exists('$(ProjectDir)source\main.cpp') or 
+                      Exists('$(ProjectDir)source\main.cxx') or 
+                      Exists('$(ProjectDir)source\main.cc') or 
+                      Exists('$(ProjectDir)source\main.c'))">true</_HasMainFile>
+		<_HasMainFile Condition="'$(_HasMainFile)' == ''">false</_HasMainFile>
+
+		<_HasSourceFiles Condition="'$(_SourceDirExists)' == 'true'">true</_HasSourceFiles>
+		<_HasSourceFiles Condition="'$(_HasSourceFiles)' == ''">false</_HasSourceFiles>
+
+		<_ProjectType Condition="!$(_SourceDirExists) or !$(_HasSourceFiles)">Header</_ProjectType>
+		<_ProjectType Condition="$(_SourceDirExists) and $(_HasMainFile)">Application</_ProjectType>
+		<_ProjectType Condition="$(_SourceDirExists) and $(_HasSourceFiles) and !$(_HasMainFile)">Library</_ProjectType>
+	</PropertyGroup>
+
+	<ImportGroup>
+		<Import Condition="'$(_ProjectType)' == 'Header'" Project="Settings.Header.props" />
+		<Import Condition="'$(_ProjectType)' == 'Application'" Project="Settings.Application.props" />
+		<Import Condition="'$(_ProjectType)' == 'Library'" Project="Settings.Lib.props" />
+	</ImportGroup>
+
+</Project>

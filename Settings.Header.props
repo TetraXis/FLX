@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Target Name="ShowLoadedHeader" BeforeTargets="Build">
+		<Message Text="----- Settings.Header.props LOADED for $(MSBuildProjectName) -----" Importance="high" />
+	</Target>
+
+	<PropertyGroup>
+		<OutputPath>$(SolutionDir)bin\$(PlatformDisplayName)\$(ConfigurationDisplayName)\flx\$(MSBuildProjectName)\</OutputPath>
+		<IntDir>$(SolutionDir)obj\$(PlatformDisplayName)\$(ConfigurationDisplayName)\$(MSBuildProjectName)\</IntDir>
+		<OutDir>$(OutputPath)</OutDir>
+		<ConfigurationType>Utility</ConfigurationType>
+	</PropertyGroup>
+
+	<Target Name="CopyHeaders" AfterTargets="Build">
+		<ItemGroup>
+			<HeaderFiles Include="$(ProjectDir)include\**\*.*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(HeaderFiles)" DestinationFolder="$(SolutionDir)bin\$(PlatformDisplayName)\$(ConfigurationDisplayName)\flx\$(MSBuildProjectName)\include\%(RecursiveDir)" />
+		<Copy SourceFiles="@(HeaderFiles)" DestinationFolder="$(SharedLibPath)\%(RecursiveDir)" />
+	</Target>
+
+</Project>

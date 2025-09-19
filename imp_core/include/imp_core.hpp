@@ -1,0 +1,212 @@
+#ifndef IMP_FLX_IMP_CORE_HPP_
+#define IMP_FLX_IMP_CORE_HPP_
+
+/// ====== Main header for internals ====== ///
+// Settings:
+// FLX_ALL_MEMBERS_ARE_PUBLIC:	Define if you need all class members to become public.
+// FLX_BUILDING_SHARED:			Define when building FLX as a dynamic library. (unchecked functionality)
+// FLX_USING_SHARED:			Define when using FLX as a dynamic library. (unchecked functionality, not even sure when this would be used)
+
+#define FLX_VERSION_MAJOR	0
+#define FLX_VERSION_MINOR	0
+#define FLX_VERSION_PATCH	1
+#define FLX_VERSION			"0.0.1"
+
+
+
+// ===== compiler ===== //
+
+#define IMP_FLX_COMPILER_UNKNOWN_	(-1)
+#define IMP_FLX_COMPILER_MSVC_		0
+#define IMP_FLX_COMPILER_GCC_		1
+#define IMP_FLX_COMPILER_CLANG_		2
+
+#if defined(_MSC_VER)
+	#define IMP_FLX_COMPILER_ IMP_FLX_COMPILER_MSVC_
+#elif defined(__GNUC__)
+	#define IMP_FLX_COMPILER_ IMP_FLX_COMPILER_GCC_
+#elif defined(__clang__)
+	#define IMP_FLX_COMPILER_ IMP_FLX_COMPILER_CLANG_
+#else
+	#define IMP_FLX_COMPILER_ IMP_FLX_COMPILER_UNKNOWN_
+	#error "Unknown compiler. Some code may break. You may remove this error at your own risk."
+#endif // compiler
+
+
+
+// ===== platform ===== //
+
+#define IMP_FLX_PLATFORM_UNKNOWN_	(-1)
+#define IMP_FLX_PLATFORM_WINDOWS_	0
+#define IMP_FLX_PLATFORM_LINUX_		1
+#define IMP_FLX_PLATFORM_APPLE_		2
+
+#if defined(_WIN32)
+	#define IMP_FLX_PLATFORM_ IMP_FLX_PLATFORM_WINDOWS_
+#elif defined(__linux__)
+	#define IMP_FLX_PLATFORM_ IMP_FLX_PLATFORM_LINUX_
+#elif defined(__APPLE__)
+	#define IMP_FLX_PLATFORM_ IMP_FLX_PLATFORM_APPLE_
+#else
+	#define IMP_FLX_PLATFORM_ IMP_FLX_PLATFORM_UNKNOWN_
+	#error "Unknown platform. Some code may break. You may remove this error at your own risk."
+#endif // platform
+
+
+
+// ===== architecture  ===== //
+
+#define IMP_FLX_ARCH_UNKNOWN_	(-1)
+#define IMP_FLX_ARCH_X86_		0
+#define IMP_FLX_ARCH_X64_		1
+
+#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_
+	#if defined(_M_IX86)
+		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_X86_
+	#elif defined(_M_X64) || defined(_M_AMD64)
+		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_X64_
+	#else
+		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_UNKNOWN_
+		#error "Uknown architecture. Some code may break. You may remove this error at your own risk."
+	#endif
+#else // assuming other compilers use same macros as GCC and clang
+	#if defined(__i386__) || defined(__i386)
+		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_X86_
+	#elif defined(__x86_64__)
+		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_X64_
+	#else
+		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_UNKNOWN_
+		#error "Uknown architecture. Some code may break. You may remove this error at your own risk."
+	#endif
+#endif // architecture
+
+
+
+// ===== configuration ===== //
+
+#define IMP_FLX_CONFIGURATION_UNKNOWN_	(-1)
+#define IMP_FLX_CONFIGURATION_DEBUG_	0
+#define IMP_FLX_CONFIGURATION_RELEASE_	1
+
+#if defined(NDEBUG)
+	#define IMP_FLX_CONFIGURATION_ IMP_FLX_CONFIGURATION_DEBUG_
+	#define FLX_RELEASE
+#else
+	#define IMP_FLX_CONFIGURATION_ IMP_FLX_CONFIGURATION_RELEASE_
+	#define FLX_DEBUG
+#endif // configuration
+
+
+
+// ===== C++ version ===== //
+
+#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ // MSVC uses '_MSVC_LANG' instead of 'cplusplus'
+	#define IMP_FLX_LANG_ _MSVC_LANG
+#else 
+	#define IMP_FLX_LANG_ __cplusplus
+#endif // Macro for MSVC
+
+#if IMP_FLX_LANG_ >= 202002L
+	#define IMP_FLX_HAS_CXX20_ 1
+#else
+	#define IMP_FLX_HAS_CXX20_ 0
+	#error "Unsupported C++ Standard. FLX requires C++20 or beyond."
+#endif // C++ version
+
+
+
+// ===== common macros ===== //
+
+#define FLX_		::flx::
+#define FLX_BEGIN_	namespace flx {
+#define FLX_END_	} // namespace flx
+
+#define IMP_		::flx::imp::
+#define IMP_BEGIN_	namespace flx { namespace imp {
+#define IMP_END_	}} // namespace imp
+
+#if defined(FLX_BUILDING_SHARED) // Building as a DLL/SO
+	#if IMP_FLX_PLATFORM_ == IMP_FLX_PLATFORM_WINDOWS_
+		#define FLX_API_ __declspec(dllexport)
+	#else
+		#define FLX_API_ __attribute__((visibility("default")))
+	#endif
+#elif defined(FLX_USING_SHARED) // Using as DLL/SO
+	#if IMP_FLX_PLATFORM_ == IMP_FLX_PLATFORM_WINDOWS_
+		#define FLX_API_ __declspec(dllimport)
+	#else
+		#define FLX_API_ __attribute__((visibility("default")))
+	#endif
+#else // Building as static lib
+	#define FLX_API_
+#endif // Macro for FLX_API_
+
+#if IMP_FLX_ARCH_ == IMP_FLX_ARCH_X86_
+#define IMP_FLX_SIZE_TYPE_ unsigned int
+#else // assuming other architectures are at least 64 bit
+#define IMP_FLX_SIZE_TYPE_ unsigned long long
+#endif // Macro for IMP_FLX_SIZE_TYPE_
+
+
+
+// ===== types ===== //
+
+#ifdef FLX_ALL_MEMBERS_ARE_PUBLIC
+	#define flx_public public
+	#define flx_protected public
+	#define flx_private public
+#else
+	#define flx_public public
+	#define flx_protected protected
+	#define flx_private private
+#endif // FLX_ALL_MEMBERS_ARE_PUBLIC
+
+FLX_BEGIN_
+
+inline namespace types
+{
+	using u0	= void;
+	using u00	= void;
+
+	using b8	= bool;
+	using b08	= bool;
+
+	using c8	= char;
+	using c08	= char;
+	using c16	= char16_t;
+	using c32	= char32_t;
+
+	using i8	= char;
+	using i08	= char;
+	using i16	= short;
+	using i32	= int;
+	using i64	= long long;
+
+	using u8	= unsigned char;
+	using u08	= unsigned char;
+	using u16	= unsigned short;
+	using u32	= unsigned int;
+	using u64	= unsigned long long;
+
+	using f32	= float;
+	using f64	= double;
+	using f80	= long double;
+
+	using szt	= IMP_FLX_SIZE_TYPE_;
+} // namespace types
+
+FLX_END_
+
+
+
+// ===== assert ===== //
+
+#if defined(FLX_DEBUG)
+	#include <cassert>
+#else
+	#define assert(expr) ((void)0)
+#endif // FLX_DEBUG
+
+
+
+#endif // IMP_FLX_IMP_CORE_HPP_

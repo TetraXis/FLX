@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+
+		<!-- Platform mapping -->
+		<PlatformDisplayName Condition="'$(Platform)' == 'x86'">Win32</PlatformDisplayName>
+		<PlatformDisplayName Condition="'$(Platform)' == 'Win32'">Win32</PlatformDisplayName>
+		<PlatformDisplayName Condition="'$(Platform)' == 'x64'">Win64</PlatformDisplayName>
+		<PlatformDisplayName Condition="'$(Platform)' == 'Win64'">Win64</PlatformDisplayName>
+		<PlatformDisplayName Condition="'$(PlatformDisplayName)' == ''">$(Platform)</PlatformDisplayName>
+
+		<!-- Configuration mapping -->
+		<ConfigurationDisplayName Condition="'$(Configuration)' == 'Debug'">Debug</ConfigurationDisplayName>
+		<ConfigurationDisplayName Condition="'$(Configuration)' == 'Release'">Release</ConfigurationDisplayName>
+		<ConfigurationDisplayName Condition="'$(Configuration)' == 'MaxOptimizations'">MaxOptimizations</ConfigurationDisplayName>
+		<ConfigurationDisplayName Condition="'$(ConfigurationDisplayName)' == ''">$(Configuration)</ConfigurationDisplayName>
+
+		<!-- Intermediate outputs -->
+		<BaseIntermediateOutputPath>$(SolutionDir)obj\$(PlatformDisplayName)\$(ConfigurationDisplayName)\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+		<IntermediateOutputPath>$(SolutionDir)obj\$(PlatformDisplayName)\$(ConfigurationDisplayName)\$(MSBuildProjectName)\</IntermediateOutputPath>
+		<MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
+		<TrackerLogDirectory>$(BaseIntermediateOutputPath)TrackerLogs\</TrackerLogDirectory>
+		<TLogLocation>$(TrackerLogDirectory)</TLogLocation>
+
+		<!-- Toolset -->
+		<PlatformToolset Condition="'$(VisualStudioVersion)' == '17.0'">v143</PlatformToolset>
+		<PlatformToolset Condition="'$(VisualStudioVersion)' == '16.0'">v142</PlatformToolset>
+
+		<!-- Additional include paths -->
+		<SharedLibPath>$(SolutionDir)shared\$(PlatformDisplayName)\$(ConfigurationDisplayName)\flx</SharedLibPath>
+		<IncludePath>$(SharedLibPath);$(ProjectDir)include;$(IncludePath)</IncludePath>
+
+		<!-- C++ standard -->
+		<CppStandard>stdcpp20</CppStandard>
+		<LanguageStandard>stdcpp20</LanguageStandard>
+
+		<!-- Warning level -->
+		<WarningLevel>Level4</WarningLevel>
+		<!--<TreatWarningAsError>true</TreatWarningAsError>-->
+
+		<!-- Precompiled headers -->
+		<PrecompiledHeader>NotUsing</PrecompiledHeader>
+		<UsePrecompiledHeader>false</UsePrecompiledHeader>
+
+		<!-- CRT linking -->
+		<RuntimeLibrary>MT</RuntimeLibrary>
+		<RuntimeLibrary Condition="'$(Configuration)' == 'Debug'">MTd</RuntimeLibrary>
+
+		<!-- Character set -->
+		<CharacterSet>Unicode</CharacterSet>
+
+		<!-- Debug information -->
+		<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		<UseDebugLibraries Condition="'$(Configuration)' == 'Debug'">true</UseDebugLibraries>
+		<TargetExt Condition="'$(Configuration)' == 'Debug'">.debug$(TargetExt)</TargetExt>
+
+		<!-- Release-specific settings -->
+		<WholeProgramOptimization Condition="'$(Configuration)' == 'Release' or '$(Configuration)' == 'MaxOptimizations'">true</WholeProgramOptimization>
+		<LinkIncremental Condition="'$(Configuration)' == 'Release' or '$(Configuration)' == 'MaxOptimizations'">false</LinkIncremental>
+
+		<!-- Instruction sets -->
+		<EnableEnhancedInstructionSet Condition="'$(Platform)' == 'x86' and '$(Configuration)' == 'Release'">StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+		<EnableEnhancedInstructionSet Condition="'$(Platform)' == 'x64' and '$(Configuration)' == 'Release'">NotSet</EnableEnhancedInstructionSet>
+		<EnableEnhancedInstructionSet Condition="'$(Configuration)' == 'MaxOptimizations' and '$(Platform)' == 'x86'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+		<EnableEnhancedInstructionSet Condition="'$(Configuration)' == 'MaxOptimizations' and '$(Platform)' == 'x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+	</PropertyGroup>
+
+	<ItemDefinitionGroup>
+		<ClCompile>
+			<!-- C++ standard -->
+			<LanguageStandard>stdcpp20</LanguageStandard>
+			<CppLanguageStandard>stdcpp20</CppLanguageStandard>
+
+			<!-- Warning level -->
+			<WarningLevel>Level4</WarningLevel>
+			<!--<TreatWarningAsError>true</TreatWarningAsError>-->
+
+			<!-- Precompiled headers -->
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<UsePrecompiledHeader>false</UsePrecompiledHeader>
+
+			<!-- Common settings -->
+			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<SDLCheck>true</SDLCheck>
+			<ConformanceMode>true</ConformanceMode>
+
+			<!-- Additional include paths -->
+			<AdditionalIncludeDirectories>$(SharedLibPath);$(SharedIncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+
+			<!-- Debug settings -->
+			<DebugInformationFormat Condition="'$(Configuration)' == 'Debug'">ProgramDatabase</DebugInformationFormat>
+			<Optimization Condition="'$(Configuration)' == 'Debug'">Disabled</Optimization>
+			<BasicRuntimeChecks Condition="'$(Configuration)' == 'Debug'">EnableFastChecks</BasicRuntimeChecks>
+			<RuntimeTypeInfo Condition="'$(Configuration)' == 'Debug'">true</RuntimeTypeInfo>
+			<FunctionLevelLinking Condition="'$(Configuration)' == 'Debug'">true</FunctionLevelLinking>
+			<MinimalRebuild Condition="'$(Platform)' == 'x86' and '$(Configuration)' == 'Debug'">true</MinimalRebuild>
+			<MinimalRebuild Condition="'$(Platform)' == 'x64' and '$(Configuration)' == 'Debug'">false</MinimalRebuild>
+
+			<!-- Release settings -->
+			<Optimization Condition="'$(Configuration)' == 'Release'">MaxSpeed</Optimization>
+			<IntrinsicFunctions Condition="'$(Configuration)' == 'Release'">true</IntrinsicFunctions>
+			<FavorSizeOrSpeed Condition="'$(Configuration)' == 'Release'">Speed</FavorSizeOrSpeed>
+			<StringPooling Condition="'$(Configuration)' == 'Release'">true</StringPooling>
+			<EnableFiberSafeOptimizations Condition="'$(Configuration)' == 'Release'">true</EnableFiberSafeOptimizations>
+			<EnableCOMDATFolding Condition="'$(Configuration)' == 'Release'">true</EnableCOMDATFolding>
+			<OptimizeReferences Condition="'$(Configuration)' == 'Release'">true</OptimizeReferences>
+
+			<!-- MaxOptimizations settings -->
+			<Optimization Condition="'$(Configuration)' == 'MaxOptimizations'">Full</Optimization>
+			<IntrinsicFunctions Condition="'$(Configuration)' == 'MaxOptimizations'">true</IntrinsicFunctions>
+			<FavorSizeOrSpeed Condition="'$(Configuration)' == 'MaxOptimizations'">Speed</FavorSizeOrSpeed>
+			<StringPooling Condition="'$(Configuration)' == 'MaxOptimizations'">true</StringPooling>
+			<EnableFiberSafeOptimizations Condition="'$(Configuration)' == 'MaxOptimizations'">true</EnableFiberSafeOptimizations>
+			<EnableCOMDATFolding Condition="'$(Configuration)' == 'MaxOptimizations'">true</EnableCOMDATFolding>
+			<OptimizeReferences Condition="'$(Configuration)' == 'MaxOptimizations'">true</OptimizeReferences>
+			<OmitFramePointers Condition="'$(Configuration)' == 'MaxOptimizations'">true</OmitFramePointers>
+			<EnableParallelCodeGeneration Condition="'$(Configuration)' == 'MaxOptimizations'">true</EnableParallelCodeGeneration>
+
+			<!-- Platform-specific compiler options -->
+			<AdditionalOptions Condition="'$(PlatformDisplayName)' == 'Win32' and '$(Configuration)' == 'Release'">/arch:SSE2 %(AdditionalOptions)</AdditionalOptions>
+			<AdditionalOptions Condition="'$(PlatformDisplayName)' == 'Win64' and '$(Configuration)' == 'Release'">/favor:blend %(AdditionalOptions)</AdditionalOptions>
+			<AdditionalOptions Condition="'$(PlatformDisplayName)' == 'MaxOptimizations'">/arch:AVX2 %(AdditionalOptions)</AdditionalOptions>
+
+			<!-- ASan -->
+			<EnableASAN Condition="'$(Configuration)' == 'Debug'">true</EnableASAN>
+		</ClCompile>
+
+		<Link>
+			<!-- Additional include paths -->
+			<AdditionalLibraryDirectories>$(SharedLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+
+			<!-- Debug linker settings -->
+			<GenerateDebugInformation Condition="'$(Configuration)' == 'Debug'">true</GenerateDebugInformation>
+
+			<!-- Release and MaxOptimizations linker settings -->
+			<GenerateDebugInformation Condition="'$(Configuration)' == 'Release' or '$(Configuration)' == 'MaxOptimizations'">false</GenerateDebugInformation>
+
+			<!-- Release settings -->
+			<LinkTimeCodeGeneration Condition="'$(Configuration)' == 'Release'">UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+			<EnableCOMDATFolding Condition="'$(Configuration)' == 'Release'">true</EnableCOMDATFolding>
+			<OptimizeReferences Condition="'$(Configuration)' == 'Release'">true</OptimizeReferences>
+
+			<!-- MaxOptimizations settings -->
+			<LinkTimeCodeGeneration Condition="'$(Configuration)' == 'MaxOptimizations'">UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+			<EnableCOMDATFolding Condition="'$(Configuration)' == 'MaxOptimizations'">true</EnableCOMDATFolding>
+			<OptimizeReferences Condition="'$(Configuration)' == 'MaxOptimizations'">true</OptimizeReferences>
+			<AdditionalOptions Condition="'$(Configuration)' == 'MaxOptimizations'">/OPT:REF /OPT:ICF /LTCG:incremental %(AdditionalOptions)</AdditionalOptions>
+
+			<!-- Entry points -->
+			<EntryPointSymbol Condition="'$(Platform)' == 'x86'">mainCRTStartup</EntryPointSymbol>
+			<EntryPointSymbol Condition="'$(Platform)' == 'x64'">mainCRTStartup</EntryPointSymbol>
+
+			<!-- ASan -->
+			<EnableASAN Condition="'$(Configuration)' == 'Debug'">true</EnableASAN>
+		</Link>
+
+		<ResourceCompile>
+			<!-- Platform-specific resource compiler settings -->
+			<AdditionalOptions Condition="'$(PlatformDisplayName)' == 'Win32'">/d _X86_ %(AdditionalOptions)</AdditionalOptions>
+			<AdditionalOptions Condition="'$(PlatformDisplayName)' == 'Win64'">/d _AMD64_ %(AdditionalOptions)</AdditionalOptions>
+		</ResourceCompile>
+	</ItemDefinitionGroup>
+
+	<Target Name="ForceNoPCH" BeforeTargets="ClCompile">
+		<ItemGroup>
+			<ClCompile>
+				<PrecompiledHeader Condition="'%(ClCompile.PrecompiledHeader)' != ''">NotUsing</PrecompiledHeader>
+				<PrecompiledHeaderFile Condition="'%(ClCompile.PrecompiledHeaderFile)' != ''"></PrecompiledHeaderFile>
+				<ForcedIncludeFiles Condition="'%(ClCompile.ForcedIncludeFiles)' != ''"></ForcedIncludeFiles>
+			</ClCompile>
+		</ItemGroup>
+	</Target>
+
+
+	<Target Name="ShowAllSettings" BeforeTargets="Build">
+		<Message Text="=== BUILD SETTINGS ===" Importance="high" />
+		<Message Text="Platform: $(Platform) | Config: $(Configuration)" Importance="high" />
+		<Message Text="RuntimeLibrary: $(RuntimeLibrary)" Importance="high" />
+		<Message Text="PlatformToolset: $(PlatformToolset)" Importance="high" />
+		<Message Text="IntrinsicFunctions: %(ClCompile.IntrinsicFunctions)" Importance="high" />
+		<Message Text="EnableEnhancedInstructionSet: $(EnableEnhancedInstructionSet)" Importance="high" />
+		<Message Text="WholeProgramOptimization: $(WholeProgramOptimization)" Importance="high" />
+		<Message Text="LinkTimeCodeGeneration: %(Link.LinkTimeCodeGeneration)" Importance="high" />
+		<Message Text="_SourceDirExists: $(_SourceDirExists)" Importance="high" />
+		<Message Text="_HasSourceFiles: $(_HasSourceFiles)" Importance="high" />
+		<Message Text="_HasMainFile: $(_HasMainFile)" Importance="high" />
+		<Message Text="_ProjectType: $(_ProjectType)" Importance="high" />
+	</Target>
+</Project>
