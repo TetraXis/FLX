@@ -67,7 +67,7 @@
 		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_X64_
 	#else
 		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_UNKNOWN_
-		#error "Uknown architecture. Some code may break. You may remove this error at your own risk."
+		#error "Unknown architecture. Some code may break. You may remove this error at your own risk."
 	#endif
 #else // assuming other compilers use same macros as GCC and clang
 	#if defined(__i386__) || defined(__i386)
@@ -89,10 +89,10 @@
 #define IMP_FLX_CONFIGURATION_RELEASE_	1
 
 #if defined(NDEBUG)
-	#define IMP_FLX_CONFIGURATION_ IMP_FLX_CONFIGURATION_DEBUG_
+	#define IMP_FLX_CONFIGURATION_ IMP_FLX_CONFIGURATION_RELEASE_
 	#define FLX_RELEASE
 #else
-	#define IMP_FLX_CONFIGURATION_ IMP_FLX_CONFIGURATION_RELEASE_
+	#define IMP_FLX_CONFIGURATION_ IMP_FLX_CONFIGURATION_DEBUG_
 	#define FLX_DEBUG
 #endif // configuration
 
