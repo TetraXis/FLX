@@ -176,8 +176,8 @@ inline namespace types
 	using c16	= char16_t;
 	using c32	= char32_t;
 
-	using i8	= char;
-	using i08	= char;
+	using i8	= signed char;
+	using i08	= signed char;
 	using i16	= short;
 	using i32	= int;
 	using i64	= long long;

@@ -50,6 +50,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "utility", "utility\utility.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dynamic_array", "dynamic_array\dynamic_array.vcxproj", "{6B4DCD93-B097-40D0-9862-47AF9A8631DB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FLX Test", "FLX Test\FLX Test.vcxproj", "{D7C82906-DC98-49D2-BA59-36D174F005B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -288,6 +290,18 @@ Global
 		{6B4DCD93-B097-40D0-9862-47AF9A8631DB}.Release|Win32.Build.0 = Release|Win32
 		{6B4DCD93-B097-40D0-9862-47AF9A8631DB}.Release|Win64.ActiveCfg = Release|x64
 		{6B4DCD93-B097-40D0-9862-47AF9A8631DB}.Release|Win64.Build.0 = Release|x64
+		{D7C82906-DC98-49D2-BA59-36D174F005B7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D7C82906-DC98-49D2-BA59-36D174F005B7}.Debug|Win32.Build.0 = Debug|Win32
+		{D7C82906-DC98-49D2-BA59-36D174F005B7}.Debug|Win64.ActiveCfg = Debug|x64
+		{D7C82906-DC98-49D2-BA59-36D174F005B7}.Debug|Win64.Build.0 = Debug|x64
+		{D7C82906-DC98-49D2-BA59-36D174F005B7}.MaxOptimizations|Win32.ActiveCfg = MaxOptimizations|Win32
+		{D7C82906-DC98-49D2-BA59-36D174F005B7}.MaxOptimizations|Win32.Build.0 = MaxOptimizations|Win32
+		{D7C82906-DC98-49D2-BA59-36D174F005B7}.MaxOptimizations|Win64.ActiveCfg = MaxOptimizations|x64
+		{D7C82906-DC98-49D2-BA59-36D174F005B7}.MaxOptimizations|Win64.Build.0 = MaxOptimizations|x64
+		{D7C82906-DC98-49D2-BA59-36D174F005B7}.Release|Win32.ActiveCfg = Release|Win32
+		{D7C82906-DC98-49D2-BA59-36D174F005B7}.Release|Win32.Build.0 = Release|Win32
+		{D7C82906-DC98-49D2-BA59-36D174F005B7}.Release|Win64.ActiveCfg = Release|x64
+		{D7C82906-DC98-49D2-BA59-36D174F005B7}.Release|Win64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
