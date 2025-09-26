@@ -10,6 +10,7 @@
 /// MSVC doesn't have weak linking, so we need entierly unique placement new
 /// Custom tag 'use_flx' is therefore created.
 
+FLX_BEGIN_
 IMP_BEGIN_
 
 FLX_API_ struct use_flx_tag
@@ -23,10 +24,6 @@ FLX_API_ struct nothrow_tag
 };
 
 IMP_END_
-
-
-
-FLX_BEGIN_
 
 constexpr IMP_ use_flx_tag use_flx;
 constexpr IMP_ nothrow_tag nothrow;

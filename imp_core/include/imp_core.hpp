@@ -122,8 +122,8 @@
 #define FLX_END_	} // namespace flx
 
 #define IMP_		::flx::imp::
-#define IMP_BEGIN_	namespace flx { namespace imp {
-#define IMP_END_	}} // namespace imp
+#define IMP_BEGIN_	namespace imp {
+#define IMP_END_	} // namespace imp
 
 #if defined(FLX_BUILDING_SHARED) // Building as a DLL/SO
 	#if IMP_FLX_PLATFORM_ == IMP_FLX_PLATFORM_WINDOWS_

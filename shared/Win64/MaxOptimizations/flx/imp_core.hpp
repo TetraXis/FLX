@@ -1,10 +1,16 @@
-#ifndef IMP_FLX_CORE_HPP_
-#define IMP_FLX_CORE_HPP_
+#ifndef IMP_FLX_IMP_CORE_HPP_
+#define IMP_FLX_IMP_CORE_HPP_
 
-/// ====== Main header for internal macros ====== ///
-// Defines:
-// FLX_BUILDING_SHARED:	Define when building FLX as a dynamic library. (unchecked functionality)
-// FLX_USING_SHARED:	Define when using FLX as a dynamic library. (unchecked functionality, not even sure when this would be used)
+/// ====== Main header for internals ====== ///
+// Settings:
+// FLX_ALL_MEMBERS_ARE_PUBLIC:	Define if you need all class members to become public.
+// FLX_BUILDING_SHARED:			Define when building FLX as a dynamic library. (unchecked functionality)
+// FLX_USING_SHARED:			Define when using FLX as a dynamic library. (unchecked functionality, not even sure when this would be used)
+
+#define FLX_VERSION_MAJOR	0
+#define FLX_VERSION_MINOR	0
+#define FLX_VERSION_PATCH	1
+#define FLX_VERSION			"0.0.1"
 
 
 
@@ -61,7 +67,7 @@
 		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_X64_
 	#else
 		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_UNKNOWN_
-		#error "Uknown architecture. Some code may break. You may remove this error at your own risk."
+		#error "Unknown architecture. Some code may break. You may remove this error at your own risk."
 	#endif
 #else // assuming other compilers use same macros as GCC and clang
 	#if defined(__i386__) || defined(__i386)
@@ -73,6 +79,22 @@
 		#error "Uknown architecture. Some code may break. You may remove this error at your own risk."
 	#endif
 #endif // architecture
+
+
+
+// ===== configuration ===== //
+
+#define IMP_FLX_CONFIGURATION_UNKNOWN_	(-1)
+#define IMP_FLX_CONFIGURATION_DEBUG_	0
+#define IMP_FLX_CONFIGURATION_RELEASE_	1
+
+#if defined(NDEBUG)
+	#define IMP_FLX_CONFIGURATION_ IMP_FLX_CONFIGURATION_RELEASE_
+	#define FLX_RELEASE
+#else
+	#define IMP_FLX_CONFIGURATION_ IMP_FLX_CONFIGURATION_DEBUG_
+	#define FLX_DEBUG
+#endif // configuration
 
 
 
@@ -99,6 +121,10 @@
 #define FLX_BEGIN_	namespace flx {
 #define FLX_END_	} // namespace flx
 
+#define IMP_		::flx::imp::
+#define IMP_BEGIN_	namespace imp {
+#define IMP_END_	} // namespace imp
+
 #if defined(FLX_BUILDING_SHARED) // Building as a DLL/SO
 	#if IMP_FLX_PLATFORM_ == IMP_FLX_PLATFORM_WINDOWS_
 		#define FLX_API_ __declspec(dllexport)
@@ -117,10 +143,70 @@
 
 #if IMP_FLX_ARCH_ == IMP_FLX_ARCH_X86_
 #define IMP_FLX_SIZE_TYPE_ unsigned int
-#else // assuming other architectures are atleast 64 bit
+#else // assuming other architectures are at least 64 bit
 #define IMP_FLX_SIZE_TYPE_ unsigned long long
 #endif // Macro for IMP_FLX_SIZE_TYPE_
 
 
 
-#endif // IMP_FLX_CORE_HPP_
+// ===== types ===== //
+
+#ifdef FLX_ALL_MEMBERS_ARE_PUBLIC
+	#define flx_public public
+	#define flx_protected public
+	#define flx_private public
+#else
+	#define flx_public public
+	#define flx_protected protected
+	#define flx_private private
+#endif // FLX_ALL_MEMBERS_ARE_PUBLIC
+
+FLX_BEGIN_
+
+inline namespace types
+{
+	using u0	= void;
+	using u00	= void;
+
+	using b8	= bool;
+	using b08	= bool;
+
+	using c8	= char;
+	using c08	= char;
+	using c16	= char16_t;
+	using c32	= char32_t;
+
+	using i8	= signed char;
+	using i08	= signed char;
+	using i16	= short;
+	using i32	= int;
+	using i64	= long long;
+
+	using u8	= unsigned char;
+	using u08	= unsigned char;
+	using u16	= unsigned short;
+	using u32	= unsigned int;
+	using u64	= unsigned long long;
+
+	using f32	= float;
+	using f64	= double;
+	using f80	= long double;
+
+	using szt	= IMP_FLX_SIZE_TYPE_;
+} // namespace types
+
+FLX_END_
+
+
+
+// ===== assert ===== //
+
+#if defined(FLX_DEBUG)
+	#include <cassert>
+#else
+	#define assert(expr) ((void)0)
+#endif // FLX_DEBUG
+
+
+
+#endif // IMP_FLX_IMP_CORE_HPP_
