@@ -6,8 +6,8 @@
 	</Target>
 
 	<PropertyGroup>
-		<OutputPath>$(SolutionDir)bin\$(PlatformDisplayName)\$(ConfigurationDisplayName)\flx\$(MSBuildProjectName)\</OutputPath>
-		<IntDir>$(SolutionDir)obj\$(PlatformDisplayName)\$(ConfigurationDisplayName)\$(MSBuildProjectName)\</IntDir>
+		<OutputPath>$(SolutionDir)bin/$(PlatformDisplayName)/$(ConfigurationDisplayName)/flx/$(MSBuildProjectName)/</OutputPath>
+		<IntDir>$(SolutionDir)obj/$(PlatformDisplayName)/$(ConfigurationDisplayName)/$(MSBuildProjectName)/</IntDir>
 		<OutDir>$(OutputPath)</OutDir>
 		<ConfigurationType>Application</ConfigurationType>
 	</PropertyGroup>

@@ -17,10 +17,10 @@
 		<ConfigurationDisplayName Condition="'$(ConfigurationDisplayName)' == ''">$(Configuration)</ConfigurationDisplayName>
 
 		<!-- Intermediate outputs -->
-		<BaseIntermediateOutputPath>$(SolutionDir)obj\$(PlatformDisplayName)\$(ConfigurationDisplayName)\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
-		<IntermediateOutputPath>$(SolutionDir)obj\$(PlatformDisplayName)\$(ConfigurationDisplayName)\$(MSBuildProjectName)\</IntermediateOutputPath>
+		<BaseIntermediateOutputPath>$(SolutionDir)obj/$(PlatformDisplayName)/$(ConfigurationDisplayName)/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
+		<IntermediateOutputPath>$(SolutionDir)obj/$(PlatformDisplayName)/$(ConfigurationDisplayName)/$(MSBuildProjectName)/</IntermediateOutputPath>
 		<MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
-		<TrackerLogDirectory>$(BaseIntermediateOutputPath)TrackerLogs\</TrackerLogDirectory>
+		<TrackerLogDirectory>$(BaseIntermediateOutputPath)TrackerLogs/</TrackerLogDirectory>
 		<TLogLocation>$(TrackerLogDirectory)</TLogLocation>
 
 		<!-- Toolset -->
@@ -28,7 +28,7 @@
 		<PlatformToolset Condition="'$(VisualStudioVersion)' == '16.0'">v142</PlatformToolset>
 
 		<!-- Additional include paths -->
-		<SharedLibPath>$(SolutionDir)shared\$(PlatformDisplayName)\$(ConfigurationDisplayName)\flx</SharedLibPath>
+		<SharedLibPath>$(SolutionDir)shared/$(PlatformDisplayName)/$(ConfigurationDisplayName)/flx</SharedLibPath>
 		<IncludePath>$(SharedLibPath);$(ProjectDir)include;$(IncludePath)</IncludePath>
 
 		<!-- C++ standard -->

@@ -11,10 +11,10 @@
 		<_SourceDirExists Condition="'$(_SourceDirExists)' == ''">false</_SourceDirExists>
 
 		<_HasMainFile Condition="'$(_SourceDirExists)' == 'true' and 
-                     (Exists('$(ProjectDir)source\main.cpp') or 
-                      Exists('$(ProjectDir)source\main.cxx') or 
-                      Exists('$(ProjectDir)source\main.cc') or 
-                      Exists('$(ProjectDir)source\main.c'))">true</_HasMainFile>
+                     (Exists('$(ProjectDir)source/main.cpp') or 
+                      Exists('$(ProjectDir)source/main.cxx') or 
+                      Exists('$(ProjectDir)source/main.cc') or 
+                      Exists('$(ProjectDir)source/main.c'))">true</_HasMainFile>
 		<_HasMainFile Condition="'$(_HasMainFile)' == ''">false</_HasMainFile>
 
 		<_HasSourceFiles Condition="'$(_SourceDirExists)' == 'true'">true</_HasSourceFiles>

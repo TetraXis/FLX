@@ -363,6 +363,4 @@ constexpr ty&& forward(remove_reference<ty>&& val) noexcept
 
 FLX_END_
 
-
-
 #endif // IMP_FLX_TYPE_TRAITS_HPP_

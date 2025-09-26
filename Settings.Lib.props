@@ -6,26 +6,26 @@
 	</Target>
 
 	<PropertyGroup>
-		<OutputPath>$(SolutionDir)bin\$(PlatformDisplayName)\$(ConfigurationDisplayName)\flx\$(MSBuildProjectName)\libs\</OutputPath>
-		<IntDir>$(SolutionDir)obj\$(PlatformDisplayName)\$(ConfigurationDisplayName)\$(MSBuildProjectName)\</IntDir>
+		<OutputPath>$(SolutionDir)bin/$(PlatformDisplayName)/$(ConfigurationDisplayName)/flx/$(MSBuildProjectName)/libs/</OutputPath>
+		<IntDir>$(SolutionDir)obj/$(PlatformDisplayName)/$(ConfigurationDisplayName)/$(MSBuildProjectName)/</IntDir>
 		<OutDir>$(OutputPath)</OutDir>
 		<ConfigurationType>StaticLibrary</ConfigurationType>
 	</PropertyGroup>
 
 	<Target Name="CopyHeaders" AfterTargets="Build">
 		<ItemGroup>
-			<HeaderFiles Include="$(ProjectDir)include\**\*.*" />
+			<HeaderFiles Include="$(ProjectDir)include/**/*.*" />
 		</ItemGroup>
-		<Copy SourceFiles="@(HeaderFiles)" DestinationFolder="$(SolutionDir)bin\$(PlatformDisplayName)\$(ConfigurationDisplayName)\flx\$(MSBuildProjectName)\include\%(RecursiveDir)" />
-		<Copy SourceFiles="@(HeaderFiles)" DestinationFolder="$(SharedLibPath)\%(RecursiveDir)" />
+		<Copy SourceFiles="@(HeaderFiles)" DestinationFolder="$(SolutionDir)bin/$(PlatformDisplayName)/$(ConfigurationDisplayName)/flx/$(MSBuildProjectName)/include/%(RecursiveDir)" />
+		<Copy SourceFiles="@(HeaderFiles)" DestinationFolder="$(SharedLibPath)/%(RecursiveDir)" />
 	</Target>
 
 	<Target Name="CopyLibs" AfterTargets="Build">
 		<ItemGroup>
-			<LibFiles Include="$(OutputPath)\*.lib" />
-			<LibFiles Include="$(OutputPath)\*.pdb" />
+			<LibFiles Include="$(OutputPath)/*.lib" />
+			<LibFiles Include="$(OutputPath)/*.pdb" />
 		</ItemGroup>
-		<Copy SourceFiles="@(LibFiles)" DestinationFolder="$(SharedLibPath)\%(RecursiveDir)" />
+		<Copy SourceFiles="@(LibFiles)" DestinationFolder="$(SharedLibPath)/%(RecursiveDir)" />
 	</Target>
 
 </Project>
