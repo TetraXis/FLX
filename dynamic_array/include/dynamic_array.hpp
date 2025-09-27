@@ -12,7 +12,7 @@ FLX_BEGIN_
 FLX_API_ template <typename ty, FLX_ unsigned_integral size_ty = u64>
 struct dynamic_array
 {
-	static_assert(FLX_ destructible<ty>, "flx_dynamic_array.hpp::dynamic_array: dynamic_array can only work with nothrow destructible objects.");
+	static_assert(FLX_ destructible<ty>, "flx/dynamic_array.hpp::dynamic_array: dynamic_array can only work with nothrow destructible objects.");
 
 	static constexpr size_ty PREALLOCATED_CAPACITY = 0;
 
@@ -205,9 +205,9 @@ flx_public:
 			size_ = 0;
 			capacity_ = 0;
 
-			assert(false && "flx_dynamic_array.hpp::dynamic_array::dynamic_array(): bad alloc.");
+			FLX_ASSERT_(false && "flx/dynamic_array.hpp::dynamic_array::dynamic_array(): bad alloc.");
 
-			FLX_ terminate("flx_dynamic_array.hpp::dynamic_array::dynamic_array(): bad alloc.");
+			FLX_ terminate("flx/dynamic_array.hpp::dynamic_array::dynamic_array(): bad alloc.");
 		}
 	}
 
@@ -238,9 +238,9 @@ flx_public:
 			capacity_ = 0;
 			size_ = 0;
 
-			assert(false && "flx_dynamic_array.hpp::dynamic_array::dynamic_array(const dynamic_array&): bad alloc.");
+			FLX_ASSERT_(false && "flx/dynamic_array.hpp::dynamic_array::dynamic_array(const dynamic_array&): bad alloc.");
 
-			FLX_ terminate("flx_dynamic_array.hpp::dynamic_array::dynamic_array(const dynamic_array&): bad alloc.");
+			FLX_ terminate("flx/dynamic_array.hpp::dynamic_array::dynamic_array(const dynamic_array&): bad alloc.");
 		}
 	}
 
@@ -282,9 +282,9 @@ flx_public:
 				capacity_ = 0;
 				size_ = 0;
 
-				assert(false && "flx_dynamic_array.hpp::dynamic_array::operator=: bad alloc.");
+				FLX_ASSERT_(false && "flx/dynamic_array.hpp::dynamic_array::operator=: bad alloc.");
 
-				FLX_ terminate("flx_dynamic_array.hpp::dynamic_array::operator=: bad alloc.");
+				FLX_ terminate("flx/dynamic_array.hpp::dynamic_array::operator=: bad alloc.");
 			}
 		}
 
@@ -397,7 +397,7 @@ flx_public:
 
 	constexpr void pop_back() noexcept
 	{
-		assert(!empty() && "flx_dynamic_array::dynamic_array::pop_back: popping on empty array.");
+		FLX_ASSERT_(!empty() && "flx_dynamic_array::dynamic_array::pop_back: popping on empty array.");
 
 		--size_;
 		if constexpr (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
@@ -408,7 +408,7 @@ flx_public:
 
 	constexpr void erase(iterator where) noexcept
 	{
-		assert((where.get() >= begin().get() && where.get() < end().get()) && "flx_dynamic_array.hpp::dynamic_array::erase: erase position is out of bounds.");
+		FLX_ASSERT_((where.get() >= begin().get() && where.get() < end().get()) && "flx/dynamic_array.hpp::dynamic_array::erase: erase position is out of bounds.");
 
 		if constexpr (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
 		{
@@ -425,9 +425,9 @@ flx_public:
 
 	constexpr void erase(iterator first, iterator last) noexcept
 	{
-		assert((first.get() >= begin().get() && first.get() < end().get()) && "flx_dynamic_array.hpp::dynamic_array::erase: first erase position is out of bounds.");
-		assert((last.get() >= begin().get() && last.get() < end().get()) && "flx_dynamic_array.hpp::dynamic_array::erase: last erase position is out of bounds.");
-		assert(first.get() <= last.get() && "flx_dynamic_array.hpp::dynamic_array::erase: erase region is invalid.");
+		FLX_ASSERT_((first.get() >= begin().get() && first.get() < end().get()) && "flx/dynamic_array.hpp::dynamic_array::erase: first erase position is out of bounds.");
+		FLX_ASSERT_((last.get() >= begin().get() && last.get() < end().get()) && "flx/dynamic_array.hpp::dynamic_array::erase: last erase position is out of bounds.");
+		FLX_ASSERT_(first.get() <= last.get() && "flx/dynamic_array.hpp::dynamic_array::erase: erase region is invalid.");
 
 		iterator temp(first);
 		size_ty diff = last.get() - first.get();
@@ -464,14 +464,14 @@ flx_public:
 
 	constexpr ty& operator[](size_ty pos) noexcept
 	{
-		assert(pos < size_ && "flx_dynamic_array.hpp::dynamic_array::operator[]: position is out of bounds.");
+		FLX_ASSERT_(pos < size_ && "flx/dynamic_array.hpp::dynamic_array::operator[]: position is out of bounds.");
 
 		return data_[pos];
 	}
 
 	constexpr const ty& operator[](size_ty pos) const noexcept
 	{
-		assert(pos < size_ && "flx_dynamic_array.hpp::dynamic_array::operator[]: position is out of bounds.");
+		FLX_ASSERT_(pos < size_ && "flx/dynamic_array.hpp::dynamic_array::operator[]: position is out of bounds.");
 
 		return data_[pos];
 	}
@@ -506,7 +506,7 @@ flx_private:
 	{
 		capacity_ = calculate_growth(new_capacity);
 
-		assert(capacity_ > size_ && "flx_dynamic_array.hpp::dynamic_array::reallocate: new capacity is smaller than size.");
+		FLX_ASSERT_(capacity_ > size_ && "flx/dynamic_array.hpp::dynamic_array::reallocate: new capacity is smaller than size.");
 
 		ty* new_data{};
 
@@ -521,9 +521,9 @@ flx_private:
 			::operator delete(data_);
 			data_ = nullptr;
 
-			assert(false && "flx_dynamic_array.hpp::dynamic_array::reallocate: bad alloc.");
+			FLX_ASSERT_(false && "flx/dynamic_array.hpp::dynamic_array::reallocate: bad alloc.");
 
-			FLX_ terminate("flx_dynamic_array.hpp::dynamic_array::reallocate: bad alloc.");
+			FLX_ terminate("flx/dynamic_array.hpp::dynamic_array::reallocate: bad alloc.");
 
 			return;
 		}
@@ -548,7 +548,7 @@ flx_private:
 	// Allocates a chuck of [new_capacity]
 	constexpr void allocate_raw_array(const size_ty new_capacity)
 	{
-		assert(new_capacity > size_ && "flx_dynamic_array.hpp::dynamic_array::allocate_raw_array: new capacity is smaller than size.");
+		FLX_ASSERT_(new_capacity > size_ && "flx/dynamic_array.hpp::dynamic_array::allocate_raw_array: new capacity is smaller than size.");
 
 		capacity_ = new_capacity;
 		try
@@ -561,8 +561,8 @@ flx_private:
 			capacity_ = 0;
 			size_ = 0;
 
-			assert(false && "flx_dynamic_array.hpp::dynamic_array::allocate_raw_array: bad alloc.");
-			FLX_ terminate("flx_dynamic_array.hpp::dynamic_array::allocate_raw_array: bad alloc.");
+			FLX_ASSERT_(false && "flx/dynamic_array.hpp::dynamic_array::allocate_raw_array: bad alloc.");
+			FLX_ terminate("flx/dynamic_array.hpp::dynamic_array::allocate_raw_array: bad alloc.");
 		}
 		//data_ = static_cast<ty*>(FLX_ allocate(capacity_ * sizeof(ty)), FLX_ nothrow);
 	}

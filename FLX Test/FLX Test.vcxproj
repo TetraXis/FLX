@@ -237,6 +237,10 @@
       <Project>{d8812259-89b8-4a46-9a32-949166b466a4}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="resource\flx.asm" />
+    <None Include="resource\std.asm" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

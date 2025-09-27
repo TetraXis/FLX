@@ -69,15 +69,18 @@
 		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_UNKNOWN_
 		#error "Unknown architecture. Some code may break. You may remove this error at your own risk."
 	#endif
-#else // assuming other compilers use same macros as GCC and clang
+#elif IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_CLANG_
 	#if defined(__i386__) || defined(__i386)
 		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_X86_
 	#elif defined(__x86_64__)
 		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_X64_
 	#else
 		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_UNKNOWN_
-		#error "Uknown architecture. Some code may break. You may remove this error at your own risk."
+		#error "Unknown architecture. Some code may break. You may remove this error at your own risk."
 	#endif
+#else
+	#define IMP_FLX_ARCH_ IMP_FLX_ARCH_UNKNOWN_
+	#error "The architecture could not be determined because the compiler is unknown. Some code may break. You may remove this error at your own risk."
 #endif // architecture
 
 
@@ -100,18 +103,18 @@
 
 // ===== C++ version ===== //
 
-#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ // MSVC uses '_MSVC_LANG' instead of 'cplusplus'
+#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ // MSVC uses '_MSVC_LANG' instead of '__cplusplus'
 	#define IMP_FLX_LANG_ _MSVC_LANG
 #else 
 	#define IMP_FLX_LANG_ __cplusplus
-#endif // Macro for MSVC
+#endif // IMP_FLX_LANG_
 
 #if IMP_FLX_LANG_ >= 202002L
 	#define IMP_FLX_HAS_CXX20_ 1
 #else
 	#define IMP_FLX_HAS_CXX20_ 0
-	#error "Unsupported C++ Standard. FLX requires C++20 or beyond."
-#endif // C++ version
+	#error "Unsupported C++ Standard. FLX requires C++20 or higher."
+#endif // IMP_FLX_HAS_CXX20_
 
 
 
@@ -125,27 +128,41 @@
 #define IMP_BEGIN_	namespace imp {
 #define IMP_END_	} // namespace imp
 
+#if defined(FLX_BUILDING_SHARED) && defined(FLX_USING_SHARED)
+	#error "Cannot define both FLX_BUILDING_SHARED and FLX_USING_SHARED."
+#endif
+
 #if defined(FLX_BUILDING_SHARED) // Building as a DLL/SO
-	#if IMP_FLX_PLATFORM_ == IMP_FLX_PLATFORM_WINDOWS_
+	#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_
 		#define FLX_API_ __declspec(dllexport)
 	#else
 		#define FLX_API_ __attribute__((visibility("default")))
 	#endif
 #elif defined(FLX_USING_SHARED) // Using as DLL/SO
-	#if IMP_FLX_PLATFORM_ == IMP_FLX_PLATFORM_WINDOWS_
+	#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_
 		#define FLX_API_ __declspec(dllimport)
 	#else
 		#define FLX_API_ __attribute__((visibility("default")))
 	#endif
 #else // Building as static lib
 	#define FLX_API_
-#endif // Macro for FLX_API_
+#endif // FLX_API_
 
 #if IMP_FLX_ARCH_ == IMP_FLX_ARCH_X86_
-#define IMP_FLX_SIZE_TYPE_ unsigned int
-#else // assuming other architectures are at least 64 bit
-#define IMP_FLX_SIZE_TYPE_ unsigned long long
-#endif // Macro for IMP_FLX_SIZE_TYPE_
+	#define IMP_FLX_SIZE_TYPE_ unsigned int
+#elif IMP_FLX_ARCH_ == IMP_FLX_ARCH_X64_
+	#define IMP_FLX_SIZE_TYPE_ unsigned long long
+#else // assuming other architectures are at least 32 bit
+	#define IMP_FLX_SIZE_TYPE_ unsigned int
+#endif // IMP_FLX_SIZE_TYPE_
+
+#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_
+	#define IMP_FLX_ASSUME_(expr) __assume(expr)
+#elif IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_
+	#define IMP_FLX_ASSUME_(expr) __builtin_assume(expr)
+#else
+	#define IMP_FLX_ASSUME_(expr) 
+#endif // IMP_FLX_ASSUME_
 
 
 
@@ -203,8 +220,9 @@ FLX_END_
 
 #if defined(FLX_DEBUG)
 	#include <cassert>
+	#define FLX_ASSERT_(expr) assert(expr)
 #else
-	#define assert(expr) ((void)0)
+	#define FLX_ASSERT_(expr) ((void)0)
 #endif // FLX_DEBUG
 
 
