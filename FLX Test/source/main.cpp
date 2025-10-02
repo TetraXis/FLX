@@ -42,8 +42,8 @@
 
 constexpr int test()
 {
-	std::vector<int> a;
-	//flx::dynamic_array<int> a;
+	//std::vector<int> a;
+	flx::dynamic_array<int> a;
 
 	a.push_back(1);
 	a.push_back(2);
@@ -53,18 +53,13 @@ constexpr int test()
 	return a[2];
 }
 
-__declspec(allocator) char* allocate_string() {
-	return new char[100];  // Compiler knows this allocates memory
-}
+//__declspec(allocator) char* allocate_string() {
+//	return new char[100];  
+//}
 
 int main()
 {
-	char* str = allocate_string();
-	//constexpr int a = test();
-	//
-	//dynamic_array<i32> d;
-	//
-	//d.emplace_back(1);
+	constexpr int balls = test();
 
-	return 0;
+	return balls;
 }
