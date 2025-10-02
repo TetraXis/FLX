@@ -215,6 +215,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\flx_tests.cpp" />
     <ClCompile Include="source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +241,9 @@
   <ItemGroup>
     <None Include="resource\flx.asm" />
     <None Include="resource\std.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\flx_tests.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

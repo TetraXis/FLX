@@ -11,14 +11,14 @@ FLX_BEGIN_
 FLX_API_ extern const c8* last_error;
 FLX_API_ extern void (*on_terminate) () noexcept;
 
-FLX_API_ void* allocate(const szt size) {}; // todo: fix {} and link
+FLX_API_ inline void* allocate(const szt size) {}; // todo: fix {} and link, now inline temporary
 
-FLX_API_ void* allocate(const szt size, [[maybe_unused]] IMP_ nothrow_tag) noexcept {};
+FLX_API_ inline void* allocate(const szt size, [[maybe_unused]] IMP_ nothrow_tag) noexcept {};
 
-FLX_API_ void deallocate(void* ptr) noexcept {};
+FLX_API_ inline void deallocate(void* ptr) noexcept {};
 
-FLX_API_ void terminate() noexcept {};
-FLX_API_ void terminate(const c8* const error_msg) noexcept {};
+FLX_API_ inline void terminate() noexcept {};
+FLX_API_ inline void terminate(const c8* const error_msg) noexcept {};
 
 // construct_at is always noexcept
 FLX_API_ template <class ty, class... val_ty>
