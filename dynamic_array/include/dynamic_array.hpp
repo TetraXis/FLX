@@ -7,7 +7,9 @@
 #include "flx/concepts.hpp"
 #include "flx/utility.hpp"
 
-// dynamic_array does not support IMP_FLX_DARR_CONSTEXPR_ yet
+// TODO: add initializer list constructor
+
+// TODO: dynamic_array does not support constexpr yet
 #define IMP_FLX_DARR_CONSTEXPR_ 
 
 FLX_BEGIN_
