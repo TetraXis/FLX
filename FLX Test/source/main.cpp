@@ -8,13 +8,15 @@
 #include "flx_tests.hpp"
 
 #include <iostream>
-//#include <vector>
+#include <vector>
 //#include <algorithm>
 
 //using namespace flx;
 
 int main()
 {
+	std::vector<int> a;
+
 	flx::test::test_flx();
 
 	std::cout << flx::test::output.str();

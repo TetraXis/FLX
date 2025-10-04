@@ -306,13 +306,14 @@ flx_public:
 
 	IMP_FLX_DARR_CONSTEXPR_ void clear() noexcept
 	{
-		if IMP_FLX_DARR_CONSTEXPR_ (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
+		if constexpr (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
 		{
 			while (size_ > 0)
 			{
 				data_[--size_].~ty();
 			}
 		}
+		size_ = 0;
 	}
 
 	IMP_FLX_DARR_CONSTEXPR_ ty* data() noexcept
@@ -366,6 +367,16 @@ flx_public:
 		return --temp;
 	}
 
+	IMP_FLX_DARR_CONSTEXPR_ size_ty size() const noexcept
+	{
+		return size_;
+	}
+
+	IMP_FLX_DARR_CONSTEXPR_ size_ty capacity() const noexcept
+	{
+		return capacity_;
+	}
+
 	IMP_FLX_DARR_CONSTEXPR_ void push_back(const ty& val) noexcept requires FLX_ is_nothrow_copy_constructible<ty>
 	{
 		if (size_ >= capacity_)
@@ -385,7 +396,8 @@ flx_public:
 			reallocate(capacity_ + 1);
 		}
 
-		data_[size_] = FLX_ move(val);
+		//data_[size_] = FLX_ move(val);
+		FLX_ move_construct_at(&data_[size_], FLX_ move(val));
 		++size_;
 	}
 
@@ -407,7 +419,7 @@ flx_public:
 		FLX_ASSERT_(!empty() && "flx_dynamic_array::dynamic_array::pop_back: popping on empty array.");
 
 		--size_;
-		if IMP_FLX_DARR_CONSTEXPR_ (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
+		if constexpr (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
 		{
 			data_[size_].~ty();
 		}
@@ -417,7 +429,7 @@ flx_public:
 	{
 		FLX_ASSERT_((where.get() >= begin().get() && where.get() < end().get()) && "flx/dynamic_array.hpp::dynamic_array::erase: erase position is out of bounds.");
 
-		if IMP_FLX_DARR_CONSTEXPR_ (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
+		if constexpr (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
 		{
 			where->~ty();
 		}
@@ -439,7 +451,7 @@ flx_public:
 		iterator temp(first);
 		size_ty diff = last.get() - first.get();
 
-		if IMP_FLX_DARR_CONSTEXPR_ (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
+		if constexpr (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
 		{
 			while (temp != last)
 			{
@@ -457,16 +469,6 @@ flx_public:
 		}
 
 		size_ -= diff;
-	}
-
-	IMP_FLX_DARR_CONSTEXPR_ size_ty size() const noexcept
-	{
-		return size_;
-	}
-
-	IMP_FLX_DARR_CONSTEXPR_ size_ty capacity() const noexcept
-	{
-		return capacity_;
 	}
 
 	IMP_FLX_DARR_CONSTEXPR_ ty& operator[](size_ty pos) noexcept
@@ -487,7 +489,7 @@ flx_private:
 	/*IMP_FLX_DARR_CONSTEXPR_ void reallocate() noexcept
 	{
 		capacity_ *= GROWTH_RATE;
-		if IMP_FLX_DARR_CONSTEXPR_ (PREALLOCATED_CAPACITY == 0)
+		if constexpr (PREALLOCATED_CAPACITY == 0)
 		{
 			if (capacity_ == 0)
 			{
@@ -499,7 +501,7 @@ flx_private:
 		for (size_ty i = 0; i < size_; i++)
 		{
 			::new (&new_data[i], true) ty(FLX_ move(data_[i]));
-			if IMP_FLX_DARR_CONSTEXPR_ (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
+			if constexpr (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
 			{
 				data_[i].~ty();
 			}
@@ -541,7 +543,7 @@ flx_private:
 			//::new (&new_data[i], true) ty(FLX_ move(data_[i]));
 			FLX_ move_construct_at(&new_data[i], FLX_ move(data_[i]));
 
-			if IMP_FLX_DARR_CONSTEXPR_ (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
+			if constexpr (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
 			{
 				data_[i].~ty();
 			}
