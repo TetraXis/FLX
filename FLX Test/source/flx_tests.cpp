@@ -76,6 +76,7 @@ bool test::test_dynamic_array()
 	constexpr u64 amount = 1000;
 
 	static u64 called_def_constructors = 0;
+	static u64 called_custom_constructors = 0;
 	static u64 called_copy_constructors = 0;
 	static u64 called_move_constructors = 0;
 	static u64 called_copy_assigment = 0;
@@ -92,7 +93,7 @@ bool test::test_dynamic_array()
 		test_str& operator= (const test_str& other) noexcept { data = other.data; called_copy_assigment++; return *this; }
 		test_str& operator= (test_str&& other) noexcept { data = other.data; other.data = 0xCCCCCCCCCCCCCCCC; called_move_assigment++; return *this; }
 		~test_str() noexcept { data = 0xCCCCCCCCCCCCCCCC; called_destructors++; }
-		test_str(u64 val) noexcept { data = val; }
+		test_str(u64 val) noexcept { called_custom_constructors++; data = val; }
 
 		bool operator == (const test_str& other) const noexcept { return data == other.data; }
 		bool operator != (const test_str& other) const noexcept { return data != other.data; }
@@ -566,12 +567,12 @@ bool test::test_dynamic_array()
 				if (a2.data_[i].data_ != a12.data_[i].data_) throw std::runtime_error("Data is bad.");
 			}
 
-			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " operator = (const darr&).\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Copy assigment.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " operator = (const darr&): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Copy assigment: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -961,6 +962,7 @@ bool test::test_dynamic_array()
 			test_str val{};
 			{
 				called_def_constructors = 0;
+				called_custom_constructors = 0;
 				called_copy_constructors = 0;
 				called_move_constructors = 0;
 				called_copy_assigment = 0;
@@ -1010,6 +1012,7 @@ bool test::test_dynamic_array()
 			}
 			{
 				called_def_constructors = 0;
+				called_custom_constructors = 0;
 				called_copy_constructors = 0;
 				called_move_constructors = 0;
 				called_copy_assigment = 0;
@@ -1032,6 +1035,7 @@ bool test::test_dynamic_array()
 			}
 
 			if (called_def_constructors != 0) throw std::runtime_error("Called def constructors is not null.");
+			//if (called_custom_constructors != 0) throw std::runtime_error("Called def constructors is not null.");
 			if (called_copy_constructors != 0) throw std::runtime_error("Called copy constructors is not null.");
 			//if (called_move_constructors != 0) throw std::runtime_error("Called move constructors is not null."); // they are called when reallocating
 			if (called_copy_assigment != 0) throw std::runtime_error("Called copy assigments is not null.");
@@ -1044,6 +1048,51 @@ bool test::test_dynamic_array()
 		catch (std::exception e)
 		{
 			output << ".\t.\t" << RED << "FAILED" << RESET << " push_back(ty&&): " << e.what() << '\n';
+			result = false;
+			tests_failed++;
+		}
+
+		// emplace_back(val_ty&&...)
+		try
+		{
+			{
+				called_def_constructors = 0;
+				called_custom_constructors = 0;
+				called_copy_constructors = 0;
+				called_move_constructors = 0;
+				called_copy_assigment = 0;
+				called_move_assigment = 0;
+				called_destructors = 0;
+
+				dynamic_array<test_str> a{};
+
+				for (u64 i = 0; i < amount; i++)
+				{
+					a.emplace_back(i);
+				}
+
+				if (a.size_ != amount) throw std::runtime_error("Size is bad.");
+
+				for (u64 i = 0; i < amount; i++)
+				{
+					if (a.data_[i].data != i) throw std::runtime_error("Data is bad.");
+				}
+			}
+
+			if (called_def_constructors != 0) throw std::runtime_error("Called def constructors is not null.");
+			//if (called_custom_constructors != 0) throw std::runtime_error("Called def constructors is not null.");
+			if (called_copy_constructors != 0) throw std::runtime_error("Called copy constructors is not null.");
+			//if (called_move_constructors != 0) throw std::runtime_error("Called move constructors is not null."); // they are called when reallocating
+			if (called_copy_assigment != 0) throw std::runtime_error("Called copy assigments is not null.");
+			if (called_move_assigment != 0) throw std::runtime_error("Called move assigments is not null.");
+			if (called_destructors != called_move_constructors + called_copy_constructors + called_def_constructors) throw std::runtime_error("Called destructors is bad."); // should match moves + copies + custom constructors
+
+			output << ".\t.\t" << GREEN << "PASSED" << RESET << " emplace_back(val_ty&&...).\n";
+			tests_passed++;
+		}
+		catch (std::exception e)
+		{
+			output << ".\t.\t" << RED << "FAILED" << RESET << " emplace_back(val_ty&&...): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
