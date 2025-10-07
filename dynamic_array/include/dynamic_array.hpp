@@ -8,6 +8,8 @@
 #include "flx/utility.hpp"
 
 // TODO: add initializer list constructor
+// TODO: make modifiers return iterator
+// TODO: consider swtiching all move assigments to move constructors
 
 // TODO: dynamic_array does not support constexpr yet
 #define IMP_FLX_DARR_CONSTEXPR_ 
@@ -445,7 +447,7 @@ flx_public:
 	IMP_FLX_DARR_CONSTEXPR_ void erase(iterator first, iterator last) noexcept
 	{
 		FLX_ASSERT_((first.get() >= begin().get() && first.get() < end().get()) && "flx/dynamic_array.hpp::dynamic_array::erase: first erase position is out of bounds.");
-		FLX_ASSERT_((last.get() >= begin().get() && last.get() < end().get()) && "flx/dynamic_array.hpp::dynamic_array::erase: last erase position is out of bounds.");
+		FLX_ASSERT_((last.get() >= begin().get() && last.get() <= end().get()) && "flx/dynamic_array.hpp::dynamic_array::erase: last erase position is out of bounds.");
 		FLX_ASSERT_(first.get() <= last.get() && "flx/dynamic_array.hpp::dynamic_array::erase: erase region is invalid.");
 
 		iterator temp(first);
