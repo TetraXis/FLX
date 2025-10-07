@@ -181,6 +181,19 @@ constexpr bool is_floating_point = is_any_of
 
 
 
+// ===== is_nothrow_move_constructible ===== //
+
+#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_CLANG_
+	FLX_API_ template <typename ty>
+		constexpr bool is_nothrow_move_constructible = __is_nothrow_constructible(ty, ty);
+#else
+	FLX_API_ template <typename ty>
+		constexpr bool is_nothrow_constructible = false;
+#error "flx/type_traits.hpp::is_nothrow_move_constructible: unkown compiler. Could not generate 'is_nothrow_move_constructible' trait. Replace with your eqivalent of '__is_nothrow_constructible' in the 'flx/type_traits.hpp' header."
+#endif // is_nothrow_constructible_
+
+
+
 // ===== is_trivially_constructible ===== //
 
 #if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_CLANG_

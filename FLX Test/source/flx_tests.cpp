@@ -633,62 +633,6 @@ bool test::test_dynamic_array()
 		}
 	}
 
-	// no move constructor
-	{
-		output << ".\t.\tTesting construction with no-move-constructor type...\n";
-
-		struct no_move
-		{
-			i32 data_ = 10;
-
-			no_move() noexcept {};
-			no_move(i32 a) noexcept { data_ = a;  };
-			no_move(const no_move& o) noexcept { data_ = o.data_; };
-			no_move(no_move&&) noexcept = delete;
-		};
-
-		// default constructor
-		try
-		{
-			dynamic_array<no_move> a{};
-
-			if (a.size_ != 0) throw std::runtime_error("Size is not null.");
-
-			if (a.capacity_ != dynamic_array<no_move>::PREALLOCATED_CAPACITY) throw std::runtime_error("Capacity is bad.");
-
-			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Default constructor.\n";
-			tests_passed++;
-		}
-		catch (std::exception e)
-		{
-			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Default constructor: " << e.what() << '\n';
-			result = false;
-			tests_failed++;
-		}
-
-		// move constructor
-		try
-		{
-			dynamic_array<no_move> a{};
-
-			dynamic_array<no_move> a1{ std::move(a) };
-
-			if (a.data_ != nullptr) throw std::runtime_error("Data is not null.");
-
-			if (a1.data_ == nullptr) throw std::runtime_error("Data is null.");
-
-			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Move constructor.\n";
-			tests_passed++;
-		}
-		catch (std::exception e)
-		{
-			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Move constructor: " << e.what() << '\n';
-			result = false;
-			tests_failed++;
-		}
-	}
-	output << ".\t.\t.\t.\t\n";
-
 	// destruction
 	output << ".\tTesting destruction...\n";
 	{
@@ -1163,7 +1107,7 @@ bool test::test_dynamic_array()
 			if (called_copy_constructors != 0)		throw std::runtime_error("Called copy constructors is not null.");
 			//if (called_move_constructors != 0)		throw std::runtime_error("Called move constructors is not null."); // they are called when reallocating
 			if (called_copy_assigment != 0)			throw std::runtime_error("Called copy assigments is not null.");
-			//if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
+			if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
 			if (called_destructors != amount)		throw std::runtime_error("Called destructors is bad."); // should match moves + copies + custom constructors
 
 			output << ".\t.\t" << GREEN << "PASSED" << RESET << " erase(iter).\n";
@@ -1219,7 +1163,7 @@ bool test::test_dynamic_array()
 			if (called_copy_constructors != 0)		throw std::runtime_error("Called copy constructors is not null.");
 			//if (called_move_constructors != 0)		throw std::runtime_error("Called move constructors is not null."); // they are called when reallocating
 			if (called_copy_assigment != 0)			throw std::runtime_error("Called copy assigments is not null.");
-			//if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
+			if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
 			if (called_destructors != 10)			throw std::runtime_error("Called destructors is bad."); // should match moves + copies + custom constructors
 
 			output << ".\t.\t" << GREEN << "PASSED" << RESET << " erase(iter, iter).\n";

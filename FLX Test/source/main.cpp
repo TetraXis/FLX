@@ -1,9 +1,9 @@
-﻿//#include "flx/imp_core.hpp"
-//#include "flx/new.hpp"
-//#include "flx/utility.hpp"
-//#include "flx/type_traits.hpp"
-//#include "flx/concepts.hpp"
-//#include "flx/dynamic_array.hpp"
+﻿#include "flx/imp_core.hpp"
+#include "flx/new.hpp"
+#include "flx/utility.hpp"
+#include "flx/type_traits.hpp"
+#include "flx/concepts.hpp"
+#include "flx/dynamic_array.hpp"
 
 #include "flx_tests.hpp"
 
@@ -15,8 +15,6 @@
 
 int main()
 {
-	std::vector<int> a;
-
 	flx::test::test_flx();
 
 	std::cout << flx::test::output.str();

@@ -8,17 +8,51 @@
 
 FLX_BEGIN_
 
-FLX_API_ extern const c8* last_error;
-FLX_API_ extern void (*on_terminate) () noexcept;
+FLX_API_ inline const c8* last_error;
+FLX_API_ inline void (*on_terminate) () noexcept =
+[]() noexcept
+	{
+		// Make program crash
+		*(int*)(nullptr) = 0;
 
-FLX_API_ inline void* allocate(const szt size) {}; // todo: fix {} and link, now inline temporary
+		while (true)
+		{
+			*(int*)(nullptr) = 0;
+		}
+	};
+
+FLX_API_ inline void terminate(const c8* const error_msg = last_error) noexcept 
+{
+	FLX_ASSERT_(false && *last_error);
+
+	FLX_ on_terminate();
+};
+
+FLX_API_ inline void* allocate(const szt size) {}; // todo: fix {}
 
 FLX_API_ inline void* allocate(const szt size, [[maybe_unused]] IMP_ nothrow_tag) noexcept {};
 
 FLX_API_ inline void deallocate(void* ptr) noexcept {};
 
-FLX_API_ inline void terminate() noexcept {};
-FLX_API_ inline void terminate(const c8* const error_msg) noexcept {};
+// always noexcept
+FLX_API_ inline void* allocate_raw(const szt bytes) noexcept
+{
+	try
+	{
+		return ::operator new(bytes);
+	}
+	catch (...)
+	{
+		FLX_ terminate("flx/utility.hpp::allocate_raw: bad alloc.");
+	}
+}
+
+// always noexcept
+FLX_API_ inline void deallocate_raw(void* const memory) noexcept
+{
+	::operator delete(memory);
+	return;
+}
 
 // construct_at is always noexcept
 FLX_API_ template <class ty, class... val_ty>
@@ -65,7 +99,7 @@ constexpr const ty& (min)(const ty& a, const ty& b) noexcept
 
 // converts x, y, width to index for 2D array
 FLX_API_ template<typename ty>
-constexpr const ty(xy_to_idx) (ty x, ty y, ty width) noexcept
+constexpr const ty (xy_to_idx)(ty x, ty y, ty width) noexcept
 {
 	return x + y * width;
 }

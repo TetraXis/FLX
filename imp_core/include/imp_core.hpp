@@ -8,9 +8,9 @@
 // FLX_USING_SHARED:			Define when using FLX as a dynamic library. (unchecked functionality, not even sure when this would be used)
 
 #define FLX_VERSION_MAJOR	0
-#define FLX_VERSION_MINOR	0
-#define FLX_VERSION_PATCH	1
-#define FLX_VERSION			"0.0.1"
+#define FLX_VERSION_MINOR	1
+#define FLX_VERSION_PATCH	0
+#define FLX_VERSION			"0.1.0"
 
 
 
