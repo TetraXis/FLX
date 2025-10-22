@@ -6,6 +6,7 @@
 #include "flx/dynamic_array.hpp"
 
 #include "flx_tests.hpp"
+#include "test_h.h"
 
 #include <iostream>
 #include <vector>

@@ -9,6 +9,7 @@
 
 // TODO: add initializer list constructor
 // TODO: make modifiers return iterator
+// TODO: do allocators
 
 // TODO: dynamic_array does not support constexpr yet
 #define IMP_FLX_DARR_CONSTEXPR_ 
@@ -191,7 +192,7 @@ struct dynamic_array
 	};
 
 flx_private:
-	// we are storing size_ and capacity_ so we can choose their size and make smaller memory footprint
+	// We are storing size_ and capacity_ so we can choose their size and make smaller memory footprint
 	ty* data_{};
 	size_ty size_{};
 	size_ty capacity_{};
@@ -217,7 +218,6 @@ flx_public:
 		size_ = 0;
 		for (size_ = 0; size_ < other.size_; size_++)
 		{
-			//::new (&data_[size_], true) ty(other.data_[size_]);
 			FLX_ copy_construct_at(&data_[size_], other.data_[size_]);
 		}
 	}

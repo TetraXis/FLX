@@ -12,7 +12,7 @@ FLX_API_ inline const c8* last_error;
 FLX_API_ inline void (*on_terminate) () noexcept =
 []() noexcept
 	{
-		// Make program crash
+		// make program crash
 		*(int*)(nullptr) = 0;
 
 		while (true)

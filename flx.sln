@@ -52,6 +52,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dynamic_array", "dynamic_ar
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FLX Test", "FLX Test\FLX Test.vcxproj", "{D7C82906-DC98-49D2-BA59-36D174F005B7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "memory", "memory\memory.vcxproj", "{4C2CD8FA-CBF2-4AEE-82A8-2DC5BC536E62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -302,6 +304,18 @@ Global
 		{D7C82906-DC98-49D2-BA59-36D174F005B7}.Release|Win32.Build.0 = Release|Win32
 		{D7C82906-DC98-49D2-BA59-36D174F005B7}.Release|Win64.ActiveCfg = Release|x64
 		{D7C82906-DC98-49D2-BA59-36D174F005B7}.Release|Win64.Build.0 = Release|x64
+		{4C2CD8FA-CBF2-4AEE-82A8-2DC5BC536E62}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4C2CD8FA-CBF2-4AEE-82A8-2DC5BC536E62}.Debug|Win32.Build.0 = Debug|Win32
+		{4C2CD8FA-CBF2-4AEE-82A8-2DC5BC536E62}.Debug|Win64.ActiveCfg = Debug|x64
+		{4C2CD8FA-CBF2-4AEE-82A8-2DC5BC536E62}.Debug|Win64.Build.0 = Debug|x64
+		{4C2CD8FA-CBF2-4AEE-82A8-2DC5BC536E62}.MaxOptimizations|Win32.ActiveCfg = MaxOptimizations|Win32
+		{4C2CD8FA-CBF2-4AEE-82A8-2DC5BC536E62}.MaxOptimizations|Win32.Build.0 = MaxOptimizations|Win32
+		{4C2CD8FA-CBF2-4AEE-82A8-2DC5BC536E62}.MaxOptimizations|Win64.ActiveCfg = MaxOptimizations|x64
+		{4C2CD8FA-CBF2-4AEE-82A8-2DC5BC536E62}.MaxOptimizations|Win64.Build.0 = MaxOptimizations|x64
+		{4C2CD8FA-CBF2-4AEE-82A8-2DC5BC536E62}.Release|Win32.ActiveCfg = Release|Win32
+		{4C2CD8FA-CBF2-4AEE-82A8-2DC5BC536E62}.Release|Win32.Build.0 = Release|Win32
+		{4C2CD8FA-CBF2-4AEE-82A8-2DC5BC536E62}.Release|Win64.ActiveCfg = Release|x64
+		{4C2CD8FA-CBF2-4AEE-82A8-2DC5BC536E62}.Release|Win64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
