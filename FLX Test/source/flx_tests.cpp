@@ -39,8 +39,11 @@ bool test::test_flx()
 		output << "Test is running in DEBUG.\n";
 	}
 
+	output << "\nFLX version is: " << FLX_VERSION << '\n';
+
 	test_dynamic_array();
 
+	output << "\nFLX version is: " << FLX_VERSION << '\n';
 	output << "\nTest finihsed.\n";
 	output << "Tests done:\t" << tests_passed + tests_failed << ".\n";
 	output << "Tests passed:\t" << tests_passed << ".\n";

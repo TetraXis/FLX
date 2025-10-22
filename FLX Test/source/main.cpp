@@ -3,6 +3,7 @@
 #include "flx/utility.hpp"
 #include "flx/type_traits.hpp"
 #include "flx/concepts.hpp"
+#include "flx/memory.hpp"
 #include "flx/dynamic_array.hpp"
 
 #include "flx_tests.hpp"
@@ -10,6 +11,7 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 //#include <algorithm>
 
 //using namespace flx;

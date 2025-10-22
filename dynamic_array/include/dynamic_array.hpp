@@ -6,27 +6,36 @@
 #include "flx/type_traits.hpp"
 #include "flx/concepts.hpp"
 #include "flx/utility.hpp"
+#include "flx/memory.hpp"
 
 // TODO: add initializer list constructor
 // TODO: make modifiers return iterator
 // TODO: do allocators
+// TODO: fix iterator
+// TODO: consider typedefs
 
 // TODO: dynamic_array does not support constexpr yet
 #define IMP_FLX_DARR_CONSTEXPR_ 
 
 FLX_BEGIN_
 
+// dynamic_array will delay object construction after allocation
+// it is preferred that your constructors only allocate/deallocate
 FLX_API_ template <typename ty, FLX_ unsigned_integral size_ty = u64>
 struct dynamic_array
 {
 	static_assert(FLX_ destructible<ty>, "flx/dynamic_array.hpp::dynamic_array: dynamic_array can only work with nothrow destructible objects.");
 	static_assert(FLX_ is_nothrow_move_constructible<ty>, "flx/dynamic_array.hpp::dynamic_array: dynamic_array can only work with nothrow move constructible objects.");
 
+	using value_type = ty;
+
 	static constexpr size_ty PREALLOCATED_CAPACITY = 0;
 
 	FLX_API_ struct iterator
 	{
 		friend dynamic_array;
+
+		using value_type = ty;
 
 	flx_private:
 		ty* ptr = nullptr;
@@ -108,6 +117,8 @@ struct dynamic_array
 	FLX_API_ struct const_iterator
 	{
 		friend dynamic_array;
+
+		using value_type = ty;
 
 	flx_private:
 		const ty* ptr = nullptr;
@@ -200,7 +211,7 @@ flx_private:
 flx_public:
 	IMP_FLX_DARR_CONSTEXPR_ dynamic_array() noexcept
 	{
-		data_ = static_cast<ty*>(FLX_ allocate_raw(PREALLOCATED_CAPACITY * sizeof(ty)));
+		data_ = static_cast<ty*>(FLX_ allocate_raw(PREALLOCATED_CAPACITY * sizeof(ty), FLX_ nothrow));
 		size_ = 0;
 		capacity_ = PREALLOCATED_CAPACITY;
 	}
@@ -213,12 +224,12 @@ flx_public:
 
 	IMP_FLX_DARR_CONSTEXPR_ dynamic_array(const dynamic_array& other) noexcept requires FLX_ is_nothrow_copy_constructible<ty>
 	{
-		data_ = static_cast<ty*>(FLX_ allocate_raw(other.capacity_ * sizeof(ty)));
+		data_ = static_cast<ty*>(FLX_ allocate_raw(other.capacity_ * sizeof(ty), FLX_ nothrow));
 		capacity_ = other.capacity_;
 		size_ = 0;
-		for (size_ = 0; size_ < other.size_; size_++)
+		for (size_ = 0; size_ < other.size_; ++size_)
 		{
-			FLX_ copy_construct_at(&data_[size_], other.data_[size_]);
+			FLX_ copy_construct_at(&data_[size_], other.data_[size_], FLX_ nothrow);
 		}
 	}
 
@@ -237,7 +248,7 @@ flx_public:
 
 		while (size_ != count)
 		{
-			FLX_ copy_construct_at(&data_[size_], val);
+			FLX_ copy_construct_at(&data_[size_], val, FLX_ nothrow);
 			++size_;
 		}
 	}
@@ -249,12 +260,12 @@ flx_public:
 		if (capacity_ < other.size_)
 		{ 
 			FLX_ deallocate_raw(data_);
-			data_ = static_cast<ty*>(FLX_ allocate_raw(other.size_ * sizeof(ty)));
+			data_ = static_cast<ty*>(FLX_ allocate_raw(other.size_ * sizeof(ty)), FLX_ nothrow);
 		}
 
 		for (size_ = 0; size_ < other.size_; size_++)
 		{
-			FLX_ copy_construct_at(&data_[size_], other.data_[size_]);
+			FLX_ copy_construct_at(&data_[size_], other.data_[size_], FLX_ nothrow);
 		}
 
 		return *this;
@@ -340,7 +351,7 @@ flx_public:
 			reallocate(capacity_ + 1);
 		}
 
-		FLX_ copy_construct_at(&data_[size_], val);
+		FLX_ copy_construct_at(&data_[size_], val, FLX_ nothrow);
 		++size_;
 	}
 
@@ -351,7 +362,7 @@ flx_public:
 			reallocate(capacity_ + 1);
 		}
 
-		FLX_ move_construct_at(&data_[size_], FLX_ move(val));
+		FLX_ move_construct_at(&data_[size_], FLX_ move(val), FLX_ nothrow);
 		++size_;
 	}
 
@@ -362,7 +373,7 @@ flx_public:
 		{
 			reallocate(capacity_ + 1);
 		}
-		FLX_ construct_at(&data_[size_], FLX_ forward<val_ty>(vals)...);
+		FLX_ construct_at(&data_[size_], FLX_ nothrow, FLX_ forward<val_ty>(vals)...);
 		++size_;
 	}
 
@@ -388,7 +399,7 @@ flx_public:
 
 		while (where != end() - 1)
 		{
-			FLX_ move_construct_at(where.get(), FLX_ move(*(where.get() + 1)));
+			FLX_ move_construct_at(where.get(), FLX_ move(*(where.get() + 1)), FLX_ nothrow);
 			++where;
 		}
 		--size_;
@@ -416,7 +427,7 @@ flx_public:
 
 		while (temp != end())
 		{
-			FLX_ move_construct_at(temp.get() - diff, FLX_ move(*temp));
+			FLX_ move_construct_at(temp.get() - diff, FLX_ move(*temp), FLX_ nothrow);
 			++temp;
 		}
 
@@ -445,11 +456,11 @@ flx_private:
 
 		FLX_ASSERT_(capacity_ > size_ && "flx/dynamic_array.hpp::dynamic_array::reallocate: new capacity is smaller than size.");
 
-		ty* new_data = static_cast<ty*>(FLX_ allocate_raw(capacity_ * sizeof(ty)));
+		ty* new_data = static_cast<ty*>(FLX_ allocate_raw(capacity_ * sizeof(ty), FLX_ nothrow));
 
 		for (size_ty i = 0; i < size_; i++)
 		{
-			FLX_ move_construct_at(&new_data[i], FLX_ move(data_[i]));
+			FLX_ move_construct_at(&new_data[i], FLX_ move(data_[i]), FLX_ nothrow);
 
 			if constexpr (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
 			{
@@ -467,7 +478,7 @@ flx_private:
 		FLX_ASSERT_(new_capacity > size_ && "flx/dynamic_array.hpp::dynamic_array::allocate_raw_array: new capacity is smaller than size.");
 
 		capacity_ = new_capacity;
-		data_ = static_cast<ty*>(FLX_ allocate_raw(capacity_ * sizeof(ty)));
+		data_ = static_cast<ty*>(FLX_ allocate_raw(capacity_ * sizeof(ty), FLX_ nothrow));
 	}
 
 	// Should be called with (capacity + 1)

@@ -36,7 +36,7 @@ constexpr inline void* operator new ([[maybe_unused]] FLX_ szt, void* ptr, [[may
 {
 	return ptr;
 }
-constexpr inline void* operator new ([[maybe_unused]] FLX_ szt, void* ptr, [[maybe_unused]] IMP_ nothrow_tag nothrow, [[maybe_unused]] IMP_ use_flx_tag) noexcept
+constexpr inline void* operator new ([[maybe_unused]] FLX_ szt, void* ptr, [[maybe_unused]] IMP_ nothrow_tag nothrow_, [[maybe_unused]] IMP_ use_flx_tag) noexcept
 {
 	return ptr;
 }
@@ -45,7 +45,7 @@ constexpr inline void* operator new[] ([[maybe_unused]] FLX_ szt, void* ptr, [[m
 {
 	return ptr;
 }
-constexpr inline void* operator new[] ([[maybe_unused]] FLX_ szt, void* ptr, [[maybe_unused]] IMP_ nothrow_tag nothrow, [[maybe_unused]] IMP_ use_flx_tag) noexcept
+constexpr inline void* operator new[] ([[maybe_unused]] FLX_ szt, void* ptr, [[maybe_unused]] IMP_ nothrow_tag nothrow_, [[maybe_unused]] IMP_ use_flx_tag) noexcept
 {
 	return ptr;
 }

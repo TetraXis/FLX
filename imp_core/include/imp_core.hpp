@@ -6,11 +6,13 @@
 // FLX_ALL_MEMBERS_ARE_PUBLIC:	Define if you need all class members to become public.
 // FLX_BUILDING_SHARED:			Define when building FLX as a dynamic library. (unchecked functionality)
 // FLX_USING_SHARED:			Define when using FLX as a dynamic library. (unchecked functionality, not even sure when this would be used)
+//
+// For now FLX aims to be exception-free
 
 #define FLX_VERSION_MAJOR	0
 #define FLX_VERSION_MINOR	1
-#define FLX_VERSION_PATCH	0
-#define FLX_VERSION			"0.1.0"
+#define FLX_VERSION_PATCH	3
+#define FLX_VERSION			"0.1.3"
 
 
 
@@ -163,6 +165,8 @@
 #else
 	#define IMP_FLX_ASSUME_(expr) 
 #endif // IMP_FLX_ASSUME_
+
+#define IMP_FLX_DEPRICATE_EXCEPTIONS_ [[deprecated("As of FLX v." FLX_VERSION ": throwable functions are depricated, use flx::nothrow tag.")]]
 
 
 

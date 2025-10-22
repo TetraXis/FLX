@@ -1,5 +1,5 @@
-#ifndef FLX_IMP_UTILITY_HPP_
-#define FLX_IMP_UTILITY_HPP_
+#ifndef IMP_FLX_UTILITY_HPP_
+#define IMP_FLX_UTILITY_HPP_
 
 #include "flx/imp_core.hpp"
 #include "flx/new.hpp"
@@ -28,63 +28,6 @@ FLX_API_ inline void terminate(const c8* const error_msg = last_error) noexcept
 	FLX_ on_terminate();
 };
 
-FLX_API_ inline void* allocate(const szt size) {}; // todo: fix {}
-
-FLX_API_ inline void* allocate(const szt size, [[maybe_unused]] IMP_ nothrow_tag) noexcept {};
-
-FLX_API_ inline void deallocate(void* ptr) noexcept {};
-
-// always noexcept
-FLX_API_ inline void* allocate_raw(const szt bytes) noexcept
-{
-	try
-	{
-		return ::operator new(bytes);
-	}
-	catch (...)
-	{
-		FLX_ terminate("flx/utility.hpp::allocate_raw: bad alloc.");
-	}
-}
-
-// always noexcept
-FLX_API_ inline void deallocate_raw(void* const memory) noexcept
-{
-	::operator delete(memory);
-	return;
-}
-
-// construct_at is always noexcept
-FLX_API_ template <class ty, class... val_ty>
-	requires requires(ty* location, val_ty&&... args)
-{
-	::new (static_cast<void*>(location), FLX_ nothrow, FLX_ use_flx) ty(FLX_ forward<val_ty>(args)...);
-}
-constexpr ty* construct_at(ty* const location, val_ty&&... args) noexcept
-{
-	static_assert(noexcept(ty(FLX_ forward<val_ty>(args)...)), "flx_utility::construct_at: your constructor should be noexcept.");
-
-	return ::new (static_cast<void*>(location), FLX_ nothrow, FLX_ use_flx) ty(FLX_ forward<val_ty>(args)...);
-}
-
-// copy_construct_at is always noexcept
-FLX_API_ template <FLX_ copy_constructible ty>
-constexpr ty* copy_construct_at(ty* const location, const ty& other) noexcept
-{
-	static_assert(noexcept(ty(other)), "flx_utility::copy_construct_at: your copy constructor should be noexcept.");
-
-	return ::new (static_cast<void*>(location), FLX_ nothrow, FLX_ use_flx) ty(other);
-}
-
-// move_construct_at is always noexcept
-FLX_API_ template <FLX_ move_constructible ty>
-constexpr ty* move_construct_at(ty* const location, ty&& other) noexcept
-{
-	static_assert(noexcept(ty(FLX_ move(other))), "flx_utility::move_construct_at: your move constructor should be noexcept.");
-
-	return ::new (static_cast<void*>(location), FLX_ nothrow, FLX_ use_flx) ty(FLX_ move(other));
-}
-
 FLX_API_ template<typename ty>
 constexpr const ty& (max)(const ty& a, const ty& b) noexcept
 {
@@ -106,4 +49,4 @@ constexpr const ty (xy_to_idx)(ty x, ty y, ty width) noexcept
 
 FLX_END_
 
-#endif // FLX_IMP_UTILITY_HPP_
+#endif // IMP_FLX_UTILITY_HPP_
