@@ -69,13 +69,24 @@ concept unsigned_integral = FLX_ is_unsigned_integral<ty>;
 
 // ===== allocator ===== //
 
-FLX_API_ template <typename ty, typename alloc_ty>
-concept allocator = requires (alloc_ty alloc, szt size, ty* ptr)
+FLX_API_ template <typename ty>
+concept allocator = requires (ty alloc, szt size, typename ty::value_type* ptr)
 {
-	requires FLX_ same_as<typename alloc_ty::value_type, ty>;
-	{ alloc.allocate(size) } -> FLX_ same_as<ty*>;
-	{ alloc.deallocate(ptr) } -> FLX_ same_as<void>;
+	typename ty::value_type;
+	{ alloc.allocate(size) } -> FLX_ same_as<typename ty::value_type*>;
+	{ alloc.deallocate(ptr, size) } -> FLX_ same_as<void>; 
+
+	//requires
+	//	requires {{ alloc.deallocate(ptr) } -> FLX_ same_as<void>; } ||
+	//	requires {{ alloc.deallocate(ptr, size) } -> FLX_ same_as<void>; };
 };
+
+
+
+// ===== can_form_pointer ===== //
+
+FLX_API_ template<typename ty>
+concept can_form_pointer = FLX_ is_pointer<ty*>;
 
 
 

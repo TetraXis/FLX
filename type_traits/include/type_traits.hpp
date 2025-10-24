@@ -55,6 +55,32 @@ constexpr bool is_volatile<volatile ty> = true;
 
 
 
+// ===== is_pointer ===== //
+
+IMP_BEGIN_
+
+template <typename>
+constexpr bool imp_is_pointer = false;
+
+template <typename ty>
+constexpr bool imp_is_pointer<ty*> = true;
+
+template <typename ty>
+constexpr bool imp_is_pointer<ty* const> = true;
+
+template <typename ty>
+constexpr bool imp_is_pointer<ty* volatile> = true;
+
+template <typename ty>
+constexpr bool imp_is_pointer<ty* const volatile> = true;
+
+IMP_END_
+
+FLX_API_ template <typename ty>
+constexpr bool is_pointer = IMP_ imp_is_pointer<ty>;
+
+
+
 // ===== is_lvalue_reference ===== //
 
 FLX_API_ template <typename>
@@ -323,7 +349,6 @@ IMP_END_
 
 FLX_API_ template <typename ty>
 using remove_reference = typename IMP_ imp_remove_reference<ty>::type;
-
 
 
 // ===== is_nothrow_copy_constructible ===== //

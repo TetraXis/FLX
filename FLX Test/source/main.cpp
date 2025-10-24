@@ -15,6 +15,28 @@
 //#include <algorithm>
 
 //using namespace flx;
+using namespace flx::types;
+
+template<typename ty>
+struct test_all
+{
+	using value_type = ty;
+
+	ty* allocate(unsigned long long)
+	{
+		return nullptr;
+	}
+
+	void deallocate(ty*)
+	{
+		return;
+	}
+
+	void deallocate(ty*, szt)
+	{
+		return;
+	}
+};
 
 int main()
 {

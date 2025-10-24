@@ -23,7 +23,7 @@ FLX_API_ inline void (*on_terminate) () noexcept =
 
 FLX_API_ inline void terminate(const c8* const error_msg = last_error) noexcept 
 {
-	FLX_ASSERT_(false && *last_error);
+	FLX_ASSERT_(false && *error_msg);
 
 	FLX_ on_terminate();
 };
