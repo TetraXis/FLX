@@ -379,7 +379,7 @@ flx_public:
 
 	IMP_FLX_DARR_CONSTEXPR_ void pop_back() noexcept
 	{
-		FLX_ASSERT_(!empty() && "flx_dynamic_array::dynamic_array::pop_back: popping on empty array.");
+		FLX_ASSERT_(!empty() && "flx/dynamic_array.hpp::dynamic_array::pop_back: popping on empty array.");
 
 		--size_;
 		if constexpr (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
@@ -494,6 +494,8 @@ flx_private:
 		return desired > capacity_ ? desired : new_capacity;
 	}
 }; // dynamic_array
+
+
 
 FLX_END_
 

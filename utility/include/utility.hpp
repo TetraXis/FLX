@@ -47,6 +47,8 @@ constexpr const ty (xy_to_idx)(ty x, ty y, ty width) noexcept
 	return x + y * width;
 }
 
+
+
 FLX_END_
 
 #endif // IMP_FLX_UTILITY_HPP_

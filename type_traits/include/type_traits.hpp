@@ -10,7 +10,7 @@ FLX_BEGIN_
 FLX_API_ template <typename a, typename b>
 constexpr bool is_same = false;
 
-FLX_API_ template <typename a>
+template <typename a>
 constexpr bool is_same<a, a> = true;
 
 
@@ -27,10 +27,10 @@ constexpr bool is_any_of = (is_same<ty, types> || ...);
 FLX_API_ template <typename>
 constexpr bool is_array = false;
 
-FLX_API_ template <typename ty>
+template <typename ty>
 constexpr bool is_array<ty[]> = true;
 
-FLX_API_ template <typename ty, unsigned long long size>
+template <typename ty, unsigned long long size>
 constexpr bool is_array<ty[size]> = true;
 
 
@@ -40,7 +40,7 @@ constexpr bool is_array<ty[size]> = true;
 FLX_API_ template <typename>
 constexpr bool is_const = false;
 
-FLX_API_ template <typename ty>
+template <typename ty>
 constexpr bool is_const<const ty> = true;
 
 
@@ -50,7 +50,7 @@ constexpr bool is_const<const ty> = true;
 FLX_API_ template <typename>
 constexpr bool is_volatile = false;
 
-FLX_API_ template <typename ty>
+template <typename ty>
 constexpr bool is_volatile<volatile ty> = true;
 
 
@@ -81,13 +81,33 @@ constexpr bool is_pointer = IMP_ imp_is_pointer<ty>;
 
 
 
+// ===== is_reference ===== //
+
+FLX_API_ template <typename>
+constexpr bool is_reference = false;
+
+template <typename ty>
+constexpr bool is_reference<ty&> = true;
+
+template <typename ty>
+constexpr bool is_reference<ty&&> = true;
+
+
+
 // ===== is_lvalue_reference ===== //
 
 FLX_API_ template <typename>
 constexpr bool is_lvalue_reference = false;
 
-FLX_API_ template <typename ty>
+template <typename ty>
 constexpr bool is_lvalue_reference<ty&> = true;
+
+
+
+// ===== is_function ===== //
+
+FLX_API_ template <typename ty>
+constexpr bool is_function = !FLX_ is_const<const ty> && !FLX_ is_reference<ty>;
 
 
 // ===== is_integral ===== //

@@ -38,8 +38,17 @@ struct test_all
 	}
 };
 
+void test_f()
+{
+
+}
+
 int main()
 {
+	std::allocator<int>;
+
+	return 0;
+
 	flx::test::test_flx();
 
 	std::cout << flx::test::output.str();

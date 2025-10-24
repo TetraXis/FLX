@@ -72,6 +72,11 @@ bool test::test_utility()
 	return true;
 }
 
+bool test::test_memory()
+{
+	return true;
+}
+
 bool test::test_dynamic_array()
 {
 	output << "\nTesting dynamic_array...\n";

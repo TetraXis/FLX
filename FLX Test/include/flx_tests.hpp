@@ -21,6 +21,7 @@ namespace test
 	FLX_API_ bool test_type_traits();
 	FLX_API_ bool test_concepts();
 	FLX_API_ bool test_utility();
+	FLX_API_ bool test_memory();
 	FLX_API_ bool test_dynamic_array();
 }
 

@@ -19,7 +19,7 @@ ty* allocate()
 FLX_API_ template<typename ty>
 ty* allocate([[maybe_unused]] IMP_ nothrow_tag) noexcept
 {
-	static_assert(noexcept(ty{}), "flx/memory::allocate: your default constructor should be noexcept.");
+	static_assert(noexcept(ty{}), "flx/memory.hpp::allocate: your default constructor should be noexcept.");
 
 	try
 	{
@@ -36,13 +36,13 @@ FLX_API_ template <typename ty, typename... val_ty>
 IMP_FLX_DEPRICATE_EXCEPTIONS_
 ty* allocate(ty* const location, val_ty&&... args)
 {
-	new ty{ FLX_ forward<val_ty>(args)... };
+	return new ty{ FLX_ forward<val_ty>(args)... };
 }
 
 FLX_API_ template <typename ty, typename... val_ty>
 ty* allocate(ty* const location, [[maybe_unused]] IMP_ nothrow_tag, val_ty&&... args) noexcept
 {
-	static_assert(noexcept(ty(FLX_ forward<val_ty>(args)...)), "flx/memory::allocate: your constructor should be noexcept.");
+	static_assert(noexcept(ty(FLX_ forward<val_ty>(args)...)), "flx/memory.hpp::allocate: your constructor should be noexcept.");
 
 	try
 	{
@@ -65,13 +65,13 @@ FLX_API_ template<typename ty>
 IMP_FLX_DEPRICATE_EXCEPTIONS_
 ty* allocate_array(const szt size)
 {
-	new ty[size];
+	return new ty[size];
 }
 
 FLX_API_ template<typename ty>
 ty* allocate_array(const szt size, [[maybe_unused]] IMP_ nothrow_tag) noexcept
 {
-	static_assert(noexcept(ty{}), "flx/memory::allocate: your default constructor should be noexcept.");
+	static_assert(noexcept(ty{}), "flx/memory.hpp::allocate: your default constructor should be noexcept.");
 
 	try
 	{
@@ -136,7 +136,7 @@ FLX_API_ template <typename ty, typename... val_ty>
 }
 constexpr ty* construct_at(ty* const location, [[maybe_unused]] IMP_ nothrow_tag, val_ty&&... args) noexcept
 {
-	static_assert(noexcept(ty(FLX_ forward<val_ty>(args)...)), "flx/memory::construct_at: your constructor should be noexcept.");
+	static_assert(noexcept(ty(FLX_ forward<val_ty>(args)...)), "flx/memory.hpp::construct_at: your constructor should be noexcept.");
 
 	return ::new (static_cast<void*>(location), FLX_ nothrow, FLX_ use_flx) ty(FLX_ forward<val_ty>(args)...);
 }
@@ -151,7 +151,7 @@ constexpr ty* copy_construct_at(ty* const location, const ty& other)
 FLX_API_ template <FLX_ copy_constructible ty>
 constexpr ty* copy_construct_at(ty* const location, const ty& other, [[maybe_unused]] IMP_ nothrow_tag) noexcept
 {
-	static_assert(noexcept(ty(other)), "flx/memory::copy_construct_at: your copy constructor should be noexcept.");
+	static_assert(noexcept(ty(other)), "flx/memory.hpp::copy_construct_at: your copy constructor should be noexcept.");
 
 	return ::new (static_cast<void*>(location), FLX_ nothrow, FLX_ use_flx) ty(other);
 }
@@ -166,7 +166,7 @@ constexpr ty* move_construct_at(ty* const location, ty&& other)
 FLX_API_ template <FLX_ move_constructible ty>
 constexpr ty* move_construct_at(ty* const location, ty&& other, [[maybe_unused]] IMP_ nothrow_tag) noexcept
 {
-	static_assert(noexcept(ty(FLX_ move(other))), "flx/memory::move_construct_at: your move constructor should be noexcept.");
+	static_assert(noexcept(ty(FLX_ move(other))), "flx/memory.hpp::move_construct_at: your move constructor should be noexcept.");
 
 	return ::new (static_cast<void*>(location), FLX_ nothrow, FLX_ use_flx) ty(FLX_ move(other));
 }
@@ -378,17 +378,26 @@ flx_public:
     }
 }; // unique_ptr<ty[]>
 
-template<typename ty, typename... args_ty>
+FLX_API_ template<typename ty, typename... args_ty>
 [[nodiscard("Discarding created flx::unique_ptr will result in memory leak.")]]
-inline constexpr flx::unique_ptr<ty> make_unique(args_ty&&... args)
+inline constexpr FLX_ unique_ptr<ty> make_unique(args_ty&&... args)
 {
-    return flx::unique_ptr<ty>(new ty(flx::forward<args_ty>(args)...));
+    return FLX_ unique_ptr<ty>(new ty(FLX_ forward<args_ty>(args)...));
 }
 
 
 
+// ===== default_allocator ===== //
+
+// For now, FLX aims to be nothrow, so this allocator is nothrow
+FLX_API_ template<FLX_ allocatable ty>
+struct default_raw_allocator
+{
+    //TODO: finish allocator
+};
+
+
+
 FLX_END_
-
-
 
 #endif // IMP_FLX_MEMORY_HPP_
