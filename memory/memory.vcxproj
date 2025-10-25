@@ -29,6 +29,20 @@
   <ItemGroup>
     <ClInclude Include="include\memory.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\concepts\concepts.vcxproj">
+      <Project>{36adc2f2-e758-4ac3-85b9-e4ce989e84e5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\imp_core\imp_core.vcxproj">
+      <Project>{259066a5-eb83-4a53-a3e2-fd970e21be4c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\new\new.vcxproj">
+      <Project>{a22d64ce-5266-402e-a676-077ef68eabae}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\type_traits\type_traits.vcxproj">
+      <Project>{9a18f022-9457-4bd9-b610-95c593d36b95}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

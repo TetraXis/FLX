@@ -64,6 +64,9 @@
 		<EnableEnhancedInstructionSet Condition="'$(Platform)' == 'x64' and '$(Configuration)' == 'Release'">NotSet</EnableEnhancedInstructionSet>
 		<EnableEnhancedInstructionSet Condition="'$(Configuration)' == 'MaxOptimizations' and '$(Platform)' == 'x86'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
 		<EnableEnhancedInstructionSet Condition="'$(Configuration)' == 'MaxOptimizations' and '$(Platform)' == 'x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+		
+		<!-- Disable incremental linking for ASAN Debug -->
+		<IncrementalLink Condition="'$(Configuration)' == 'Debug' and '$(UseOfAddressSanitizer)' == 'true'">false</IncrementalLink>
 	</PropertyGroup>
 
 	<ItemDefinitionGroup>

@@ -5,7 +5,6 @@
 #include "flx/new.hpp"
 #include "flx/type_traits.hpp"
 #include "flx/concepts.hpp"
-#include "flx/utility.hpp"
 #include "flx/memory.hpp"
 
 // TODO: add initializer list constructor
@@ -494,8 +493,6 @@ flx_private:
 		return desired > capacity_ ? desired : new_capacity;
 	}
 }; // dynamic_array
-
-
 
 FLX_END_
 

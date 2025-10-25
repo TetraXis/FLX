@@ -50,6 +50,4 @@ constexpr inline void* operator new[] ([[maybe_unused]] FLX_ szt, void* ptr, [[m
 	return ptr;
 }
 
-
-
 #endif // IMP_FLX_NEW_HPP_

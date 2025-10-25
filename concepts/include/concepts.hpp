@@ -103,8 +103,6 @@ concept allocator = requires (ty alloc, szt size, typename ty::value_type* ptr)
 FLX_API_ template<typename ty>
 concept can_form_pointer = FLX_ is_pointer<ty*>;
 
-
-
 FLX_END_
 
 #endif // IMP_FLX_CONCEPTS_HPP_

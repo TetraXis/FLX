@@ -10,9 +10,9 @@
 // For now FLX aims to be exception-free
 
 #define FLX_VERSION_MAJOR	0
-#define FLX_VERSION_MINOR	1
-#define FLX_VERSION_PATCH	3
-#define FLX_VERSION			"0.1.3"
+#define FLX_VERSION_MINOR	2
+#define FLX_VERSION_PATCH	1
+#define FLX_VERSION			"0.2.1"
 
 
 
@@ -228,6 +228,33 @@ FLX_END_
 #else
 	#define FLX_ASSERT_(expr) ((void)0)
 #endif // FLX_DEBUG
+
+
+// ===== terminate ===== //
+
+FLX_BEGIN_
+
+FLX_API_ inline const c8* last_error = "NULL";
+FLX_API_ inline void (*on_terminate) () noexcept =
+[]() noexcept
+	{
+		// make program crash
+		*(i32*)(nullptr) = 0;
+
+		while (true)
+		{
+			*(i32*)(nullptr) = 0;
+		}
+	};
+
+FLX_API_ inline void terminate(const c8* const error_msg = last_error) noexcept
+{
+	FLX_ASSERT_(false && *error_msg);
+
+	FLX_ on_terminate();
+};
+
+FLX_END_
 
 
 

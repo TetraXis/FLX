@@ -3,7 +3,8 @@
 
 #include "flx/imp_core.hpp"
 #include "flx/new.hpp"
-#include "flx/utility.hpp"
+#include "flx/type_traits.hpp"
+#include "flx/concepts.hpp"
 
 FLX_BEGIN_
 
@@ -395,8 +396,6 @@ struct default_raw_allocator
 {
     //TODO: finish allocator
 };
-
-
 
 FLX_END_
 

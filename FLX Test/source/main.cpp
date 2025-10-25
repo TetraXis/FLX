@@ -45,9 +45,9 @@ void test_f()
 
 int main()
 {
-	std::allocator<int>;
+	/*std::allocator<int>;
 
-	return 0;
+	flx::dynamic_array<int>;*/
 
 	flx::test::test_flx();
 

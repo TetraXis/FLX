@@ -6,11 +6,13 @@
 // FLX_ALL_MEMBERS_ARE_PUBLIC:	Define if you need all class members to become public.
 // FLX_BUILDING_SHARED:			Define when building FLX as a dynamic library. (unchecked functionality)
 // FLX_USING_SHARED:			Define when using FLX as a dynamic library. (unchecked functionality, not even sure when this would be used)
+//
+// For now FLX aims to be exception-free
 
 #define FLX_VERSION_MAJOR	0
-#define FLX_VERSION_MINOR	0
+#define FLX_VERSION_MINOR	2
 #define FLX_VERSION_PATCH	1
-#define FLX_VERSION			"0.0.1"
+#define FLX_VERSION			"0.2.1"
 
 
 
@@ -164,6 +166,8 @@
 	#define IMP_FLX_ASSUME_(expr) 
 #endif // IMP_FLX_ASSUME_
 
+#define IMP_FLX_DEPRICATE_EXCEPTIONS_ [[deprecated("As of FLX v." FLX_VERSION ": throwable functions are depricated, use flx::nothrow tag.")]]
+
 
 
 // ===== types ===== //
@@ -224,6 +228,33 @@ FLX_END_
 #else
 	#define FLX_ASSERT_(expr) ((void)0)
 #endif // FLX_DEBUG
+
+
+// ===== terminate ===== //
+
+FLX_BEGIN_
+
+FLX_API_ inline const c8* last_error = "NULL";
+FLX_API_ inline void (*on_terminate) () noexcept =
+[]() noexcept
+	{
+		// make program crash
+		*(i32*)(nullptr) = 0;
+
+		while (true)
+		{
+			*(i32*)(nullptr) = 0;
+		}
+	};
+
+FLX_API_ inline void terminate(const c8* const error_msg = last_error) noexcept
+{
+	FLX_ASSERT_(false && *error_msg);
+
+	FLX_ on_terminate();
+};
+
+FLX_END_
 
 
 

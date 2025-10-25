@@ -10,7 +10,7 @@ FLX_BEGIN_
 FLX_API_ template <typename a, typename b>
 constexpr bool is_same = false;
 
-FLX_API_ template <typename a>
+template <typename a>
 constexpr bool is_same<a, a> = true;
 
 
@@ -27,10 +27,10 @@ constexpr bool is_any_of = (is_same<ty, types> || ...);
 FLX_API_ template <typename>
 constexpr bool is_array = false;
 
-FLX_API_ template <typename ty>
+template <typename ty>
 constexpr bool is_array<ty[]> = true;
 
-FLX_API_ template <typename ty, unsigned long long size>
+template <typename ty, unsigned long long size>
 constexpr bool is_array<ty[size]> = true;
 
 
@@ -40,7 +40,7 @@ constexpr bool is_array<ty[size]> = true;
 FLX_API_ template <typename>
 constexpr bool is_const = false;
 
-FLX_API_ template <typename ty>
+template <typename ty>
 constexpr bool is_const<const ty> = true;
 
 
@@ -50,8 +50,47 @@ constexpr bool is_const<const ty> = true;
 FLX_API_ template <typename>
 constexpr bool is_volatile = false;
 
-FLX_API_ template <typename ty>
+template <typename ty>
 constexpr bool is_volatile<volatile ty> = true;
+
+
+
+// ===== is_pointer ===== //
+
+IMP_BEGIN_
+
+template <typename>
+constexpr bool imp_is_pointer = false;
+
+template <typename ty>
+constexpr bool imp_is_pointer<ty*> = true;
+
+template <typename ty>
+constexpr bool imp_is_pointer<ty* const> = true;
+
+template <typename ty>
+constexpr bool imp_is_pointer<ty* volatile> = true;
+
+template <typename ty>
+constexpr bool imp_is_pointer<ty* const volatile> = true;
+
+IMP_END_
+
+FLX_API_ template <typename ty>
+constexpr bool is_pointer = IMP_ imp_is_pointer<ty>;
+
+
+
+// ===== is_reference ===== //
+
+FLX_API_ template <typename>
+constexpr bool is_reference = false;
+
+template <typename ty>
+constexpr bool is_reference<ty&> = true;
+
+template <typename ty>
+constexpr bool is_reference<ty&&> = true;
 
 
 
@@ -60,8 +99,15 @@ constexpr bool is_volatile<volatile ty> = true;
 FLX_API_ template <typename>
 constexpr bool is_lvalue_reference = false;
 
-FLX_API_ template <typename ty>
+template <typename ty>
 constexpr bool is_lvalue_reference<ty&> = true;
+
+
+
+// ===== is_function ===== //
+
+FLX_API_ template <typename ty>
+constexpr bool is_function = !FLX_ is_const<const ty> && !FLX_ is_reference<ty>;
 
 
 // ===== is_integral ===== //
@@ -178,6 +224,19 @@ constexpr bool is_floating_point = is_any_of
 	constexpr bool is_nothrow_destructible = false;
 	#error "flx/type_traits.hpp::is_nothrow_destructible unknown compiler. Could not generate 'is_nothrow_destructible' trait. Replace with your equivalent of '__has_nothrow_destructor' in the 'flx/type_traits.hpp' header."
 #endif // is_nothrow_destructible_
+
+
+
+// ===== is_nothrow_move_constructible ===== //
+
+#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_CLANG_
+	FLX_API_ template <typename ty>
+		constexpr bool is_nothrow_move_constructible = __is_nothrow_constructible(ty, ty);
+#else
+	FLX_API_ template <typename ty>
+		constexpr bool is_nothrow_constructible = false;
+#error "flx/type_traits.hpp::is_nothrow_move_constructible: unkown compiler. Could not generate 'is_nothrow_move_constructible' trait. Replace with your eqivalent of '__is_nothrow_constructible' in the 'flx/type_traits.hpp' header."
+#endif // is_nothrow_constructible_
 
 
 
@@ -310,7 +369,6 @@ IMP_END_
 
 FLX_API_ template <typename ty>
 using remove_reference = typename IMP_ imp_remove_reference<ty>::type;
-
 
 
 // ===== is_nothrow_copy_constructible ===== //

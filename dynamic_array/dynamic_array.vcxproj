@@ -36,14 +36,14 @@
     <ProjectReference Include="..\imp_core\imp_core.vcxproj">
       <Project>{259066a5-eb83-4a53-a3e2-fd970e21be4c}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\memory\memory.vcxproj">
+      <Project>{4c2cd8fa-cbf2-4aee-82a8-2dc5bc536e62}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\new\new.vcxproj">
       <Project>{a22d64ce-5266-402e-a676-077ef68eabae}</Project>
     </ProjectReference>
     <ProjectReference Include="..\type_traits\type_traits.vcxproj">
       <Project>{9a18f022-9457-4bd9-b610-95c593d36b95}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\utility\utility.vcxproj">
-      <Project>{d8812259-89b8-4a46-9a32-949166b466a4}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
