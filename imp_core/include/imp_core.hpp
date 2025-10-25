@@ -235,6 +235,8 @@ FLX_END_
 FLX_BEGIN_
 
 FLX_API_ inline const c8* last_error = "NULL";
+
+// not marked as [[noreturn]] for rare cases where people need it to return
 FLX_API_ inline void (*on_terminate) () noexcept =
 []() noexcept
 	{
@@ -247,6 +249,7 @@ FLX_API_ inline void (*on_terminate) () noexcept =
 		}
 	};
 
+// not marked as [[noreturn]] for rare cases where people need it to return
 FLX_API_ inline void terminate(const c8* const error_msg = last_error) noexcept
 {
 	FLX_ASSERT_(false && *error_msg);

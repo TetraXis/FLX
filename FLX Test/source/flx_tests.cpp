@@ -11,9 +11,11 @@
 #include <exception>
 #include <limits>
 #include <random>
+#include <array>
 
 // TODO: tests for dynamic_array iterators
 // TODO: consider testing internal functions
+// NOTE: we now only test what functions do, but not what they take in
 
 #define RED     "\033[31m"
 #define GREEN   "\033[32m"
@@ -41,6 +43,7 @@ bool test::test_flx()
 
 	output << "\nFLX version is: " << FLX_VERSION << '\n';
 
+	test_memory();
 	test_dynamic_array();
 
 	output << "\nFLX version is: " << FLX_VERSION << '\n';
@@ -74,12 +77,334 @@ bool test::test_utility()
 
 bool test::test_memory()
 {
-	return true;
+	output << "\nTesting memory.hpp...\n";
+
+	bool result_local = true;
+	bool result_global = true;
+
+	constexpr u64 amount = 100;
+
+	static u64 called_def_constructors = 0;
+	static u64 called_custom_constructors = 0;
+	static u64 called_copy_constructors = 0;
+	static u64 called_move_constructors = 0;
+	static u64 called_copy_assigment = 0;
+	static u64 called_move_assigment = 0;
+	static u64 called_destructors = 0;
+
+	struct test_str
+	{
+		u64 data = 0xDEADDEADDEADDEAD;
+
+		test_str() noexcept { data = 0xCCCCCCCCCCCCCCCC; called_def_constructors++; }
+		test_str(const test_str& other) noexcept { data = other.data; called_copy_constructors++; }
+		test_str(test_str&& other) noexcept { data = other.data; other.data = 0xCCCCCCCCCCCCCCCC; called_move_constructors++; }
+		test_str& operator= (const test_str& other) noexcept { data = other.data; called_copy_assigment++; return *this; }
+		test_str& operator= (test_str&& other) noexcept { data = other.data; other.data = 0xCCCCCCCCCCCCCCCC; called_move_assigment++; return *this; }
+		~test_str() noexcept { data = 0xCCCCCCCCCCCCCCCC; called_destructors++; }
+		test_str(u64 val) noexcept { called_custom_constructors++; data = val; }
+
+		bool operator == (const test_str& other) const noexcept { return data == other.data; }
+		bool operator != (const test_str& other) const noexcept { return data != other.data; }
+	};
+
+	output << ".\tTesting functions (throwable skipped)...\n";
+	{
+		result_local = true;
+
+		// allocate(nothrow)
+		{
+			try
+			{
+				std::array<test_str*, amount> arr{};
+
+				called_def_constructors = 0;
+				called_custom_constructors = 0;
+				called_copy_constructors = 0;
+				called_move_constructors = 0;
+				called_copy_assigment = 0;
+				called_move_assigment = 0;
+				called_destructors = 0;
+
+				for (u64 i = 0; i < amount; i++)
+				{
+					arr[i] = allocate<test_str>(nothrow);
+				}
+
+				if (called_def_constructors != amount)	throw std::runtime_error("Called def constructors is bad.");
+				if (called_custom_constructors != 0)	throw std::runtime_error("Called custom constructors is not null.");
+				if (called_copy_constructors != 0)		throw std::runtime_error("Called copy constructors is not null.");
+				if (called_move_constructors != 0)		throw std::runtime_error("Called move constructors is not null.");
+				if (called_copy_assigment != 0)			throw std::runtime_error("Called copy assigments is not null.");
+				if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
+				if (called_destructors != 0)			throw std::runtime_error("Called destructors is not null.");
+
+				for (u64 i = 0; i < amount; i++)
+				{
+					delete arr[i];
+				}
+
+				output << ".\t.\t" << GREEN << "PASSED" << RESET << " allocate(nothrow).\n";
+				tests_passed++;
+			}
+			catch (std::exception e)
+			{
+				output << ".\t.\t" << RED << "FAILED" << RESET << " allocate(nothrow): " << e.what() << '\n';
+				result_local = false;
+				result_global = false;
+				tests_failed++;
+			}
+		}
+
+		// allocate(nothrow, val_ty&&...)
+		{
+			try
+			{
+				std::array<test_str*, amount> arr{};
+
+				called_def_constructors = 0;
+				called_custom_constructors = 0;
+				called_copy_constructors = 0;
+				called_move_constructors = 0;
+				called_copy_assigment = 0;
+				called_move_assigment = 0;
+				called_destructors = 0;
+
+				for (u64 i = 0; i < amount; i++)
+				{
+					arr[i] = allocate<test_str>(nothrow, 15ull);
+				}
+
+				for (u64 i = 0; i < amount; i++)
+				{
+					if (arr[i]->data != 15ull) throw std::runtime_error("Data is bad.");
+				}
+
+				if (called_def_constructors != 0)			throw std::runtime_error("Called def constructors is not null.");
+				if (called_custom_constructors != amount)	throw std::runtime_error("Called custom constructors is bad.");
+				if (called_copy_constructors != 0)			throw std::runtime_error("Called copy constructors is not null.");
+				if (called_move_constructors != 0)			throw std::runtime_error("Called move constructors is not null.");
+				if (called_copy_assigment != 0)				throw std::runtime_error("Called copy assigments is not null.");
+				if (called_move_assigment != 0)				throw std::runtime_error("Called move assigments is not null.");
+				if (called_destructors != 0)				throw std::runtime_error("Called destructors is not null.");
+
+				for (u64 i = 0; i < amount; i++)
+				{
+					delete arr[i];
+				}
+
+				output << ".\t.\t" << GREEN << "PASSED" << RESET << " allocate(nothrow, val_ty&&...).\n";
+				tests_passed++;
+			}
+			catch (std::exception e)
+			{
+				output << ".\t.\t" << RED << "FAILED" << RESET << " allocate(nothrow, val_ty&&...): " << e.what() << '\n';
+				result_local = false;
+				result_global = false;
+				tests_failed++;
+			}
+		}
+
+		// deallocate(ty* const)
+		{
+			try
+			{
+				std::array<test_str*, amount> arr{};
+				for (u64 i = 0; i < amount; i++)
+				{
+					arr[i] = new test_str{};
+				}
+
+				called_def_constructors = 0;
+				called_custom_constructors = 0;
+				called_copy_constructors = 0;
+				called_move_constructors = 0;
+				called_copy_assigment = 0;
+				called_move_assigment = 0;
+				called_destructors = 0;
+
+				for (u64 i = 0; i < amount; i++)
+				{
+					deallocate(arr[i]);
+				}
+
+				if (called_def_constructors != 0)		throw std::runtime_error("Called def constructors is not null.");
+				if (called_custom_constructors != 0)	throw std::runtime_error("Called custom constructors is not null.");
+				if (called_copy_constructors != 0)		throw std::runtime_error("Called copy constructors is not null.");
+				if (called_move_constructors != 0)		throw std::runtime_error("Called move constructors is not null.");
+				if (called_copy_assigment != 0)			throw std::runtime_error("Called copy assigments is not null.");
+				if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
+				if (called_destructors != amount)		throw std::runtime_error("Called destructors is bad.");
+
+				output << ".\t.\t" << GREEN << "PASSED" << RESET << " deallocate(ty* const).\n";
+				tests_passed++;
+			}
+			catch (std::exception e)
+			{
+				output << ".\t.\t" << RED << "FAILED" << RESET << " deallocate(ty* const): " << e.what() << '\n';
+				result_local = false;
+				result_global = false;
+				tests_failed++;
+			}
+		}
+
+		// allocate_array(const szt, nothrow)
+		{
+			try
+			{
+				called_def_constructors = 0;
+				called_custom_constructors = 0;
+				called_copy_constructors = 0;
+				called_move_constructors = 0;
+				called_copy_assigment = 0;
+				called_move_assigment = 0;
+				called_destructors = 0;
+
+				test_str* a = allocate_array<test_str>(amount, nothrow);
+
+				if (called_def_constructors != amount)	throw std::runtime_error("Called def constructors is bad.");
+				if (called_custom_constructors != 0)	throw std::runtime_error("Called custom constructors is not null.");
+				if (called_copy_constructors != 0)		throw std::runtime_error("Called copy constructors is not null.");
+				if (called_move_constructors != 0)		throw std::runtime_error("Called move constructors is not null.");
+				if (called_copy_assigment != 0)			throw std::runtime_error("Called copy assigments is not null.");
+				if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
+				if (called_destructors != 0)			throw std::runtime_error("Called destructors is not null.");
+
+				delete[] a;
+
+				output << ".\t.\t" << GREEN << "PASSED" << RESET << " allocate_array(const szt, nothrow).\n";
+				tests_passed++;
+			}
+			catch (std::exception e)
+			{
+				output << ".\t.\t" << RED << "FAILED" << RESET << " allocate_array(const szt, nothrow): " << e.what() << '\n';
+				result_local = false;
+				result_global = false;
+				tests_failed++;
+			}
+		}
+
+		// deallocate_array(ty* const)
+		{
+			try
+			{
+				test_str* a = new test_str[amount];
+
+				called_def_constructors = 0;
+				called_custom_constructors = 0;
+				called_copy_constructors = 0;
+				called_move_constructors = 0;
+				called_copy_assigment = 0;
+				called_move_assigment = 0;
+				called_destructors = 0;
+
+				deallocate_array(a);
+
+				if (called_def_constructors != 0)		throw std::runtime_error("Called def constructors is not null.");
+				if (called_custom_constructors != 0)	throw std::runtime_error("Called custom constructors is not null.");
+				if (called_copy_constructors != 0)		throw std::runtime_error("Called copy constructors is not null.");
+				if (called_move_constructors != 0)		throw std::runtime_error("Called move constructors is not null.");
+				if (called_copy_assigment != 0)			throw std::runtime_error("Called copy assigments is not null.");
+				if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
+				if (called_destructors != amount)		throw std::runtime_error("Called destructors is bad.");
+
+				output << ".\t.\t" << GREEN << "PASSED" << RESET << " deallocate_array(ty* const).\n";
+				tests_passed++;
+			}
+			catch (std::exception e)
+			{
+				output << ".\t.\t" << RED << "FAILED" << RESET << " deallocate_array(ty* const): " << e.what() << '\n';
+				result_local = false;
+				result_global = false;
+				tests_failed++;
+			}
+		}
+
+		// allocate_raw(const szt, nothrow)
+		{
+			try
+			{
+				called_def_constructors = 0;
+				called_custom_constructors = 0;
+				called_copy_constructors = 0;
+				called_move_constructors = 0;
+				called_copy_assigment = 0;
+				called_move_assigment = 0;
+				called_destructors = 0;
+
+				test_str* a = static_cast<test_str*>(allocate_raw(amount, nothrow));
+
+				if (called_def_constructors != 0)		throw std::runtime_error("Called def constructors is not null.");
+				if (called_custom_constructors != 0)	throw std::runtime_error("Called custom constructors is not null.");
+				if (called_copy_constructors != 0)		throw std::runtime_error("Called copy constructors is not null.");
+				if (called_move_constructors != 0)		throw std::runtime_error("Called move constructors is not null.");
+				if (called_copy_assigment != 0)			throw std::runtime_error("Called copy assigments is not null.");
+				if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
+				if (called_destructors != 0)			throw std::runtime_error("Called destructors is not null.");
+
+				::operator delete(a);
+
+				output << ".\t.\t" << GREEN << "PASSED" << RESET << " allocate_raw(const szt, nothrow).\n";
+				tests_passed++;
+			}
+			catch (std::exception e)
+			{
+				output << ".\t.\t" << RED << "FAILED" << RESET << " allocate_raw(const szt, nothrow): " << e.what() << '\n';
+				result_local = false;
+				result_global = false;
+				tests_failed++;
+			}
+		}
+
+		// deallocate_raw(void* const)
+		{
+			try
+			{
+				test_str* a = static_cast<test_str*>(::operator new(sizeof(test_str)));
+
+				called_def_constructors = 0;
+				called_custom_constructors = 0;
+				called_copy_constructors = 0;
+				called_move_constructors = 0;
+				called_copy_assigment = 0;
+				called_move_assigment = 0;
+				called_destructors = 0;
+
+				deallocate_raw(a);
+
+				if (called_def_constructors != 0)		throw std::runtime_error("Called def constructors is not null.");
+				if (called_custom_constructors != 0)	throw std::runtime_error("Called custom constructors is not null.");
+				if (called_copy_constructors != 0)		throw std::runtime_error("Called copy constructors is not null.");
+				if (called_move_constructors != 0)		throw std::runtime_error("Called move constructors is not null.");
+				if (called_copy_assigment != 0)			throw std::runtime_error("Called copy assigments is not null.");
+				if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
+				if (called_destructors != 0)			throw std::runtime_error("Called destructors is not null.");
+
+				output << ".\t.\t" << GREEN << "PASSED" << RESET << " deallocate_raw(void* const).\n";
+				tests_passed++;
+			}
+			catch (std::exception e)
+			{
+				output << ".\t.\t" << RED << "FAILED" << RESET << " deallocate_raw(void* const): " << e.what() << '\n';
+				result_local = false;
+				result_global = false;
+				tests_failed++;
+			}
+		}
+	}
+	output << ".\t.\t.\t\n";
+	output << (result_local ? ".\tfunctions " GREEN "PASSED" RESET ".\n" : "functions " RED "FAILED" RESET ".\n");
+	output << ".\t.\t\n";
+
+	output << (result_global ? "memory.hpp " GREEN "PASSED" RESET ".\n\n" : "memory.hpp " RED "FAILED" RESET ".\n\n");
+
+	return result_global;
 }
 
 bool test::test_dynamic_array()
 {
-	output << "\nTesting dynamic_array...\n";
+	output << "\nTesting dynamic_array.hpp...\n";
+	output << ".\tTesting dynamic_array...\n";
 	bool result = true;
 	constexpr u64 amount = 1000;
 
@@ -95,7 +420,7 @@ bool test::test_dynamic_array()
 	{
 		u64 data = 0xDEADDEADDEADDEAD;
 
-		test_str() noexcept { data = 0xCCCCCCCCCCCCCCCC; called_def_constructors; }
+		test_str() noexcept { data = 0xCCCCCCCCCCCCCCCC; called_def_constructors++; }
 		test_str(const test_str& other) noexcept { data = other.data; called_copy_constructors++; }
 		test_str(test_str&& other) noexcept { data = other.data; other.data = 0xCCCCCCCCCCCCCCCC; called_move_constructors++; }
 		test_str& operator= (const test_str& other) noexcept { data = other.data; called_copy_assigment++; return *this; }
@@ -108,7 +433,7 @@ bool test::test_dynamic_array()
 	};
 
 	// primitive types
-	output << ".\tTesting constructon with primitive types...\n";
+	output << ".\t.\tTesting constructon with primitive types...\n";
 	{
 		// default constructor
 		try
@@ -128,12 +453,12 @@ bool test::test_dynamic_array()
 			if (c.capacity_ != dynamic_array<b08>::PREALLOCATED_CAPACITY) throw std::runtime_error("Capacity is bad.");
 			if (d.capacity_ != dynamic_array<u64>::PREALLOCATED_CAPACITY) throw std::runtime_error("Capacity is bad.");
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " Default constructor.\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Default constructor.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " Default constructor: " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Default constructor: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -174,12 +499,12 @@ bool test::test_dynamic_array()
 				if (d_ptr[i] != 0) throw std::runtime_error("Data is bad.");
 			}
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " Fill constructor.\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Fill constructor.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " Fill constructor: " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Fill constructor: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -235,12 +560,12 @@ bool test::test_dynamic_array()
 				if (d1.data_[i] != 0) throw std::runtime_error("Data is bad.");
 			}
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " Move constructor.\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Move constructor.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " Move constructor: " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Move constructor: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -306,12 +631,12 @@ bool test::test_dynamic_array()
 				if (d2.data_[i] != d12.data_[i]) throw std::runtime_error("Data is bad.");
 			}
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " Copy constructor.\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Copy constructor.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " Copy constructor: " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Copy constructor: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -377,21 +702,23 @@ bool test::test_dynamic_array()
 				if (d2.data_[i] != d12.data_[i]) throw std::runtime_error("Data is bad.");
 			}
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " Copy assignment.\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Copy assignment.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " Copy assignment: " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Copy assignment: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
 	}
-	output << ".\t.\t.\t\n";
+	output << ".\t.\t.\t.\t\n";
 
 	// non-trivial types
-	output << ".\tTesting construction with non-primitive types...\n";
+	output << ".\t.\tTesting construction with non-primitive types...\n";
 
+	//TODO: add checks for all calls
+	// 
 	// counting amount of constructor calls
 	{
 		// fill constructor()
@@ -403,12 +730,12 @@ bool test::test_dynamic_array()
 
 			if (called_copy_constructors != amount) throw std::runtime_error("Amount of construction calls is bad.");
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " Fill constructor - calls.\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Fill constructor - calls.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " Fill constructor - calls: " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Fill constructor - calls: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -416,7 +743,7 @@ bool test::test_dynamic_array()
 
 	// no default constructor
 	{
-		output << ".\t.\tTesting construction with no-default-constructor type...\n";
+		output << ".\t.\t.\tTesting construction with no-default-constructor type...\n";
 
 		struct no_default
 		{
@@ -437,12 +764,12 @@ bool test::test_dynamic_array()
 
 			if (a.capacity_ != dynamic_array<no_default>::PREALLOCATED_CAPACITY) throw std::runtime_error("Capacity is bad.");
 
-			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Default constructor.\n";
+			output << ".\t.\t.\t.\t" << GREEN << "PASSED" << RESET << " Default constructor.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Default constructor: " << e.what() << '\n';
+			output << ".\t.\t.\t.\t" << RED << "FAILED" << RESET << " Default constructor: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -465,12 +792,12 @@ bool test::test_dynamic_array()
 				if (a_ptr[i].data_ != 0) throw std::runtime_error("Data is bad.");
 			}
 
-			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Fill constructor.\n";
+			output << ".\t.\t.\t.\t" << GREEN << "PASSED" << RESET << " Fill constructor.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Fill constructor: " << e.what() << '\n';
+			output << ".\t.\t.\t.\t" << RED << "FAILED" << RESET << " Fill constructor: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -499,12 +826,12 @@ bool test::test_dynamic_array()
 				if (a1.data_[i].data_ != 0) throw std::runtime_error("Data is bad.");
 			}
 
-			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Move constructor.\n";
+			output << ".\t.\t.\t.\t" << GREEN << "PASSED" << RESET << " Move constructor.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Move constructor: " << e.what() << '\n';
+			output << ".\t.\t.\t.\t" << RED << "FAILED" << RESET << " Move constructor: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -537,12 +864,12 @@ bool test::test_dynamic_array()
 				if (a2.data_[i].data_ != a12.data_[i].data_) throw std::runtime_error("Data is bad.");
 			}
 
-			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Copy constructor.\n";
+			output << ".\t.\t.\t.\t" << GREEN << "PASSED" << RESET << " Copy constructor.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Copy constructor: " << e.what() << '\n';
+			output << ".\t.\t.\t.\t" << RED << "FAILED" << RESET << " Copy constructor: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -575,12 +902,12 @@ bool test::test_dynamic_array()
 				if (a2.data_[i].data_ != a12.data_[i].data_) throw std::runtime_error("Data is bad.");
 			}
 
-			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Copy assigment.\n";
+			output << ".\t.\t.\t.\t" << GREEN << "PASSED" << RESET << " Copy assigment.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Copy assigment: " << e.what() << '\n';
+			output << ".\t.\t.\t.\t" << RED << "FAILED" << RESET << " Copy assigment: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -588,7 +915,7 @@ bool test::test_dynamic_array()
 
 	{} // no copy constructor // these braces allows VS to see braces below
 	{
-		output << ".\t.\tTesting construction with no-copy-constructor type...\n";
+		output << ".\t.\t.\tTesting construction with no-copy-constructor type...\n";
 
 		struct no_copy
 		{
@@ -609,12 +936,12 @@ bool test::test_dynamic_array()
 
 			if (a.capacity_ != dynamic_array<no_copy>::PREALLOCATED_CAPACITY) throw std::runtime_error("Capacity is bad.");
 
-			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Default constructor.\n";
+			output << ".\t.\t.\t.\t" << GREEN << "PASSED" << RESET << " Default constructor.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Default constructor: " << e.what() << '\n';
+			output << ".\t.\t.\t.\t" << RED << "FAILED" << RESET << " Default constructor: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -630,19 +957,20 @@ bool test::test_dynamic_array()
 
 			if (a1.data_ == nullptr) throw std::runtime_error("Data is null.");
 
-			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Move constructor.\n";
+			output << ".\t.\t.\t.\t" << GREEN << "PASSED" << RESET << " Move constructor.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Move constructor: " << e.what() << '\n';
+			output << ".\t.\t.\t.\t" << RED << "FAILED" << RESET << " Move constructor: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
 	}
+	output << ".\t.\t.\t.\t.\t\n";
 
 	// destruction
-	output << ".\tTesting destruction...\n";
+	output << ".\t.\tTesting destruction...\n";
 	{
 		try
 		{
@@ -675,24 +1003,24 @@ bool test::test_dynamic_array()
 			}
 			catch (...)
 			{
-				output << ".\t.\t" << GREEN << "PASSED" << RESET << " Destructor.\n";
+				output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Destructor.\n";
 				tests_passed++;
 			}*/
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " Destructor.\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " Destructor.\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " Destructor: " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " Destructor: " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
 	}
-	output << ".\t.\t.\t\n";
+	output << ".\t.\t.\t.\t\n";
 
 	// common operations
-	output << ".\tTesting basic operations...\n";
+	output << ".\t.\tTesting basic operations...\n";
 	{
 		dynamic_array<i32> a(amount, 0);
 		dynamic_array<test_str> b(amount, 0);
@@ -703,12 +1031,12 @@ bool test::test_dynamic_array()
 			if (a.data() != a.data_) throw std::runtime_error("Data is not data_.");
 			if (b.data() != b.data_) throw std::runtime_error("Data is not data_.");
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " data().\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " data().\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " data(): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " data(): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -729,12 +1057,12 @@ bool test::test_dynamic_array()
 			if (!a2.empty()) throw std::runtime_error("Bad.");
 			if (!b2.empty()) throw std::runtime_error("Bad.");
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " empty().\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " empty().\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " empty(): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " empty(): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -758,12 +1086,12 @@ bool test::test_dynamic_array()
 			if (b2.max_size() != std::numeric_limits<u32>::max()) throw std::runtime_error("Bad.");
 			if (b3.max_size() != std::numeric_limits<u08>::max()) throw std::runtime_error("Bad.");
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " max_size().\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " max_size().\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " max_size(): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " max_size(): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -777,12 +1105,12 @@ bool test::test_dynamic_array()
 			if (a.size() != a.size_) throw std::runtime_error("Bad.");
 			if (b.size() != b.size_) throw std::runtime_error("Bad.");
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " size().\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " size().\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " size(): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " size(): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -793,20 +1121,20 @@ bool test::test_dynamic_array()
 			if (a.capacity() != a.capacity_) throw std::runtime_error("Bad.");
 			if (b.capacity() != b.capacity_) throw std::runtime_error("Bad.");
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " capacity().\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " capacity().\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " capacity(): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " capacity(): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
 	}
-	output << ".\t.\t.\t\n";
+	output << ".\t.\t.\t.\t\n";
 
 	// iterators
-	output << ".\tTesting iterators...\n";
+	output << ".\t.\tTesting iterators...\n";
 	{
 		dynamic_array<i32> a(amount, 0);
 		dynamic_array<test_str> b(amount, 0);
@@ -817,12 +1145,12 @@ bool test::test_dynamic_array()
 			if (a.begin().ptr != &a.data_[0]) throw std::runtime_error("Ptr addr is bad.");
 			if (b.begin().ptr != &b.data_[0]) throw std::runtime_error("Ptr addr is bad.");
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " begin().\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " begin().\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " begin(): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " begin(): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -833,12 +1161,12 @@ bool test::test_dynamic_array()
 			if (a.end().ptr != &a.data_[amount]) throw std::runtime_error("Ptr addr is bad.");
 			if (b.end().ptr != &b.data_[amount]) throw std::runtime_error("Ptr addr is bad.");
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " end().\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " end().\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " end(): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " end(): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -849,12 +1177,12 @@ bool test::test_dynamic_array()
 			if (a.cbegin().ptr != &a.data_[0]) throw std::runtime_error("Ptr addr is bad.");
 			if (b.cbegin().ptr != &b.data_[0]) throw std::runtime_error("Ptr addr is bad.");
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " cbegin().\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " cbegin().\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " cbegin(): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " cbegin(): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -865,20 +1193,20 @@ bool test::test_dynamic_array()
 			if (a.cend().ptr != &a.data_[amount]) throw std::runtime_error("Ptr addr is bad.");
 			if (b.cend().ptr != &b.data_[amount]) throw std::runtime_error("Ptr addr is bad.");
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " cend().\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " cend().\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " cend(): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " cend(): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
 	}
-	output << ".\t.\t.\t\n";
+	output << ".\t.\t.\t.\t\n";
 
 	// modifiers
-	output << ".\tTesting modifiers...\n";
+	output << ".\t.\tTesting modifiers...\n";
 	{
 		// clear()
 		try
@@ -898,12 +1226,12 @@ bool test::test_dynamic_array()
 			if (a1.size_ != 0) throw std::runtime_error("Size is not null.");
 			if (b1.size_ != 0) throw std::runtime_error("Size is not null.");
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " clear().\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " clear().\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " clear(): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " clear(): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -945,12 +1273,12 @@ bool test::test_dynamic_array()
 			if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
 			if (called_destructors != called_move_constructors + called_copy_constructors) throw std::runtime_error("Called destructors is bad."); // should match moves + copies
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " push_back(const ty&).\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " push_back(const ty&).\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " push_back(const ty&): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " push_back(const ty&): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -995,12 +1323,12 @@ bool test::test_dynamic_array()
 			if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
 			if (called_destructors != called_move_constructors + called_copy_constructors) throw std::runtime_error("Called destructors is bad."); // should match moves + copies
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " push_back(ty&&).\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " push_back(ty&&).\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " push_back(ty&&): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " push_back(ty&&): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -1040,12 +1368,12 @@ bool test::test_dynamic_array()
 			if (called_move_assigment != 0)				throw std::runtime_error("Called move assigments is not null.");
 			if (called_destructors != called_move_constructors + called_custom_constructors) throw std::runtime_error("Called destructors is bad."); // should match moves + copies + custom constructors
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " emplace_back(val_ty&&...).\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " emplace_back(val_ty&&...).\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " emplace_back(val_ty&&...): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " emplace_back(val_ty&&...): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -1079,12 +1407,12 @@ bool test::test_dynamic_array()
 			if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
 			if (called_destructors != amount)		throw std::runtime_error("Called destructors is bad."); // should match moves + copies + custom constructors
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " pop_back().\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " pop_back().\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " pop_back(): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " pop_back(): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -1118,12 +1446,12 @@ bool test::test_dynamic_array()
 			if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
 			if (called_destructors != amount)		throw std::runtime_error("Called destructors is bad."); // should match moves + copies + custom constructors
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " erase(iter).\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " erase(iter).\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " erase(iter): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " erase(iter): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
@@ -1174,20 +1502,20 @@ bool test::test_dynamic_array()
 			if (called_move_assigment != 0)			throw std::runtime_error("Called move assigments is not null.");
 			if (called_destructors != 10)			throw std::runtime_error("Called destructors is bad."); // should match moves + copies + custom constructors
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " erase(iter, iter).\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " erase(iter, iter).\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " erase(iter, iter): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " erase(iter, iter): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
 	}
-	output << ".\t.\t.\t\n";
+	output << ".\t.\t.\t.\t\n";
 
 	// element access
-	output << ".\tTesting element access...\n";
+	output << ".\t.\tTesting element access...\n";
 	{
 		// operator[] (size_ty)
 		
@@ -1222,20 +1550,24 @@ bool test::test_dynamic_array()
 				if (called_destructors != 0)			throw std::runtime_error("Called destructors is not null."); // should match moves + copies
 			}
 
-			output << ".\t.\t" << GREEN << "PASSED" << RESET << " operator[] (size_ty).\n";
+			output << ".\t.\t.\t" << GREEN << "PASSED" << RESET << " operator[] (size_ty).\n";
 			tests_passed++;
 		}
 		catch (std::exception e)
 		{
-			output << ".\t.\t" << RED << "FAILED" << RESET << " operator[] (size_ty): " << e.what() << '\n';
+			output << ".\t.\t.\t" << RED << "FAILED" << RESET << " operator[] (size_ty): " << e.what() << '\n';
 			result = false;
 			tests_failed++;
 		}
 		
 	}
-	output << ".\t.\t.\t\n";
+	output << ".\t.\t.\t.\t\n";
 
-	output << (result ? "dynamic_array " GREEN "PASSED" RESET ".\n\n" : "dynamic_array " RED "FAILED" RESET ".\n\n");
+	output << (result ? ".\tdynamic_array " GREEN "PASSED" RESET ".\n" : "dynamic_array " RED "FAILED" RESET ".\n");
+
+	output << ".\t.\t\n";
+
+	output << (result ? "dynamic_array.hpp " GREEN "PASSED" RESET ".\n\n" : "dynamic_array.hpp " RED "FAILED" RESET ".\n\n");
 
 	return result;
 }

@@ -45,10 +45,6 @@ void test_f()
 
 int main()
 {
-	/*std::allocator<int>;
-
-	flx::dynamic_array<int>;*/
-
 	flx::test::test_flx();
 
 	std::cout << flx::test::output.str();
