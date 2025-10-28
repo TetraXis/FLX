@@ -59,7 +59,7 @@ ty* allocate([[maybe_unused]] IMP_ nothrow_tag, val_ty&&... args) noexcept
 FLX_API_ template<typename ty>
 void deallocate(ty* const ptr) noexcept
 {
-    static_assert(FLX_ destructible<ty>, "flx/memory.hpp::allocate: your destructor should be noexcept.");
+    static_assert(FLX_ destructible<ty>, "flx/memory.hpp::deallocate: your destructor should be noexcept.");
 
 	delete ptr;
 }
@@ -74,7 +74,7 @@ ty* allocate_array(const szt size)
 FLX_API_ template<typename ty>
 ty* allocate_array(const szt size, [[maybe_unused]] IMP_ nothrow_tag) noexcept
 {
-	static_assert(noexcept(ty{}), "flx/memory.hpp::allocate: your default constructor should be noexcept.");
+	static_assert(noexcept(ty{}), "flx/memory.hpp::allocate_array: your default constructor should be noexcept.");
 
 	try
 	{
@@ -82,7 +82,7 @@ ty* allocate_array(const szt size, [[maybe_unused]] IMP_ nothrow_tag) noexcept
 	}
 	catch (...)
 	{
-		FLX_ terminate("flx/memory.hpp::allocate: bad alloc.");
+		FLX_ terminate("flx/memory.hpp::allocate_array: bad alloc.");
         return nullptr;
 	}
 }
@@ -91,7 +91,7 @@ ty* allocate_array(const szt size, [[maybe_unused]] IMP_ nothrow_tag) noexcept
 FLX_API_ template<typename ty>
 void deallocate_array(ty* const ptr) noexcept
 {
-    static_assert(FLX_ destructible<ty>, "flx/memory.hpp::allocate: your destructor should be noexcept.");
+    static_assert(FLX_ destructible<ty>, "flx/memory.hpp::deallocate_array: your destructor should be noexcept.");
 
 	delete[] ptr;
 }
