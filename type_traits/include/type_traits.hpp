@@ -1,5 +1,5 @@
-#ifndef IMP_FLX_TYPE_TRAITS_HPP_
-#define IMP_FLX_TYPE_TRAITS_HPP_
+#ifndef IMP_TYPE_TRAITS_HPP_
+#define IMP_TYPE_TRAITS_HPP_
 
 #include "flx/imp_core.hpp"
 
@@ -171,7 +171,7 @@ constexpr bool is_floating_point = is_any_of
 
 // ===== is_class ===== //
 
-#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_CLANG_
+#if IMP_COMPILER_ == IMP_COMPILER_MSVC_ || IMP_COMPILER_ == IMP_COMPILER_GCC_ || IMP_COMPILER_ == IMP_COMPILER_CLANG_
 	FLX_API_ template <typename ty>
 	constexpr bool is_class = __is_class(ty);
 #else
@@ -184,10 +184,10 @@ constexpr bool is_floating_point = is_any_of
 
 // ===== is_destructible ===== //
 
-#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_CLANG_
+#if IMP_COMPILER_ == IMP_COMPILER_MSVC_ || IMP_COMPILER_ == IMP_COMPILER_CLANG_
 	FLX_API_ template <typename ty>
 	constexpr bool is_destructible = __is_destructible(ty);
-#elif IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_
+#elif IMP_COMPILER_ == IMP_COMPILER_GCC_
 	FLX_API_ template <typename ty>
 	constexpr bool is_destructible = __has_destructor(ty);
 #else
@@ -200,7 +200,7 @@ constexpr bool is_floating_point = is_any_of
 
 // ===== is_nothrow_constructible ===== //
 
-#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_CLANG_
+#if IMP_COMPILER_ == IMP_COMPILER_MSVC_ || IMP_COMPILER_ == IMP_COMPILER_GCC_ || IMP_COMPILER_ == IMP_COMPILER_CLANG_
 	FLX_API_ template <typename ty, typename... args>
 	constexpr bool is_nothrow_constructible = __is_nothrow_constructible(ty, args...);
 #else
@@ -213,10 +213,10 @@ constexpr bool is_floating_point = is_any_of
 
 // ===== is_nothrow_destructible ===== //
 
-#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_CLANG_
+#if IMP_COMPILER_ == IMP_COMPILER_MSVC_ || IMP_COMPILER_ == IMP_COMPILER_CLANG_
 	FLX_API_ template <typename ty>
 	constexpr bool is_nothrow_destructible = __is_nothrow_destructible(ty);
-#elif IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_
+#elif IMP_COMPILER_ == IMP_COMPILER_GCC_
 	FLX_API_ template <typename ty>
 	constexpr bool is_nothrow_destructible = __has_nothrow_destructor(ty);
 #else
@@ -229,7 +229,7 @@ constexpr bool is_floating_point = is_any_of
 
 // ===== is_nothrow_move_constructible ===== //
 
-#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_CLANG_
+#if IMP_COMPILER_ == IMP_COMPILER_MSVC_ || IMP_COMPILER_ == IMP_COMPILER_GCC_ || IMP_COMPILER_ == IMP_COMPILER_CLANG_
 	FLX_API_ template <typename ty>
 		constexpr bool is_nothrow_move_constructible = __is_nothrow_constructible(ty, ty);
 #else
@@ -242,10 +242,10 @@ constexpr bool is_floating_point = is_any_of
 
 // ===== is_trivially_constructible ===== //
 
-#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_CLANG_
+#if IMP_COMPILER_ == IMP_COMPILER_MSVC_ || IMP_COMPILER_ == IMP_COMPILER_CLANG_
 	FLX_API_ template <typename ty>
 	constexpr bool is_trivially_constructible = __is_trivially_constructible(ty);
-#elif IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_
+#elif IMP_COMPILER_ == IMP_COMPILER_GCC_
 	FLX_API_ template <typename ty>
 	constexpr bool is_trivially_constructible = __has_trivial_constructor(ty);
 #else
@@ -258,10 +258,10 @@ constexpr bool is_floating_point = is_any_of
 
 // ===== is_trivially_destructible ===== //
 
-#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_CLANG_
+#if IMP_COMPILER_ == IMP_COMPILER_MSVC_ || IMP_COMPILER_ == IMP_COMPILER_CLANG_
 	FLX_API_ template <typename ty>
 	constexpr bool is_trivially_destructible = __is_trivially_destructible(ty);
-#elif IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_
+#elif IMP_COMPILER_ == IMP_COMPILER_GCC_
 	FLX_API_ template <typename ty>
 	constexpr bool is_trivially_destructible = __has_trivial_destructor(ty);
 #else
@@ -373,7 +373,7 @@ using remove_reference = typename IMP_ imp_remove_reference<ty>::type;
 
 // ===== is_nothrow_copy_constructible ===== //
 
-#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_CLANG_
+#if IMP_COMPILER_ == IMP_COMPILER_MSVC_ || IMP_COMPILER_ == IMP_COMPILER_GCC_ || IMP_COMPILER_ == IMP_COMPILER_CLANG_
 	FLX_API_ template <typename ty>
 	constexpr bool is_nothrow_copy_constructible = __is_nothrow_constructible(ty, add_lvalue_reference<ty>);
 #else
@@ -421,4 +421,4 @@ constexpr ty&& forward(remove_reference<ty>&& val) noexcept
 
 FLX_END_
 
-#endif // IMP_FLX_TYPE_TRAITS_HPP_
+#endif // IMP_TYPE_TRAITS_HPP_

@@ -1,5 +1,5 @@
-#ifndef IMP_FLX_MEMORY_HPP_
-#define IMP_FLX_MEMORY_HPP_
+#ifndef IMP_MEMORY_HPP_
+#define IMP_MEMORY_HPP_
 
 #include "flx/imp_core.hpp"
 #include "flx/new.hpp"
@@ -11,7 +11,7 @@ FLX_BEGIN_
 // ===== allocate/deallocate ====== //
 
 FLX_API_ template<typename ty>
-IMP_FLX_DEPRICATE_EXCEPTIONS_
+IMP_DEPRICATE_EXCEPTIONS_
 ty* allocate()
 {
 	return new ty{};
@@ -34,7 +34,7 @@ ty* allocate([[maybe_unused]] IMP_ nothrow_tag) noexcept
 }
 
 FLX_API_ template <typename ty, typename... val_ty>
-IMP_FLX_DEPRICATE_EXCEPTIONS_
+IMP_DEPRICATE_EXCEPTIONS_
 ty* allocate(val_ty&&... args)
 {
 	return new ty{ FLX_ forward<val_ty>(args)... };
@@ -65,7 +65,7 @@ void deallocate(ty* const ptr) noexcept
 }
 
 FLX_API_ template<typename ty>
-IMP_FLX_DEPRICATE_EXCEPTIONS_
+IMP_DEPRICATE_EXCEPTIONS_
 ty* allocate_array(const szt size)
 {
 	return new ty[size];
@@ -97,7 +97,7 @@ void deallocate_array(ty* const ptr) noexcept
 }
 
 FLX_API_ 
-IMP_FLX_DEPRICATE_EXCEPTIONS_
+IMP_DEPRICATE_EXCEPTIONS_
 inline void* allocate_raw(const szt bytes)
 {
 	return ::operator new(bytes);
@@ -128,7 +128,7 @@ FLX_API_ template <typename ty, typename... val_ty>
 {
 	::new (static_cast<void*>(location), FLX_ use_flx) ty(FLX_ forward<val_ty>(args)...);
 }
-IMP_FLX_DEPRICATE_EXCEPTIONS_
+IMP_DEPRICATE_EXCEPTIONS_
 constexpr ty* construct_at(ty* const location, val_ty&&... args)
 {
 	return ::new (static_cast<void*>(location), FLX_ use_flx) ty(FLX_ forward<val_ty>(args)...);
@@ -147,7 +147,7 @@ constexpr ty* construct_at(ty* const location, [[maybe_unused]] IMP_ nothrow_tag
 }
 
 FLX_API_ template <FLX_ copy_constructible ty>
-IMP_FLX_DEPRICATE_EXCEPTIONS_
+IMP_DEPRICATE_EXCEPTIONS_
 constexpr ty* copy_construct_at(ty* const location, const ty& other)
 {
 	return ::new (static_cast<void*>(location), FLX_ use_flx) ty(other);
@@ -162,7 +162,7 @@ constexpr ty* copy_construct_at(ty* const location, const ty& other, [[maybe_unu
 }
 
 FLX_API_ template <FLX_ move_constructible ty>
-IMP_FLX_DEPRICATE_EXCEPTIONS_
+IMP_DEPRICATE_EXCEPTIONS_
 constexpr ty* move_construct_at(ty* const location, ty&& other)
 {
 	return ::new (static_cast<void*>(location), FLX_ use_flx) ty(FLX_ move(other));
@@ -403,4 +403,4 @@ struct default_raw_allocator
 
 FLX_END_
 
-#endif // IMP_FLX_MEMORY_HPP_
+#endif // IMP_MEMORY_HPP_

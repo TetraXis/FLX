@@ -1,5 +1,5 @@
-#ifndef IMP_FLX_NEW_HPP_
-#define IMP_FLX_NEW_HPP_
+#ifndef IMP_NEW_HPP_
+#define IMP_NEW_HPP_
 
 #include "flx/imp_core.hpp"
 
@@ -50,4 +50,4 @@ constexpr inline void* operator new[] ([[maybe_unused]] FLX_ szt, void* ptr, [[m
 	return ptr;
 }
 
-#endif // IMP_FLX_NEW_HPP_
+#endif // IMP_NEW_HPP_

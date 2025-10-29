@@ -1,5 +1,5 @@
-#ifndef IMP_FLX_UTILITY_HPP_
-#define IMP_FLX_UTILITY_HPP_
+#ifndef IMP_UTILITY_HPP_
+#define IMP_UTILITY_HPP_
 
 #include "flx/imp_core.hpp"
 
@@ -26,4 +26,4 @@ constexpr const ty& (xy_to_idx)(const ty& x, const ty& y, const ty& width) noexc
 
 FLX_END_
 
-#endif // IMP_FLX_UTILITY_HPP_
+#endif // IMP_UTILITY_HPP_

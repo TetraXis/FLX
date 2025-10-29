@@ -1,5 +1,5 @@
-#ifndef IMP_FLX_CONCEPTS_HPP_
-#define IMP_FLX_CONCEPTS_HPP_
+#ifndef IMP_CONCEPTS_HPP_
+#define IMP_CONCEPTS_HPP_
 
 #include "flx/imp_core.hpp"
 #include "flx/type_traits.hpp"
@@ -105,4 +105,4 @@ concept can_form_pointer = FLX_ is_pointer<ty*>;
 
 FLX_END_
 
-#endif // IMP_FLX_CONCEPTS_HPP_
+#endif // IMP_CONCEPTS_HPP_

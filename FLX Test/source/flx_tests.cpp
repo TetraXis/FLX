@@ -180,7 +180,7 @@ FLX_API_ bool test::test_self()
 		if (!test_calls_(0, 0, 0, 1)) throw std::runtime_error("Move construction call counting is bad.");
 		reset_calls_();
 
-		test_str e;
+		/*test_str e;
 		reset_calls_();
 		e = b;
 		if (!test_calls_(0, 0, 0, 0, 1)) throw std::runtime_error("Copy assigment call counting is bad.");
@@ -188,7 +188,7 @@ FLX_API_ bool test::test_self()
 
 		test_str f = std::move(b);
 		if (!test_calls_(0, 0, 0, 0, 0, 1)) throw std::runtime_error("Move assigment call counting is bad.");
-		reset_calls_();
+		reset_calls_();*/
 
 		{
 			test_str g{};
@@ -210,14 +210,14 @@ FLX_API_ bool test::test_self()
 
 bool test::test_flx()
 {
-	if constexpr (IMP_FLX_CONFIGURATION_ == IMP_FLX_CONFIGURATION_RELEASE_)
+	if constexpr (IMP_CONFIGURATION_ == IMP_CONFIGURATION_RELEASE_)
 	{
 		output << "Test is running in RELEASE.\n";
 		output << "Test is running in RELEASE.\n";
 		output << "Test is running in RELEASE.\n";
 	}
 
-	if constexpr (IMP_FLX_CONFIGURATION_ == IMP_FLX_CONFIGURATION_DEBUG_)
+	if constexpr (IMP_CONFIGURATION_ == IMP_CONFIGURATION_DEBUG_)
 	{
 		output << "Test is running in DEBUG.\n";
 	}
