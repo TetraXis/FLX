@@ -46,11 +46,12 @@ void test_f()
 int main()
 {
 	FLX_TRACE_CONTEXT_ADD("balls");
-	FLX_TRACE_CONTEXT_ADD("balls");
 
-	flx::test::test_flx();
+	caller_a();
 
-	std::cout << flx::test::output.str();
+	//flx::test::test_flx();
+	//
+	//std::cout << flx::test::output.str();
 
 	return 0;
 }

@@ -12,9 +12,9 @@
 // For now FLX aims to be exception-free
 
 #define FLX_VERSION_MAJOR	0
-#define FLX_VERSION_MINOR	3
+#define FLX_VERSION_MINOR	4
 #define FLX_VERSION_PATCH	0
-#define FLX_VERSION			"0.3.0"
+#define FLX_VERSION			"0.4.0"
 
 
 
@@ -251,12 +251,15 @@ IMP_BEGIN_
 thread_local inline u64 trace_pos_ = 0; // position of last trace entry
 
 // to shift all contexts to one left
-inline void trace_shift_() noexcept
+constexpr void trace_shift_() noexcept
 {
-
+	for (szt i = 0; i < TRACE_DEPTH - 1; i++)
+	{
+		trace[i] = trace[i + 1];
+	}
 }
 
-inline void trace_push_(const c8* msg) noexcept
+constexpr void trace_push_(const c8* msg) noexcept
 {
 	if (trace_pos_ < TRACE_DEPTH)
 	{
@@ -270,7 +273,7 @@ inline void trace_push_(const c8* msg) noexcept
 	}
 }
 
-inline void trace_pop_() noexcept
+constexpr void trace_pop_() noexcept
 {
 	if (trace_pos_ > 0)
 	{
@@ -280,12 +283,12 @@ inline void trace_pop_() noexcept
 
 struct trace_context_guard_
 {
-	trace_context_guard_(const c8* msg) noexcept
+	constexpr trace_context_guard_(const c8* msg) noexcept
 	{
 		trace_push_(msg);
 	}
 
-	~trace_context_guard_() noexcept
+	constexpr ~trace_context_guard_() noexcept
 	{
 		trace_pop_();
 	}
