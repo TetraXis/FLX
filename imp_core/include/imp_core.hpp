@@ -8,6 +8,7 @@
 // FLX_BUILDING_SHARED:			Define when building FLX as a dynamic library. (unchecked functionality)
 // FLX_USING_SHARED:			Define when using FLX as a dynamic library. (unchecked functionality, not even sure when this would be used)
 // FLX_USE_TRACE				Define if you want to use tracing, enabled by default in debug mode
+// FLX_TRACE_DEPTH (num)		Set number to desired trace depth, default is 32
 //
 // For now FLX aims to be exception-free
 
@@ -242,7 +243,12 @@ FLX_BEGIN_
 
 FLX_API_ thread_local inline const c8* last_error = "NULL";
 
-FLX_API_ constexpr u64 TRACE_DEPTH = 32;
+#if defined(FLX_TRACE_DEPTH)
+	FLX_API_ constexpr u64 TRACE_DEPTH = FLX_TRACE_DEPTH;
+#else // !FLX_TRACE_DEPTH
+	FLX_API_ constexpr u64 TRACE_DEPTH = 32;
+#endif // FLX_TRACE_DEPTH
+
 // trace is used for tracing calls (f.e. in case of terminate)
 FLX_API_ thread_local inline const c8* trace[TRACE_DEPTH]{};
 
@@ -302,7 +308,7 @@ struct trace_context_guard_
 IMP_END_
 
 // not marked as [[noreturn]] for rare cases where people need it to return
-FLX_API_ thread_local inline void (*on_terminate) () noexcept =
+FLX_API_ thread_local constexpr void (*on_terminate) () noexcept =
 []() noexcept
 	{
 		// make program crash
@@ -315,7 +321,7 @@ FLX_API_ thread_local inline void (*on_terminate) () noexcept =
 	};
 
 // not marked as [[noreturn]] for rare cases where people need it to return
-FLX_API_ inline void terminate(const c8* const error_msg = last_error) noexcept
+FLX_API_ constexpr void terminate(const c8* const error_msg = last_error) noexcept
 {
 	FLX_ASSERT(false && *error_msg);
 
