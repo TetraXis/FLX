@@ -15,6 +15,7 @@
 
 // TODO: tests for dynamic_array iterators
 // TODO: consider testing internal functions
+// TODO: d_arr test for self assigment
 // NOTE: we now only test what functions do, but not what they take in
 
 #define RED     "\033[31m"
@@ -467,7 +468,7 @@ bool test::test_dynamic_array()
 	output << "\nTesting dynamic_array.hpp...\n";
 	output << ".\tTesting dynamic_array...\n";
 	bool result = true;
-	constexpr u64 VOLUME = 1000;
+	//constexpr u64 VOLUME = 1000;
 
 	/*static u64 called_def_constructors = 0;
 	static u64 called_custom_constructors = 0;

@@ -20,7 +20,7 @@ FLX_BEGIN_
 
 // dynamic_array will delay object construction after allocation
 // it is preferred that your constructors only allocate/deallocate
-FLX_API_ template <typename ty, FLX_ unsigned_integral size_ty = u64>
+FLX_API_ template <FLX_ allocatable ty, FLX_ unsigned_integral size_ty = u64>
 struct dynamic_array
 {
 	static_assert(FLX_ destructible<ty>, "flx/dynamic_array.hpp::dynamic_array: dynamic_array can only work with nothrow destructible objects.");

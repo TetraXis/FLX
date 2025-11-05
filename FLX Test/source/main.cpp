@@ -38,16 +38,29 @@ struct test_all
 	}
 };
 
-void test_f()
+constexpr int test_f()
 {
+	int result{};
 
+	flx::default_raw_allocator<int> a;
+	int* p = a.allocate(10);
+
+	flx::construct_at(&p[0], flx::nothrow, 5);
+	flx::construct_at(&p[1], flx::nothrow, 15);
+	flx::construct_at(&p[2], flx::nothrow, 25);
+
+	result = p[1];
+
+	a.deallocate(p);
+
+	return result;
 }
 
 int main()
 {
-	FLX_TRACE_CONTEXT_ADD("balls");
+	constexpr int result = test_f();
 
-	caller_a();
+	return result;
 
 	//flx::test::test_flx();
 	//

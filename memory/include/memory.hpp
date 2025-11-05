@@ -103,7 +103,7 @@ inline void* allocate_raw(const szt bytes)
 	return ::operator new(bytes);
 }
 
-FLX_API_ inline void* allocate_raw(const szt bytes, [[maybe_unused]] IMP_ nothrow_tag) noexcept
+FLX_API_ constexpr void* allocate_raw(const szt bytes, [[maybe_unused]] IMP_ nothrow_tag) noexcept
 {
 	try
 	{
@@ -116,7 +116,7 @@ FLX_API_ inline void* allocate_raw(const szt bytes, [[maybe_unused]] IMP_ nothro
 	}
 }
 
-FLX_API_ inline void deallocate_raw(void* const memory) noexcept
+FLX_API_ constexpr void deallocate_raw(void* const memory) noexcept
 {
 	::operator delete(memory);
 	return;
@@ -186,25 +186,25 @@ struct unique_ptr
     using value_type = ty;
 
 flx_private:
-    ty* owned_ptr = nullptr;
+    ty* owned_ptr_ = nullptr;
 
 flx_public:
     constexpr unique_ptr() noexcept = default;
 
     explicit constexpr unique_ptr(ty* ptr) noexcept
-        : owned_ptr(ptr)
+        : owned_ptr_(ptr)
     {
     }
 
     constexpr ~unique_ptr() noexcept
     {
-        delete owned_ptr;
+        delete owned_ptr_;
     }
 
     constexpr unique_ptr(const unique_ptr&) = delete;
 
     constexpr unique_ptr(unique_ptr&& other) noexcept
-        : owned_ptr(other.release())
+        : owned_ptr_(other.release())
     {
     }
 
@@ -220,69 +220,69 @@ flx_public:
 
     explicit constexpr operator bool() const noexcept
     {
-        return owned_ptr != nullptr;
+        return owned_ptr_ != nullptr;
     }
 
     constexpr bool operator==(const unique_ptr& other) const noexcept
     {
-        return owned_ptr == other.owned_ptr;
+        return owned_ptr_ == other.owned_ptr_;
     }
 
     constexpr bool operator==(decltype(nullptr)) const noexcept
     {
-        return owned_ptr == nullptr;
+        return owned_ptr_ == nullptr;
     }
 
     constexpr bool operator!=(const unique_ptr& other) const noexcept
     {
-        return owned_ptr != other.owned_ptr;
+        return owned_ptr_ != other.owned_ptr_;
     }
 
     constexpr bool operator!=(decltype(nullptr)) const noexcept
     {
-        return owned_ptr != nullptr;
+        return owned_ptr_ != nullptr;
     }
 
     constexpr ty* get() const noexcept
     {
-        return owned_ptr;
+        return owned_ptr_;
     }
 
     constexpr ty& operator*() const noexcept
     {
-        assert(owned_ptr != nullptr && "flx/memory.hpp::unique_ptr::operator* dereferencing a nullptr.");
+        assert(owned_ptr_ != nullptr && "flx/memory.hpp::unique_ptr::operator* dereferencing a nullptr.");
 
-        return *owned_ptr;
+        return *owned_ptr_;
     }
 
     constexpr ty* operator->() const noexcept
     {
-        assert(owned_ptr != nullptr && "flx/memory.hpp::unique_ptr::operator-> dereferencing a nullptr.");
+        assert(owned_ptr_ != nullptr && "flx/memory.hpp::unique_ptr::operator-> dereferencing a nullptr.");
 
-        return owned_ptr;
+        return owned_ptr_;
     }
 
     [[nodiscard("flx/memory.hpp::unique_ptr is a simple wrapper around heap allocated memory. Calling flx/memory.hpp::unique_ptr::release and discarding will cause memory leaks.")]]
     constexpr ty* release() noexcept
     {
-        ty* ptr = owned_ptr;
-        owned_ptr = nullptr;
+        ty* ptr = owned_ptr_;
+        owned_ptr_ = nullptr;
         return ptr;
     }
 
     constexpr void reset(ty* ptr = nullptr) noexcept
     {
-        assert(ptr != owned_ptr && "flx/memory.hpp::unique_ptr::reset resetting with self is forbidden.");
+        assert(ptr != owned_ptr_ && "flx/memory.hpp::unique_ptr::reset resetting with self is forbidden.");
 
-        delete owned_ptr;
-        owned_ptr = ptr;
+        delete owned_ptr_;
+        owned_ptr_ = ptr;
     }
 
     constexpr void swap(unique_ptr& other) noexcept
     {
-        ty* temp_ptr = owned_ptr;
-        owned_ptr = other.owned_ptr;
-        other.owned_ptr = temp_ptr;
+        ty* temp_ptr = owned_ptr_;
+        owned_ptr_ = other.owned_ptr_;
+        other.owned_ptr_ = temp_ptr;
     }
 }; // unique_ptr<ty>
 
@@ -292,25 +292,25 @@ struct unique_ptr<ty[]>
     using value_type = ty;
 
 flx_private:
-    ty* owned_ptr = nullptr;
+    ty* owned_ptr_ = nullptr;
 
 flx_public:
     constexpr unique_ptr() noexcept = default;
 
     explicit constexpr unique_ptr(ty* ptr) noexcept
-        : owned_ptr(ptr)
+        : owned_ptr_(ptr)
     {
     }
 
     constexpr ~unique_ptr() noexcept
     {
-        delete[] owned_ptr;
+        delete[] owned_ptr_;
     }
 
     constexpr unique_ptr(const unique_ptr&) = delete;
 
     constexpr unique_ptr(unique_ptr&& other) noexcept
-        : owned_ptr(other.release())
+        : owned_ptr_(other.release())
     {
     }
 
@@ -326,60 +326,60 @@ flx_public:
 
     explicit constexpr operator bool() const noexcept
     {
-        return owned_ptr != nullptr;
+        return owned_ptr_ != nullptr;
     }
 
     constexpr bool operator==(const unique_ptr& other) const noexcept
     {
-        return owned_ptr == other.owned_ptr;
+        return owned_ptr_ == other.owned_ptr_;
     }
 
     constexpr bool operator==(decltype(nullptr)) const noexcept
     {
-        return owned_ptr == nullptr;
+        return owned_ptr_ == nullptr;
     }
 
     constexpr bool operator!=(const unique_ptr& other) const noexcept
     {
-        return owned_ptr != other.owned_ptr;
+        return owned_ptr_ != other.owned_ptr_;
     }
 
     constexpr bool operator!=(decltype(nullptr)) const noexcept
     {
-        return owned_ptr != nullptr;
+        return owned_ptr_ != nullptr;
     }
 
     constexpr ty* get() const noexcept
     {
-        return owned_ptr;
+        return owned_ptr_;
     }
 
     constexpr ty& operator[](u64 idx) const noexcept
     {
-        return owned_ptr[idx];
+        return owned_ptr_[idx];
     }
 
     [[nodiscard("flx/memory.hpp::unique_ptr is a simple wrapper around heap allocated memory. Calling flx/memory.hpp::unique_ptr::release and discarding will cause memory leaks.")]]
     constexpr ty* release() noexcept
     {
-        ty* ptr = owned_ptr;
-        owned_ptr = nullptr;
+        ty* ptr = owned_ptr_;
+        owned_ptr_ = nullptr;
         return ptr;
     }
 
     constexpr void reset(ty* ptr = nullptr) noexcept
     {
-        assert(ptr != owned_ptr && "flx/memory.hpp::unique_ptr::reset resetting with self is forbidden.");
+        assert(ptr != owned_ptr_ && "flx/memory.hpp::unique_ptr::reset resetting with self is forbidden.");
 
-        delete[] owned_ptr;
-        owned_ptr = ptr;
+        delete[] owned_ptr_;
+        owned_ptr_ = ptr;
     }
 
     constexpr void swap(unique_ptr& other) noexcept
     {
-        ty* temp_ptr = owned_ptr;
-        owned_ptr = other.owned_ptr;
-        other.owned_ptr = temp_ptr;
+        ty* temp_ptr = owned_ptr_;
+        owned_ptr_ = other.owned_ptr_;
+        other.owned_ptr_ = temp_ptr;
     }
 }; // unique_ptr<ty[]>
 
@@ -399,6 +399,24 @@ FLX_API_ template<FLX_ allocatable ty>
 struct default_raw_allocator
 {
     //TODO: finish allocator
+    using value_type = ty;
+
+    [[nodiscard("Discarding allocated memory will result in memory leak.")]]
+    constexpr ty* allocate(const szt n) noexcept
+    {
+        FLX_TRACE_CONTEXT_ADD("flx/memory.hpp::default_raw_allocator::allocate");
+
+        return static_cast<ty*>(FLX_ allocate_raw(n * sizeof(ty), flx::nothrow));
+    }
+
+    constexpr void deallocate(ty* addr, [[maybe_unused]] const szt n = 0) noexcept
+    {
+        FLX_TRACE_CONTEXT_ADD("flx/memory.hpp::default_raw_allocator::deallocate");
+
+        FLX_ deallocate_raw(addr);
+
+        return;
+    }
 };
 
 FLX_END_
