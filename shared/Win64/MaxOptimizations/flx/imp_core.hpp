@@ -1,36 +1,39 @@
-#ifndef IMP_FLX_IMP_CORE_HPP_
-#define IMP_FLX_IMP_CORE_HPP_
+#ifndef IMP_IMP_CORE_HPP_
+#define IMP_IMP_CORE_HPP_
 
 /// ====== Main header for internals ====== ///
+//
 // Settings:
 // FLX_ALL_MEMBERS_ARE_PUBLIC:	Define if you need all class members to become public.
 // FLX_BUILDING_SHARED:			Define when building FLX as a dynamic library. (unchecked functionality)
 // FLX_USING_SHARED:			Define when using FLX as a dynamic library. (unchecked functionality, not even sure when this would be used)
+// FLX_USE_TRACE				Define if you want to use tracing, enabled by default in debug mode
+// FLX_TRACE_DEPTH (num)		Set number to desired trace depth, default is 32
 //
 // For now FLX aims to be exception-free
 
 #define FLX_VERSION_MAJOR	0
-#define FLX_VERSION_MINOR	2
-#define FLX_VERSION_PATCH	1
-#define FLX_VERSION			"0.2.1"
+#define FLX_VERSION_MINOR	4
+#define FLX_VERSION_PATCH	0
+#define FLX_VERSION			"0.4.0"
 
 
 
 // ===== compiler ===== //
 
-#define IMP_FLX_COMPILER_UNKNOWN_	(-1)
-#define IMP_FLX_COMPILER_MSVC_		0
-#define IMP_FLX_COMPILER_GCC_		1
-#define IMP_FLX_COMPILER_CLANG_		2
+#define IMP_COMPILER_UNKNOWN_	(-1)
+#define IMP_COMPILER_MSVC_		0
+#define IMP_COMPILER_GCC_		1
+#define IMP_COMPILER_CLANG_		2
 
 #if defined(_MSC_VER)
-	#define IMP_FLX_COMPILER_ IMP_FLX_COMPILER_MSVC_
+	#define IMP_COMPILER_ IMP_COMPILER_MSVC_
 #elif defined(__GNUC__)
-	#define IMP_FLX_COMPILER_ IMP_FLX_COMPILER_GCC_
+	#define IMP_COMPILER_ IMP_COMPILER_GCC_
 #elif defined(__clang__)
-	#define IMP_FLX_COMPILER_ IMP_FLX_COMPILER_CLANG_
+	#define IMP_COMPILER_ IMP_COMPILER_CLANG_
 #else
-	#define IMP_FLX_COMPILER_ IMP_FLX_COMPILER_UNKNOWN_
+	#define IMP_COMPILER_ IMP_COMPILER_UNKNOWN_
 	#error "Unknown compiler. Some code may break. You may remove this error at your own risk."
 #endif // compiler
 
@@ -38,19 +41,19 @@
 
 // ===== platform ===== //
 
-#define IMP_FLX_PLATFORM_UNKNOWN_	(-1)
-#define IMP_FLX_PLATFORM_WINDOWS_	0
-#define IMP_FLX_PLATFORM_LINUX_		1
-#define IMP_FLX_PLATFORM_APPLE_		2
+#define IMP_PLATFORM_UNKNOWN_	(-1)
+#define IMP_PLATFORM_WINDOWS_	0
+#define IMP_PLATFORM_LINUX_		1
+#define IMP_PLATFORM_APPLE_		2
 
 #if defined(_WIN32)
-	#define IMP_FLX_PLATFORM_ IMP_FLX_PLATFORM_WINDOWS_
+	#define IMP_PLATFORM_ IMP_PLATFORM_WINDOWS_
 #elif defined(__linux__)
-	#define IMP_FLX_PLATFORM_ IMP_FLX_PLATFORM_LINUX_
+	#define IMP_PLATFORM_ IMP_PLATFORM_LINUX_
 #elif defined(__APPLE__)
-	#define IMP_FLX_PLATFORM_ IMP_FLX_PLATFORM_APPLE_
+	#define IMP_PLATFORM_ IMP_PLATFORM_APPLE_
 #else
-	#define IMP_FLX_PLATFORM_ IMP_FLX_PLATFORM_UNKNOWN_
+	#define IMP_PLATFORM_ IMP_PLATFORM_UNKNOWN_
 	#error "Unknown platform. Some code may break. You may remove this error at your own risk."
 #endif // platform
 
@@ -58,30 +61,30 @@
 
 // ===== architecture  ===== //
 
-#define IMP_FLX_ARCH_UNKNOWN_	(-1)
-#define IMP_FLX_ARCH_X86_		0
-#define IMP_FLX_ARCH_X64_		1
+#define IMP_ARCH_UNKNOWN_	(-1)
+#define IMP_ARCH_X86_		0
+#define IMP_ARCH_X64_		1
 
-#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_
+#if IMP_COMPILER_ == IMP_COMPILER_MSVC_
 	#if defined(_M_IX86)
-		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_X86_
+		#define IMP_ARCH_ IMP_ARCH_X86_
 	#elif defined(_M_X64) || defined(_M_AMD64)
-		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_X64_
+		#define IMP_ARCH_ IMP_ARCH_X64_
 	#else
-		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_UNKNOWN_
+		#define IMP_ARCH_ IMP_ARCH_UNKNOWN_
 		#error "Unknown architecture. Some code may break. You may remove this error at your own risk."
 	#endif
-#elif IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_CLANG_
+#elif IMP_COMPILER_ == IMP_COMPILER_GCC_ || IMP_COMPILER_ == IMP_COMPILER_CLANG_
 	#if defined(__i386__) || defined(__i386)
-		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_X86_
+		#define IMP_ARCH_ IMP_ARCH_X86_
 	#elif defined(__x86_64__)
-		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_X64_
+		#define IMP_ARCH_ IMP_ARCH_X64_
 	#else
-		#define IMP_FLX_ARCH_ IMP_FLX_ARCH_UNKNOWN_
+		#define IMP_ARCH_ IMP_ARCH_UNKNOWN_
 		#error "Unknown architecture. Some code may break. You may remove this error at your own risk."
 	#endif
 #else
-	#define IMP_FLX_ARCH_ IMP_FLX_ARCH_UNKNOWN_
+	#define IMP_ARCH_ IMP_ARCH_UNKNOWN_
 	#error "The architecture could not be determined because the compiler is unknown. Some code may break. You may remove this error at your own risk."
 #endif // architecture
 
@@ -89,15 +92,15 @@
 
 // ===== configuration ===== //
 
-#define IMP_FLX_CONFIGURATION_UNKNOWN_	(-1)
-#define IMP_FLX_CONFIGURATION_DEBUG_	0
-#define IMP_FLX_CONFIGURATION_RELEASE_	1
+#define IMP_CONFIGURATION_UNKNOWN_	(-1)
+#define IMP_CONFIGURATION_DEBUG_	0
+#define IMP_CONFIGURATION_RELEASE_	1
 
 #if defined(NDEBUG)
-	#define IMP_FLX_CONFIGURATION_ IMP_FLX_CONFIGURATION_RELEASE_
+	#define IMP_CONFIGURATION_ IMP_CONFIGURATION_RELEASE_
 	#define FLX_RELEASE
 #else
-	#define IMP_FLX_CONFIGURATION_ IMP_FLX_CONFIGURATION_DEBUG_
+	#define IMP_CONFIGURATION_ IMP_CONFIGURATION_DEBUG_
 	#define FLX_DEBUG
 #endif // configuration
 
@@ -105,18 +108,18 @@
 
 // ===== C++ version ===== //
 
-#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_ // MSVC uses '_MSVC_LANG' instead of '__cplusplus'
-	#define IMP_FLX_LANG_ _MSVC_LANG
+#if IMP_COMPILER_ == IMP_COMPILER_MSVC_ // MSVC uses '_MSVC_LANG' instead of '__cplusplus'
+	#define IMP_LANG_ _MSVC_LANG
 #else 
-	#define IMP_FLX_LANG_ __cplusplus
-#endif // IMP_FLX_LANG_
+	#define IMP_LANG_ __cplusplus
+#endif // IMP_LANG_
 
-#if IMP_FLX_LANG_ >= 202002L
-	#define IMP_FLX_HAS_CXX20_ 1
+#if IMP_LANG_ >= 202002L
+	#define IMP_HAS_CXX20_ 1
 #else
-	#define IMP_FLX_HAS_CXX20_ 0
+	#define IMP_HAS_CXX20_ 0
 	#error "Unsupported C++ Standard. FLX requires C++20 or higher."
-#endif // IMP_FLX_HAS_CXX20_
+#endif // IMP_HAS_CXX20_
 
 
 
@@ -135,13 +138,13 @@
 #endif
 
 #if defined(FLX_BUILDING_SHARED) // Building as a DLL/SO
-	#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_
+	#if IMP_COMPILER_ == IMP_COMPILER_MSVC_
 		#define FLX_API_ __declspec(dllexport)
 	#else
 		#define FLX_API_ __attribute__((visibility("default")))
 	#endif
 #elif defined(FLX_USING_SHARED) // Using as DLL/SO
-	#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_
+	#if IMP_COMPILER_ == IMP_COMPILER_MSVC_
 		#define FLX_API_ __declspec(dllimport)
 	#else
 		#define FLX_API_ __attribute__((visibility("default")))
@@ -150,23 +153,27 @@
 	#define FLX_API_
 #endif // FLX_API_
 
-#if IMP_FLX_ARCH_ == IMP_FLX_ARCH_X86_
-	#define IMP_FLX_SIZE_TYPE_ unsigned int
-#elif IMP_FLX_ARCH_ == IMP_FLX_ARCH_X64_
-	#define IMP_FLX_SIZE_TYPE_ unsigned long long
+#if IMP_ARCH_ == IMP_ARCH_X86_
+	#define IMP_SIZE_TYPE_ unsigned int
+#elif IMP_ARCH_ == IMP_ARCH_X64_
+	#define IMP_SIZE_TYPE_ unsigned long long
 #else // assuming other architectures are at least 32 bit
-	#define IMP_FLX_SIZE_TYPE_ unsigned int
-#endif // IMP_FLX_SIZE_TYPE_
+	#define IMP_SIZE_TYPE_ unsigned int
+#endif // IMP_SIZE_TYPE_
 
-#if IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_MSVC_
-	#define IMP_FLX_ASSUME_(expr) __assume(expr)
-#elif IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_ || IMP_FLX_COMPILER_ == IMP_FLX_COMPILER_GCC_
-	#define IMP_FLX_ASSUME_(expr) __builtin_assume(expr)
+#if IMP_COMPILER_ == IMP_COMPILER_MSVC_
+	#define IMP_ASSUME_(expr) __assume(expr)
+#elif IMP_COMPILER_ == IMP_COMPILER_GCC_ || IMP_COMPILER_ == IMP_COMPILER_GCC_
+	#define IMP_ASSUME_(expr) __builtin_assume(expr)
 #else
-	#define IMP_FLX_ASSUME_(expr) 
-#endif // IMP_FLX_ASSUME_
+	#define IMP_ASSUME_(expr) 
+#endif // IMP_ASSUME_
 
-#define IMP_FLX_DEPRICATE_EXCEPTIONS_ [[deprecated("As of FLX v." FLX_VERSION ": throwable functions are depricated, use flx::nothrow tag.")]]
+#define IMP_DEPRICATE_EXCEPTIONS_ [[deprecated("As of FLX v." FLX_VERSION ": throwable functions are depricated, use flx::nothrow tag.")]]
+
+#if defined(FLX_DEBUG)
+	#define FLX_USE_TRACE
+#endif // FLX_DEBUG
 
 
 
@@ -213,7 +220,7 @@ inline namespace types
 	using f64	= double;
 	using f80	= long double;
 
-	using szt	= IMP_FLX_SIZE_TYPE_;
+	using szt	= IMP_SIZE_TYPE_;
 } // namespace types
 
 FLX_END_
@@ -224,18 +231,84 @@ FLX_END_
 
 #if defined(FLX_DEBUG)
 	#include <cassert>
-	#define FLX_ASSERT_(expr) assert(expr)
+	#define FLX_ASSERT(expr) assert(expr)
 #else
-	#define FLX_ASSERT_(expr) ((void)0)
+	#define FLX_ASSERT(expr) ((void)0)
 #endif // FLX_DEBUG
 
 
-// ===== terminate ===== //
+// ===== error handling ===== //
 
 FLX_BEGIN_
 
-FLX_API_ inline const c8* last_error = "NULL";
-FLX_API_ inline void (*on_terminate) () noexcept =
+FLX_API_ thread_local inline const c8* last_error = "NULL";
+
+#if defined(FLX_TRACE_DEPTH)
+	FLX_API_ constexpr u64 TRACE_DEPTH = FLX_TRACE_DEPTH;
+#else // !FLX_TRACE_DEPTH
+	FLX_API_ constexpr u64 TRACE_DEPTH = 32;
+#endif // FLX_TRACE_DEPTH
+
+// trace is used for tracing calls (f.e. in case of terminate)
+FLX_API_ thread_local inline const c8* trace[TRACE_DEPTH]{};
+
+IMP_BEGIN_
+
+thread_local inline u64 trace_pos_ = 0; // position of last trace entry
+
+// to shift all contexts to one left
+constexpr void trace_shift_() noexcept
+{
+	for (szt i = 0; i < TRACE_DEPTH - 1; i++)
+	{
+		trace[i] = trace[i + 1];
+	}
+}
+
+constexpr void trace_push_(const c8* msg) noexcept
+{
+	if (trace_pos_ < TRACE_DEPTH)
+	{
+		trace[trace_pos_] = msg;
+		++trace_pos_;
+	}
+	else
+	{
+		trace_shift_();
+		trace[TRACE_DEPTH - 1] = msg;
+	}
+}
+
+constexpr void trace_pop_() noexcept
+{
+	if (trace_pos_ > 0)
+	{
+		--trace_pos_;
+	}
+}
+
+struct trace_context_guard_
+{
+	constexpr trace_context_guard_(const c8* msg) noexcept
+	{
+		trace_push_(msg);
+	}
+
+	constexpr ~trace_context_guard_() noexcept
+	{
+		trace_pop_();
+	}
+
+	trace_context_guard_(const trace_context_guard_&) = delete;
+	trace_context_guard_(trace_context_guard_&&) = delete;
+	trace_context_guard_& operator = (const trace_context_guard_&) = delete;
+	trace_context_guard_& operator = (trace_context_guard_&&) = delete;
+};
+
+IMP_END_
+
+// not marked as [[noreturn]] for rare cases where people need it to return
+FLX_API_ thread_local constexpr void (*on_terminate) () noexcept =
 []() noexcept
 	{
 		// make program crash
@@ -247,15 +320,30 @@ FLX_API_ inline void (*on_terminate) () noexcept =
 		}
 	};
 
-FLX_API_ inline void terminate(const c8* const error_msg = last_error) noexcept
+// not marked as [[noreturn]] for rare cases where people need it to return
+FLX_API_ constexpr void terminate(const c8* const error_msg = last_error) noexcept
 {
-	FLX_ASSERT_(false && *error_msg);
+	FLX_ASSERT(false && *error_msg);
 
 	FLX_ on_terminate();
 };
 
 FLX_END_
 
+#define IMP_CONCAT_IMP_(a, b) a##b
+#define IMP_CONCAT_(a, b) IMP_CONCAT_IMP_(a, b)
+#define FLX_UNIQUE_NAME(name) IMP_CONCAT_(name, __LINE__)
+
+#if defined(FLX_USE_TRACE)
+	#define FLX_TRACE_CONTEXT_ADD(msg) IMP_ trace_context_guard_ FLX_UNIQUE_NAME(tcg_){msg}
+	#define FLX_TRACE_PUSH(msg) IMP_ trace_push_(msg)
+	#define FLX_TRACE_POP() IMP_ trace_pop_()
+#else // !FLX_USE_TRACE
+	#define FLX_TRACE_CONTEXT_ADD(msg) ((void)0)
+	#define FLX_TRACE_PUSH(msg) ((void)0)
+	#define FLX_TRACE_POP() ((void)0)
+#endif // FLX_USE_TRACE
 
 
-#endif // IMP_FLX_IMP_CORE_HPP_
+
+#endif // IMP_IMP_CORE_HPP_

@@ -1,5 +1,5 @@
-#ifndef IMP_FLX_MEMORY_HPP_
-#define IMP_FLX_MEMORY_HPP_
+#ifndef IMP_MEMORY_HPP_
+#define IMP_MEMORY_HPP_
 
 #include "flx/imp_core.hpp"
 #include "flx/new.hpp"
@@ -11,7 +11,7 @@ FLX_BEGIN_
 // ===== allocate/deallocate ====== //
 
 FLX_API_ template<typename ty>
-IMP_FLX_DEPRICATE_EXCEPTIONS_
+IMP_DEPRICATE_EXCEPTIONS_
 ty* allocate()
 {
 	return new ty{};
@@ -34,14 +34,14 @@ ty* allocate([[maybe_unused]] IMP_ nothrow_tag) noexcept
 }
 
 FLX_API_ template <typename ty, typename... val_ty>
-IMP_FLX_DEPRICATE_EXCEPTIONS_
-ty* allocate(ty* const location, val_ty&&... args)
+IMP_DEPRICATE_EXCEPTIONS_
+ty* allocate(val_ty&&... args)
 {
 	return new ty{ FLX_ forward<val_ty>(args)... };
 }
 
 FLX_API_ template <typename ty, typename... val_ty>
-ty* allocate(ty* const location, [[maybe_unused]] IMP_ nothrow_tag, val_ty&&... args) noexcept
+ty* allocate([[maybe_unused]] IMP_ nothrow_tag, val_ty&&... args) noexcept
 {
 	static_assert(noexcept(ty(FLX_ forward<val_ty>(args)...)), "flx/memory.hpp::allocate: your constructor should be noexcept.");
 
@@ -57,13 +57,15 @@ ty* allocate(ty* const location, [[maybe_unused]] IMP_ nothrow_tag, val_ty&&... 
 }
 
 FLX_API_ template<typename ty>
-void deallocate(ty* ptr) noexcept
+void deallocate(ty* const ptr) noexcept
 {
+    static_assert(FLX_ destructible<ty>, "flx/memory.hpp::deallocate: your destructor should be noexcept.");
+
 	delete ptr;
 }
 
 FLX_API_ template<typename ty>
-IMP_FLX_DEPRICATE_EXCEPTIONS_
+IMP_DEPRICATE_EXCEPTIONS_
 ty* allocate_array(const szt size)
 {
 	return new ty[size];
@@ -72,7 +74,7 @@ ty* allocate_array(const szt size)
 FLX_API_ template<typename ty>
 ty* allocate_array(const szt size, [[maybe_unused]] IMP_ nothrow_tag) noexcept
 {
-	static_assert(noexcept(ty{}), "flx/memory.hpp::allocate: your default constructor should be noexcept.");
+	static_assert(noexcept(ty{}), "flx/memory.hpp::allocate_array: your default constructor should be noexcept.");
 
 	try
 	{
@@ -80,20 +82,22 @@ ty* allocate_array(const szt size, [[maybe_unused]] IMP_ nothrow_tag) noexcept
 	}
 	catch (...)
 	{
-		FLX_ terminate("flx/memory.hpp::allocate: bad alloc.");
+		FLX_ terminate("flx/memory.hpp::allocate_array: bad alloc.");
         return nullptr;
 	}
 }
 
 
 FLX_API_ template<typename ty>
-void deallocate_array(ty* ptr) noexcept
+void deallocate_array(ty* const ptr) noexcept
 {
+    static_assert(FLX_ destructible<ty>, "flx/memory.hpp::deallocate_array: your destructor should be noexcept.");
+
 	delete[] ptr;
 }
 
 FLX_API_ 
-IMP_FLX_DEPRICATE_EXCEPTIONS_
+IMP_DEPRICATE_EXCEPTIONS_
 inline void* allocate_raw(const szt bytes)
 {
 	return ::operator new(bytes);
@@ -124,7 +128,7 @@ FLX_API_ template <typename ty, typename... val_ty>
 {
 	::new (static_cast<void*>(location), FLX_ use_flx) ty(FLX_ forward<val_ty>(args)...);
 }
-IMP_FLX_DEPRICATE_EXCEPTIONS_
+IMP_DEPRICATE_EXCEPTIONS_
 constexpr ty* construct_at(ty* const location, val_ty&&... args)
 {
 	return ::new (static_cast<void*>(location), FLX_ use_flx) ty(FLX_ forward<val_ty>(args)...);
@@ -143,7 +147,7 @@ constexpr ty* construct_at(ty* const location, [[maybe_unused]] IMP_ nothrow_tag
 }
 
 FLX_API_ template <FLX_ copy_constructible ty>
-IMP_FLX_DEPRICATE_EXCEPTIONS_
+IMP_DEPRICATE_EXCEPTIONS_
 constexpr ty* copy_construct_at(ty* const location, const ty& other)
 {
 	return ::new (static_cast<void*>(location), FLX_ use_flx) ty(other);
@@ -158,7 +162,7 @@ constexpr ty* copy_construct_at(ty* const location, const ty& other, [[maybe_unu
 }
 
 FLX_API_ template <FLX_ move_constructible ty>
-IMP_FLX_DEPRICATE_EXCEPTIONS_
+IMP_DEPRICATE_EXCEPTIONS_
 constexpr ty* move_construct_at(ty* const location, ty&& other)
 {
 	return ::new (static_cast<void*>(location), FLX_ use_flx) ty(FLX_ move(other));
@@ -182,25 +186,25 @@ struct unique_ptr
     using value_type = ty;
 
 flx_private:
-    ty* owned_ptr = nullptr;
+    ty* owned_ptr_ = nullptr;
 
 flx_public:
     constexpr unique_ptr() noexcept = default;
 
     explicit constexpr unique_ptr(ty* ptr) noexcept
-        : owned_ptr(ptr)
+        : owned_ptr_(ptr)
     {
     }
 
     constexpr ~unique_ptr() noexcept
     {
-        delete owned_ptr;
+        delete owned_ptr_;
     }
 
     constexpr unique_ptr(const unique_ptr&) = delete;
 
     constexpr unique_ptr(unique_ptr&& other) noexcept
-        : owned_ptr(other.release())
+        : owned_ptr_(other.release())
     {
     }
 
@@ -216,69 +220,69 @@ flx_public:
 
     explicit constexpr operator bool() const noexcept
     {
-        return owned_ptr != nullptr;
+        return owned_ptr_ != nullptr;
     }
 
     constexpr bool operator==(const unique_ptr& other) const noexcept
     {
-        return owned_ptr == other.owned_ptr;
+        return owned_ptr_ == other.owned_ptr_;
     }
 
     constexpr bool operator==(decltype(nullptr)) const noexcept
     {
-        return owned_ptr == nullptr;
+        return owned_ptr_ == nullptr;
     }
 
     constexpr bool operator!=(const unique_ptr& other) const noexcept
     {
-        return owned_ptr != other.owned_ptr;
+        return owned_ptr_ != other.owned_ptr_;
     }
 
     constexpr bool operator!=(decltype(nullptr)) const noexcept
     {
-        return owned_ptr != nullptr;
+        return owned_ptr_ != nullptr;
     }
 
     constexpr ty* get() const noexcept
     {
-        return owned_ptr;
+        return owned_ptr_;
     }
 
     constexpr ty& operator*() const noexcept
     {
-        assert(owned_ptr != nullptr && "flx/memory.hpp::unique_ptr::operator* dereferencing a nullptr.");
+        assert(owned_ptr_ != nullptr && "flx/memory.hpp::unique_ptr::operator* dereferencing a nullptr.");
 
-        return *owned_ptr;
+        return *owned_ptr_;
     }
 
     constexpr ty* operator->() const noexcept
     {
-        assert(owned_ptr != nullptr && "flx/memory.hpp::unique_ptr::operator-> dereferencing a nullptr.");
+        assert(owned_ptr_ != nullptr && "flx/memory.hpp::unique_ptr::operator-> dereferencing a nullptr.");
 
-        return owned_ptr;
+        return owned_ptr_;
     }
 
     [[nodiscard("flx/memory.hpp::unique_ptr is a simple wrapper around heap allocated memory. Calling flx/memory.hpp::unique_ptr::release and discarding will cause memory leaks.")]]
     constexpr ty* release() noexcept
     {
-        ty* ptr = owned_ptr;
-        owned_ptr = nullptr;
+        ty* ptr = owned_ptr_;
+        owned_ptr_ = nullptr;
         return ptr;
     }
 
     constexpr void reset(ty* ptr = nullptr) noexcept
     {
-        assert(ptr != owned_ptr && "flx/memory.hpp::unique_ptr::reset resetting with self is forbidden.");
+        assert(ptr != owned_ptr_ && "flx/memory.hpp::unique_ptr::reset resetting with self is forbidden.");
 
-        delete owned_ptr;
-        owned_ptr = ptr;
+        delete owned_ptr_;
+        owned_ptr_ = ptr;
     }
 
     constexpr void swap(unique_ptr& other) noexcept
     {
-        ty* temp_ptr = owned_ptr;
-        owned_ptr = other.owned_ptr;
-        other.owned_ptr = temp_ptr;
+        ty* temp_ptr = owned_ptr_;
+        owned_ptr_ = other.owned_ptr_;
+        other.owned_ptr_ = temp_ptr;
     }
 }; // unique_ptr<ty>
 
@@ -288,25 +292,25 @@ struct unique_ptr<ty[]>
     using value_type = ty;
 
 flx_private:
-    ty* owned_ptr = nullptr;
+    ty* owned_ptr_ = nullptr;
 
 flx_public:
     constexpr unique_ptr() noexcept = default;
 
     explicit constexpr unique_ptr(ty* ptr) noexcept
-        : owned_ptr(ptr)
+        : owned_ptr_(ptr)
     {
     }
 
     constexpr ~unique_ptr() noexcept
     {
-        delete[] owned_ptr;
+        delete[] owned_ptr_;
     }
 
     constexpr unique_ptr(const unique_ptr&) = delete;
 
     constexpr unique_ptr(unique_ptr&& other) noexcept
-        : owned_ptr(other.release())
+        : owned_ptr_(other.release())
     {
     }
 
@@ -322,60 +326,60 @@ flx_public:
 
     explicit constexpr operator bool() const noexcept
     {
-        return owned_ptr != nullptr;
+        return owned_ptr_ != nullptr;
     }
 
     constexpr bool operator==(const unique_ptr& other) const noexcept
     {
-        return owned_ptr == other.owned_ptr;
+        return owned_ptr_ == other.owned_ptr_;
     }
 
     constexpr bool operator==(decltype(nullptr)) const noexcept
     {
-        return owned_ptr == nullptr;
+        return owned_ptr_ == nullptr;
     }
 
     constexpr bool operator!=(const unique_ptr& other) const noexcept
     {
-        return owned_ptr != other.owned_ptr;
+        return owned_ptr_ != other.owned_ptr_;
     }
 
     constexpr bool operator!=(decltype(nullptr)) const noexcept
     {
-        return owned_ptr != nullptr;
+        return owned_ptr_ != nullptr;
     }
 
     constexpr ty* get() const noexcept
     {
-        return owned_ptr;
+        return owned_ptr_;
     }
 
     constexpr ty& operator[](u64 idx) const noexcept
     {
-        return owned_ptr[idx];
+        return owned_ptr_[idx];
     }
 
     [[nodiscard("flx/memory.hpp::unique_ptr is a simple wrapper around heap allocated memory. Calling flx/memory.hpp::unique_ptr::release and discarding will cause memory leaks.")]]
     constexpr ty* release() noexcept
     {
-        ty* ptr = owned_ptr;
-        owned_ptr = nullptr;
+        ty* ptr = owned_ptr_;
+        owned_ptr_ = nullptr;
         return ptr;
     }
 
     constexpr void reset(ty* ptr = nullptr) noexcept
     {
-        assert(ptr != owned_ptr && "flx/memory.hpp::unique_ptr::reset resetting with self is forbidden.");
+        assert(ptr != owned_ptr_ && "flx/memory.hpp::unique_ptr::reset resetting with self is forbidden.");
 
-        delete[] owned_ptr;
-        owned_ptr = ptr;
+        delete[] owned_ptr_;
+        owned_ptr_ = ptr;
     }
 
     constexpr void swap(unique_ptr& other) noexcept
     {
-        ty* temp_ptr = owned_ptr;
-        owned_ptr = other.owned_ptr;
-        other.owned_ptr = temp_ptr;
+        ty* temp_ptr = owned_ptr_;
+        owned_ptr_ = other.owned_ptr_;
+        other.owned_ptr_ = temp_ptr;
     }
 }; // unique_ptr<ty[]>
 
@@ -395,8 +399,26 @@ FLX_API_ template<FLX_ allocatable ty>
 struct default_raw_allocator
 {
     //TODO: finish allocator
+    using value_type = ty;
+
+    [[nodiscard("Discarding allocated memory will result in memory leak.")]]
+    constexpr ty* allocate(const szt n) noexcept
+    {
+        FLX_TRACE_CONTEXT_ADD("flx/memory.hpp::default_raw_allocator::allocate");
+
+        return static_cast<ty*>(FLX_ allocate_raw(n * sizeof(ty), flx::nothrow));
+    }
+
+    constexpr void deallocate(ty* addr, [[maybe_unused]] const szt n = 0) noexcept
+    {
+        FLX_TRACE_CONTEXT_ADD("flx/memory.hpp::default_raw_allocator::deallocate");
+
+        FLX_ deallocate_raw(addr);
+
+        return;
+    }
 };
 
 FLX_END_
 
-#endif // IMP_FLX_MEMORY_HPP_
+#endif // IMP_MEMORY_HPP_

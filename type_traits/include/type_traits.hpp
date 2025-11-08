@@ -384,6 +384,13 @@ using remove_reference = typename IMP_ imp_remove_reference<ty>::type;
 
 
 
+FLX_API_ [[nodiscard]] constexpr bool is_constant_evaluated() noexcept
+{
+	return __builtin_is_constant_evaluated();
+}
+
+
+
 // ===== declval ===== //
 
 FLX_API_ template<typename ty>

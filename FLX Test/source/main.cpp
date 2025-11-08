@@ -17,54 +17,38 @@
 //using namespace flx;
 using namespace flx::types;
 
-template<typename ty>
-struct test_all
+constexpr void* std_new(size_t n) noexcept
 {
-	using value_type = ty;
+	return new char[n]; 
+	//return ::operator new(n);
+}
 
-	ty* allocate(unsigned long long)
-	{
-		return nullptr;
-	}
-
-	void deallocate(ty*)
-	{
-		return;
-	}
-
-	void deallocate(ty*, szt)
-	{
-		return;
-	}
-};
-
-constexpr int test_f()
+constexpr void std_del(void* ptr) noexcept
 {
-	int result{};
+	delete[] ptr;
+	//::operator delete(ptr);
+}
 
-	flx::default_raw_allocator<int> a;
-	int* p = a.allocate(10);
+constexpr int res()
+{
+	auto a = std_new(10);
+	std_del(a);
+	return 10;
+}
 
-	flx::construct_at(&p[0], flx::nothrow, 5);
-	flx::construct_at(&p[1], flx::nothrow, 15);
-	flx::construct_at(&p[2], flx::nothrow, 25);
+constexpr int test_al()
+{
+	flx::default_raw_allocator<int> al{};
 
-	result = p[1];
+	int* a = al.allocate(10);
+	al.deallocate(a);
 
-	a.deallocate(p);
-
-	return result;
+	return 10;
 }
 
 int main()
 {
-	constexpr int result = test_f();
-
-	return result;
-
-	//flx::test::test_flx();
-	//
-	//std::cout << flx::test::output.str();
+	constexpr int n = test_al();
 
 	return 0;
 }

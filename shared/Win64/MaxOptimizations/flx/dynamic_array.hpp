@@ -1,5 +1,5 @@
-#ifndef IMP_FLX_DYNAMIC_ARRAY_HPP_
-#define IMP_FLX_DYNAMIC_ARRAY_HPP_
+#ifndef IMP_DYNAMIC_ARRAY_HPP_
+#define IMP_DYNAMIC_ARRAY_HPP_
 
 #include "flx/imp_core.hpp"
 #include "flx/new.hpp"
@@ -14,13 +14,13 @@
 // TODO: consider typedefs
 
 // TODO: dynamic_array does not support constexpr yet
-#define IMP_FLX_DARR_CONSTEXPR_ 
+#define IMP_DARR_CONSTEXPR_ 
 
 FLX_BEGIN_
 
 // dynamic_array will delay object construction after allocation
 // it is preferred that your constructors only allocate/deallocate
-FLX_API_ template <typename ty, FLX_ unsigned_integral size_ty = u64>
+FLX_API_ template <FLX_ allocatable ty, FLX_ unsigned_integral size_ty = u64>
 struct dynamic_array
 {
 	static_assert(FLX_ destructible<ty>, "flx/dynamic_array.hpp::dynamic_array: dynamic_array can only work with nothrow destructible objects.");
@@ -40,73 +40,73 @@ struct dynamic_array
 		ty* ptr = nullptr;
 
 	flx_public:
-		IMP_FLX_DARR_CONSTEXPR_ iterator() noexcept = default;
-		IMP_FLX_DARR_CONSTEXPR_ ~iterator() noexcept = default;
+		IMP_DARR_CONSTEXPR_ iterator() noexcept = default;
+		IMP_DARR_CONSTEXPR_ ~iterator() noexcept = default;
 
-		IMP_FLX_DARR_CONSTEXPR_ explicit iterator(ty* new_ptr = nullptr) noexcept
+		IMP_DARR_CONSTEXPR_ explicit iterator(ty* new_ptr = nullptr) noexcept
 			: ptr(new_ptr)
 		{
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ iterator(const dynamic_array& arr, size_ty idx = 0) noexcept
+		IMP_DARR_CONSTEXPR_ iterator(const dynamic_array& arr, size_ty idx = 0) noexcept
 			: ptr(arr.data_ + idx)
 		{
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ ty& operator*() const noexcept
+		IMP_DARR_CONSTEXPR_ ty& operator*() const noexcept
 		{
 			return *ptr;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ ty* operator->() const noexcept
+		IMP_DARR_CONSTEXPR_ ty* operator->() const noexcept
 		{
 			return ptr;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ ty* get() const noexcept
+		IMP_DARR_CONSTEXPR_ ty* get() const noexcept
 		{
 			return ptr;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ bool operator==(const iterator& other) const noexcept
+		IMP_DARR_CONSTEXPR_ bool operator==(const iterator& other) const noexcept
 		{
 			return ptr == other.ptr;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ bool operator!=(const iterator& other) const noexcept
+		IMP_DARR_CONSTEXPR_ bool operator!=(const iterator& other) const noexcept
 		{
 			return ptr != other.ptr;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ iterator operator+(size_ty idx) const noexcept
+		IMP_DARR_CONSTEXPR_ iterator operator+(size_ty idx) const noexcept
 		{
 			return iterator(ptr + idx);
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ iterator& operator+=(size_ty idx) noexcept
+		IMP_DARR_CONSTEXPR_ iterator& operator+=(size_ty idx) noexcept
 		{
 			ptr += idx;
 			return *this;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ iterator& operator++() noexcept // prefix ++
+		IMP_DARR_CONSTEXPR_ iterator& operator++() noexcept // prefix ++
 		{
 			++ptr;
 			return *this;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ iterator operator-(size_ty idx) const noexcept
+		IMP_DARR_CONSTEXPR_ iterator operator-(size_ty idx) const noexcept
 		{
 			return iterator(ptr - idx);
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ iterator& operator-=(size_ty idx) noexcept
+		IMP_DARR_CONSTEXPR_ iterator& operator-=(size_ty idx) noexcept
 		{
 			ptr -= idx;
 			return *this;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ iterator& operator--() noexcept // prefix --
+		IMP_DARR_CONSTEXPR_ iterator& operator--() noexcept // prefix --
 		{
 			--ptr;
 			return *this;
@@ -123,78 +123,78 @@ struct dynamic_array
 		const ty* ptr = nullptr;
 
 	flx_public:
-		IMP_FLX_DARR_CONSTEXPR_ const_iterator() noexcept = default;
-		IMP_FLX_DARR_CONSTEXPR_ ~const_iterator() noexcept = default;
+		IMP_DARR_CONSTEXPR_ const_iterator() noexcept = default;
+		IMP_DARR_CONSTEXPR_ ~const_iterator() noexcept = default;
 
-		IMP_FLX_DARR_CONSTEXPR_ explicit const_iterator(const ty* new_ptr = nullptr) noexcept
+		IMP_DARR_CONSTEXPR_ explicit const_iterator(const ty* new_ptr = nullptr) noexcept
 			: ptr(new_ptr)
 		{
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ const_iterator(const dynamic_array& arr, size_ty idx = 0) noexcept
+		IMP_DARR_CONSTEXPR_ const_iterator(const dynamic_array& arr, size_ty idx = 0) noexcept
 			: ptr(arr.data_ + idx)
 		{
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ const_iterator(const iterator& iter) noexcept
+		IMP_DARR_CONSTEXPR_ const_iterator(const iterator& iter) noexcept
 			: ptr(iter.ptr)
 		{
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ const ty& operator*() const noexcept
+		IMP_DARR_CONSTEXPR_ const ty& operator*() const noexcept
 		{
 			return *ptr;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ const ty* operator->() const noexcept
+		IMP_DARR_CONSTEXPR_ const ty* operator->() const noexcept
 		{
 			return ptr;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ const ty* get() const noexcept
+		IMP_DARR_CONSTEXPR_ const ty* get() const noexcept
 		{
 			return ptr;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ bool operator==(const const_iterator& other) const noexcept
+		IMP_DARR_CONSTEXPR_ bool operator==(const const_iterator& other) const noexcept
 		{
 			return ptr == other.ptr;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ bool operator!=(const const_iterator& other) const noexcept
+		IMP_DARR_CONSTEXPR_ bool operator!=(const const_iterator& other) const noexcept
 		{
 			return ptr != other.ptr;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ const_iterator operator+(size_ty idx) const noexcept
+		IMP_DARR_CONSTEXPR_ const_iterator operator+(size_ty idx) const noexcept
 		{
 			return const_iterator(ptr + idx);
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ const_iterator& operator+=(size_ty idx) noexcept
+		IMP_DARR_CONSTEXPR_ const_iterator& operator+=(size_ty idx) noexcept
 		{
 			ptr += idx;
 			return *this;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ const_iterator& operator++() noexcept // prefix ++
+		IMP_DARR_CONSTEXPR_ const_iterator& operator++() noexcept // prefix ++
 		{
 			++ptr;
 			return *this;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ const_iterator operator-(size_ty idx) const noexcept
+		IMP_DARR_CONSTEXPR_ const_iterator operator-(size_ty idx) const noexcept
 		{
 			return const_iterator(ptr - idx);
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ const_iterator& operator-=(size_ty idx) noexcept
+		IMP_DARR_CONSTEXPR_ const_iterator& operator-=(size_ty idx) noexcept
 		{
 			ptr -= idx;
 			return *this;
 		}
 
-		IMP_FLX_DARR_CONSTEXPR_ const_iterator& operator--() noexcept // prefix --
+		IMP_DARR_CONSTEXPR_ const_iterator& operator--() noexcept // prefix --
 		{
 			--ptr;
 			return *this;
@@ -208,20 +208,20 @@ flx_private:
 	size_ty capacity_{};
 
 flx_public:
-	IMP_FLX_DARR_CONSTEXPR_ dynamic_array() noexcept
+	IMP_DARR_CONSTEXPR_ dynamic_array() noexcept
 	{
 		data_ = static_cast<ty*>(FLX_ allocate_raw(PREALLOCATED_CAPACITY * sizeof(ty), FLX_ nothrow));
 		size_ = 0;
 		capacity_ = PREALLOCATED_CAPACITY;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ ~dynamic_array() noexcept
+	IMP_DARR_CONSTEXPR_ ~dynamic_array() noexcept
 	{
 		clear();
 		FLX_ deallocate_raw(data_);
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ dynamic_array(const dynamic_array& other) noexcept requires FLX_ is_nothrow_copy_constructible<ty>
+	IMP_DARR_CONSTEXPR_ dynamic_array(const dynamic_array& other) noexcept requires FLX_ is_nothrow_copy_constructible<ty>
 	{
 		data_ = static_cast<ty*>(FLX_ allocate_raw(other.capacity_ * sizeof(ty), FLX_ nothrow));
 		capacity_ = other.capacity_;
@@ -232,7 +232,7 @@ flx_public:
 		}
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ dynamic_array(dynamic_array&& other) noexcept
+	IMP_DARR_CONSTEXPR_ dynamic_array(dynamic_array&& other) noexcept
 		: size_(other.size_), capacity_(other.capacity_),
 		data_(other.data_)
 	{
@@ -241,7 +241,7 @@ flx_public:
 		other.capacity_ = 0;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ dynamic_array(const size_ty count, const ty& val = ty()) noexcept requires FLX_ is_nothrow_copy_constructible<ty>
+	IMP_DARR_CONSTEXPR_ dynamic_array(const size_ty count, const ty& val = ty()) noexcept requires FLX_ is_nothrow_copy_constructible<ty>
 	{
 		allocate_raw_array(count);
 
@@ -252,7 +252,7 @@ flx_public:
 		}
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ dynamic_array& operator= (const dynamic_array& other) noexcept requires FLX_ is_nothrow_copy_constructible<ty>
+	IMP_DARR_CONSTEXPR_ dynamic_array& operator= (const dynamic_array& other) noexcept requires FLX_ is_nothrow_copy_constructible<ty>
 	{
 		clear();
 
@@ -270,7 +270,7 @@ flx_public:
 		return *this;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ void clear() noexcept
+	IMP_DARR_CONSTEXPR_ void clear() noexcept
 	{
 		if constexpr (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
 		{
@@ -282,68 +282,68 @@ flx_public:
 		size_ = 0;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ ty* data() noexcept
+	IMP_DARR_CONSTEXPR_ ty* data() noexcept
 	{
 		return data_;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ const ty* data() const noexcept
+	IMP_DARR_CONSTEXPR_ const ty* data() const noexcept
 	{
 		return data_;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ iterator begin() noexcept
+	IMP_DARR_CONSTEXPR_ iterator begin() noexcept
 	{
 		return iterator(data_);
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ iterator end() noexcept
+	IMP_DARR_CONSTEXPR_ iterator end() noexcept
 	{
 		return iterator(data_ + size_);
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ const_iterator begin() const noexcept
+	IMP_DARR_CONSTEXPR_ const_iterator begin() const noexcept
 	{
 		return const_iterator(data_);
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ const_iterator end() const noexcept
+	IMP_DARR_CONSTEXPR_ const_iterator end() const noexcept
 	{
 		return const_iterator(data_ + size_);
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ const_iterator cbegin() const noexcept
+	IMP_DARR_CONSTEXPR_ const_iterator cbegin() const noexcept
 	{
 		return const_iterator(data_);
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ const_iterator cend() const noexcept
+	IMP_DARR_CONSTEXPR_ const_iterator cend() const noexcept
 	{
 		return const_iterator(data_ + size_);
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ bool empty() const noexcept
+	IMP_DARR_CONSTEXPR_ bool empty() const noexcept
 	{
 		return size_ == 0;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ size_ty max_size() const noexcept
+	IMP_DARR_CONSTEXPR_ size_ty max_size() const noexcept
 	{
 		size_ty temp = 0;
 		return --temp;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ size_ty size() const noexcept
+	IMP_DARR_CONSTEXPR_ size_ty size() const noexcept
 	{
 		return size_;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ size_ty capacity() const noexcept
+	IMP_DARR_CONSTEXPR_ size_ty capacity() const noexcept
 	{
 		return capacity_;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ void push_back(const ty& val) noexcept requires FLX_ is_nothrow_copy_constructible<ty>
+	IMP_DARR_CONSTEXPR_ void push_back(const ty& val) noexcept requires FLX_ is_nothrow_copy_constructible<ty>
 	{
 		if (size_ >= capacity_)
 		{
@@ -354,7 +354,7 @@ flx_public:
 		++size_;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ void push_back(ty&& val) noexcept
+	IMP_DARR_CONSTEXPR_ void push_back(ty&& val) noexcept
 	{
 		if (size_ >= capacity_)
 		{
@@ -366,7 +366,7 @@ flx_public:
 	}
 
 	FLX_API_ template<typename... val_ty>
-	IMP_FLX_DARR_CONSTEXPR_ void emplace_back(val_ty&&... vals) noexcept
+	IMP_DARR_CONSTEXPR_ void emplace_back(val_ty&&... vals) noexcept
 	{
 		if (size_ >= capacity_)
 		{
@@ -376,9 +376,9 @@ flx_public:
 		++size_;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ void pop_back() noexcept
+	IMP_DARR_CONSTEXPR_ void pop_back() noexcept
 	{
-		FLX_ASSERT_(!empty() && "flx/dynamic_array.hpp::dynamic_array::pop_back: popping on empty array.");
+		FLX_ASSERT(!empty() && "flx/dynamic_array.hpp::dynamic_array::pop_back: popping on empty array.");
 
 		--size_;
 		if constexpr (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
@@ -387,9 +387,9 @@ flx_public:
 		}
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ void erase(iterator where) noexcept
+	IMP_DARR_CONSTEXPR_ void erase(iterator where) noexcept
 	{
-		FLX_ASSERT_((where.get() >= begin().get() && where.get() < end().get()) && "flx/dynamic_array.hpp::dynamic_array::erase: erase position is out of bounds.");
+		FLX_ASSERT((where.get() >= begin().get() && where.get() < end().get()) && "flx/dynamic_array.hpp::dynamic_array::erase: erase position is out of bounds.");
 
 		if constexpr (FLX_ is_class<ty> && !FLX_ is_trivially_destructible<ty>)
 		{
@@ -404,11 +404,11 @@ flx_public:
 		--size_;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ void erase(iterator first, iterator last) noexcept
+	IMP_DARR_CONSTEXPR_ void erase(iterator first, iterator last) noexcept
 	{
-		FLX_ASSERT_((first.get() >= begin().get() && first.get() < end().get()) && "flx/dynamic_array.hpp::dynamic_array::erase: first erase position is out of bounds.");
-		FLX_ASSERT_((last.get() >= begin().get() && last.get() <= end().get()) && "flx/dynamic_array.hpp::dynamic_array::erase: last erase position is out of bounds.");
-		FLX_ASSERT_(first.get() <= last.get() && "flx/dynamic_array.hpp::dynamic_array::erase: erase region is invalid.");
+		FLX_ASSERT((first.get() >= begin().get() && first.get() < end().get()) && "flx/dynamic_array.hpp::dynamic_array::erase: first erase position is out of bounds.");
+		FLX_ASSERT((last.get() >= begin().get() && last.get() <= end().get()) && "flx/dynamic_array.hpp::dynamic_array::erase: last erase position is out of bounds.");
+		FLX_ASSERT(first.get() <= last.get() && "flx/dynamic_array.hpp::dynamic_array::erase: erase region is invalid.");
 
 		iterator temp(first);
 		size_ty diff = last.get() - first.get();
@@ -433,27 +433,27 @@ flx_public:
 		size_ -= diff;
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ ty& operator[](size_ty pos) noexcept
+	IMP_DARR_CONSTEXPR_ ty& operator[](size_ty pos) noexcept
 	{
-		FLX_ASSERT_(pos < size_ && "flx/dynamic_array.hpp::dynamic_array::operator[]: position is out of bounds.");
+		FLX_ASSERT(pos < size_ && "flx/dynamic_array.hpp::dynamic_array::operator[]: position is out of bounds.");
 
 		return data_[pos];
 	}
 
-	IMP_FLX_DARR_CONSTEXPR_ const ty& operator[](size_ty pos) const noexcept
+	IMP_DARR_CONSTEXPR_ const ty& operator[](size_ty pos) const noexcept
 	{
-		FLX_ASSERT_(pos < size_ && "flx/dynamic_array.hpp::dynamic_array::operator[]: position is out of bounds.");
+		FLX_ASSERT(pos < size_ && "flx/dynamic_array.hpp::dynamic_array::operator[]: position is out of bounds.");
 
 		return data_[pos];
 	}
 
 flx_private:
 
-	IMP_FLX_DARR_CONSTEXPR_ void reallocate(const size_ty new_capacity) noexcept
+	IMP_DARR_CONSTEXPR_ void reallocate(const size_ty new_capacity) noexcept
 	{
 		capacity_ = calculate_growth(new_capacity);
 
-		FLX_ASSERT_(capacity_ > size_ && "flx/dynamic_array.hpp::dynamic_array::reallocate: new capacity is smaller than size.");
+		FLX_ASSERT(capacity_ > size_ && "flx/dynamic_array.hpp::dynamic_array::reallocate: new capacity is smaller than size.");
 
 		ty* new_data = static_cast<ty*>(FLX_ allocate_raw(capacity_ * sizeof(ty), FLX_ nothrow));
 
@@ -472,16 +472,16 @@ flx_private:
 	}
 
 	// Allocates a chuck of [new_capacity]
-	IMP_FLX_DARR_CONSTEXPR_ void allocate_raw_array(const size_ty new_capacity)
+	IMP_DARR_CONSTEXPR_ void allocate_raw_array(const size_ty new_capacity)
 	{
-		FLX_ASSERT_(new_capacity > size_ && "flx/dynamic_array.hpp::dynamic_array::allocate_raw_array: new capacity is smaller than size.");
+		FLX_ASSERT(new_capacity > size_ && "flx/dynamic_array.hpp::dynamic_array::allocate_raw_array: new capacity is smaller than size.");
 
 		capacity_ = new_capacity;
 		data_ = static_cast<ty*>(FLX_ allocate_raw(capacity_ * sizeof(ty), FLX_ nothrow));
 	}
 
 	// Should be called with (capacity + 1)
-	IMP_FLX_DARR_CONSTEXPR_ size_ty calculate_growth(const size_ty new_capacity) const noexcept
+	IMP_DARR_CONSTEXPR_ size_ty calculate_growth(const size_ty new_capacity) const noexcept
 	{
 		if (capacity_ > max_size() - (capacity_ >> 1))
 		{
@@ -496,4 +496,4 @@ flx_private:
 
 FLX_END_
 
-#endif // IMP_FLX_DYNAMIC_ARRAY_HPP_
+#endif // IMP_DYNAMIC_ARRAY_HPP_

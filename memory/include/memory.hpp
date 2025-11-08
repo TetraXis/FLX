@@ -96,18 +96,20 @@ void deallocate_array(ty* const ptr) noexcept
 	delete[] ptr;
 }
 
+// allocate_raw cannot be converted to constexpr, since as of C++20 you cannot cast freely.
+
 FLX_API_ 
 IMP_DEPRICATE_EXCEPTIONS_
 inline void* allocate_raw(const szt bytes)
 {
-	return ::operator new(bytes);
+    return ::operator new(bytes);
 }
 
-FLX_API_ constexpr void* allocate_raw(const szt bytes, [[maybe_unused]] IMP_ nothrow_tag) noexcept
+FLX_API_ inline void* allocate_raw(const szt bytes, [[maybe_unused]] IMP_ nothrow_tag) noexcept
 {
 	try
 	{
-		return ::operator new(bytes);
+        return ::operator new(bytes);
 	}
 	catch (...)
 	{
@@ -116,7 +118,7 @@ FLX_API_ constexpr void* allocate_raw(const szt bytes, [[maybe_unused]] IMP_ not
 	}
 }
 
-FLX_API_ constexpr void deallocate_raw(void* const memory) noexcept
+FLX_API_ inline void deallocate_raw(void* const memory) noexcept
 {
 	::operator delete(memory);
 	return;
@@ -406,15 +408,28 @@ struct default_raw_allocator
     {
         FLX_TRACE_CONTEXT_ADD("flx/memory.hpp::default_raw_allocator::allocate");
 
-        return static_cast<ty*>(FLX_ allocate_raw(n * sizeof(ty), flx::nothrow));
+        if constexpr (FLX_ is_constant_evaluated())
+        {
+            return new ty[n];
+        }
+        else
+        {
+            return static_cast<ty*>(FLX_ allocate_raw(n * sizeof(ty), flx::nothrow));
+        }
     }
 
     constexpr void deallocate(ty* addr, [[maybe_unused]] const szt n = 0) noexcept
     {
         FLX_TRACE_CONTEXT_ADD("flx/memory.hpp::default_raw_allocator::deallocate");
 
-        FLX_ deallocate_raw(addr);
-
+        if constexpr (FLX_ is_constant_evaluated())
+        {
+            delete[] addr;
+        }
+        else
+        {
+            FLX_ deallocate_raw(addr);
+        }
         return;
     }
 };

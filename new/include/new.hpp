@@ -13,41 +13,43 @@
 FLX_BEGIN_
 IMP_BEGIN_
 
-FLX_API_ struct use_flx_tag
+struct use_flx_tag
 {
 	explicit use_flx_tag() = default;
 };
 
-FLX_API_ struct nothrow_tag
+struct nothrow_tag
 {
 	explicit nothrow_tag() = default;
 };
 
 IMP_END_
 
-constexpr IMP_ use_flx_tag use_flx;
-constexpr IMP_ nothrow_tag nothrow;
+FLX_API_ constexpr IMP_ use_flx_tag use_flx;
+FLX_API_ constexpr IMP_ nothrow_tag nothrow;
 
 FLX_END_
 
-// ===== placement news ===== //
+// ===== placement new ===== //
 
-constexpr inline void* operator new ([[maybe_unused]] FLX_ szt, void* ptr, [[maybe_unused]] IMP_ use_flx_tag)
+IMP_DEPRICATE_EXCEPTIONS_ constexpr void* operator new ([[maybe_unused]] FLX_ szt, void* ptr, [[maybe_unused]] IMP_ use_flx_tag)
 {
 	return ptr;
 }
-constexpr inline void* operator new ([[maybe_unused]] FLX_ szt, void* ptr, [[maybe_unused]] IMP_ nothrow_tag, [[maybe_unused]] IMP_ use_flx_tag) noexcept
+constexpr void* operator new ([[maybe_unused]] FLX_ szt, void* ptr, [[maybe_unused]] IMP_ nothrow_tag, [[maybe_unused]] IMP_ use_flx_tag) noexcept
 {
 	return ptr;
 }
 
-constexpr inline void* operator new[] ([[maybe_unused]] FLX_ szt, void* ptr, [[maybe_unused]] IMP_ use_flx_tag)
+IMP_DEPRICATE_EXCEPTIONS_ constexpr void* operator new[] ([[maybe_unused]] FLX_ szt, void* ptr, [[maybe_unused]] IMP_ use_flx_tag)
 {
 	return ptr;
 }
-constexpr inline void* operator new[] ([[maybe_unused]] FLX_ szt, void* ptr, [[maybe_unused]] IMP_ nothrow_tag, [[maybe_unused]] IMP_ use_flx_tag) noexcept
+constexpr void* operator new[] ([[maybe_unused]] FLX_ szt, void* ptr, [[maybe_unused]] IMP_ nothrow_tag, [[maybe_unused]] IMP_ use_flx_tag) noexcept
 {
 	return ptr;
 }
+
+
 
 #endif // IMP_NEW_HPP_

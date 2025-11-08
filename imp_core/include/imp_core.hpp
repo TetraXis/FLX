@@ -13,9 +13,9 @@
 // For now FLX aims to be exception-free
 
 #define FLX_VERSION_MAJOR	0
-#define FLX_VERSION_MINOR	4
+#define FLX_VERSION_MINOR	5
 #define FLX_VERSION_PATCH	0
-#define FLX_VERSION			"0.4.0"
+#define FLX_VERSION			"0.5.0"
 
 
 
@@ -168,6 +168,14 @@
 #else
 	#define IMP_ASSUME_(expr) 
 #endif // IMP_ASSUME_
+
+#if IMP_COMPILER_ == IMP_COMPILER_MSVC_
+	#define IMP_PURE_ __declspec(noalias)
+#elif IMP_COMPILER_ == IMP_COMPILER_GCC_ || IMP_COMPILER_ == IMP_COMPILER_GCC_
+	#define IMP_PURE_ __attribute__((pure))
+#else
+	#define IMP_PURE_
+#endif // IMP_PURE_
 
 #define IMP_DEPRICATE_EXCEPTIONS_ [[deprecated("As of FLX v." FLX_VERSION ": throwable functions are depricated, use flx::nothrow tag.")]]
 
