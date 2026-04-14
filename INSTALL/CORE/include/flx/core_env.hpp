@@ -1,9 +1,9 @@
 #ifndef FLX_INC_CORE_ENV_HPP
 #define FLX_INC_CORE_ENV_HPP
 
-#include "flx/core_opt.hpp"
-
 // This header detects environment in which FLX is being built.
+
+#include "flx/core_opt.hpp"
 
 // ===== COMPILER ===== //
 
@@ -31,12 +31,22 @@
 #endif
 
 
-#if FLX_ENV_COMPILER == FLX_ENV_COMPILER_UNKNOWN
+#if !defined(FLX_ENV_COMPILER) || FLX_ENV_COMPILER == FLX_ENV_COMPILER_UNKNOWN
 	#error "Could not resolve compiler."
 #endif
 
 #if FLX_ENV_COMPILER != FLX_ENV_COMPILER_GCC
 	#error "Unsupported compiler."
+#endif
+
+
+
+// ===== C++ VERSION ===== //
+
+#if FLX_ENV_COMPILER == FLX_ENV_COMPILER_MSVC
+	#define FLX_ENV_CXX_LANG _MSVC_LANG
+#else
+	#define FLX_ENV_CXX_LANG __cplusplus
 #endif
 
 
@@ -73,7 +83,7 @@
 
 
 
-#if FLX_ENV_ARCH == FLX_ENV_ARCH_UNKNOWN
+#if !defined(FLX_ENV_ARCH) || FLX_ENV_ARCH == FLX_ENV_ARCH_UNKNOWN
 	#error "Could not resolve architecture."
 #endif
 
@@ -116,7 +126,7 @@
 
 
 
-#if FLX_ENV_OS == FLX_ENV_OS_UNKNOWN
+#if !defined(FLX_ENV_OS) || FLX_ENV_OS == FLX_ENV_OS_UNKNOWN
 	#error "Could not resolve operating system."
 #endif
 
@@ -167,7 +177,7 @@
 	#endif
 #endif
 
-#if FLX_ENV_CRT == FLX_ENV_CRT_UNKNOWN
+#if  !defined(FLX_ENV_CRT) || FLX_ENV_CRT == FLX_ENV_CRT_UNKNOWN
 	#error "Could not resolve C Runtime."
 #endif
 

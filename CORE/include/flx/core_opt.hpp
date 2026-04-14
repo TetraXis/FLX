@@ -41,5 +41,12 @@
 #endif
 
 
+// ===== FORCED DEBUG/RELEASE ===== //
+
+#if defined(FLX_OPT_FORCE_DEBUG) + defined(FLX_OPT_FORCE_RELEASE) > 1
+	#error "You can enforce DEBUG xor RELEASE"
+#endif
+
+
 
 #endif //FLX_INC_CORE_OPT_HPP

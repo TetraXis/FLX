@@ -3,7 +3,11 @@ cmake_minimum_required(VERSION 4.0)
 add_library(flx_core INTERFACE
         include/flx/core.hpp
         include/flx/core_env.hpp
-        include/flx/core_opt.hpp)
+        include/flx/core_opt.hpp
+        include/flx/core_cfg.hpp
+        include/flx/assert.hpp
+        include/flx/terminate.hpp
+        include/flx/core_has.hpp)
 
 target_include_directories(flx_core INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
