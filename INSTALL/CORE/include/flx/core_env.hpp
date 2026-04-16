@@ -36,7 +36,7 @@
 #endif
 
 #if FLX_ENV_COMPILER != FLX_ENV_COMPILER_GCC
-	#error "Unsupported compiler."
+	#error "Unsupported compiler. As of writing this lib, only GCC supports C++26."
 #endif
 
 

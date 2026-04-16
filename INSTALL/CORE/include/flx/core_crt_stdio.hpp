@@ -21,7 +21,7 @@ extern "C"
 	// ===== WIN CRT ===== //
 #if FLX_ENV_CRT == FLX_ENV_CRT_MSVCRT || FLX_ENV_CRT == FLX_ENV_CRT_UCRT
 
-	i32 write(i32, const void*, u32);
+	i32 _write(i32, const void*, u32);
 
 
 
@@ -38,7 +38,13 @@ extern "C"
 namespace flx::crt
 {
 	inline sszt write(const i32 fd, const void* buffer, const u32 count) // smaller input parameters are used to ensure Win CRT won't bug.
-	{ return ::write(fd, buffer, count); }
+	{
+#if FLX_ENV_CRT == FLX_ENV_CRT_MSVCRT || FLX_ENV_CRT == FLX_ENV_CRT_UCRT
+		return ::_write(fd, buffer, count);
+#else
+		return ::write(fd, buffer, count);
+#endif
+	}
 } // namespace flx::crt
 
 

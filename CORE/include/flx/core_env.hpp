@@ -36,7 +36,7 @@
 #endif
 
 #if FLX_ENV_COMPILER != FLX_ENV_COMPILER_GCC
-	#error "Unsupported compiler."
+	#error "Unsupported compiler. As of writing this lib, only GCC supports C++26."
 #endif
 
 
@@ -158,7 +158,7 @@
 #elif defined(FLX_OPT_FORCE_CRT_ANDROID)
 	#define FLX_ENV_CRT FLX_ENV_CRT_ANDROID
 #else
-	#if defined(__UCRT__)
+	#if defined(_UCRT)
 		#define FLX_ENV_CRT FLX_ENV_CRT_UCRT
 	#elif defined(__MSVCRT__)
 		#define FLX_ENV_CRT FLX_ENV_CRT_MSVCRT
@@ -178,7 +178,8 @@
 #endif
 
 #if  !defined(FLX_ENV_CRT) || FLX_ENV_CRT == FLX_ENV_CRT_UNKNOWN
-	#error "Could not resolve C Runtime."
+	// TODO: Test this detection later on Linux, where CRT maybe included later in the pipeline.
+	#error "Could not resolve C Runtime. Your CRT is likely included after FLX. Consider using 'FLX_OPT_FORCE_CRT_*'."
 #endif
 
 

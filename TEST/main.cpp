@@ -1,8 +1,18 @@
 #include "flx/core.hpp"
 
+#if FLX_CFG_DEBUG
+int a = 0;
+#endif
+
+#if FLX_CFG_RELEASE
+int a = 1;
+#endif
+
+#include <iostream>
+
 int main()
 {
-    flx::crt::write(1, "balls", 5);
+    std::cout << a;
 
     return 0;
 }
