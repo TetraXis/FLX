@@ -54,7 +54,7 @@ namespace flx
 	{
 		if (!condition)
 		{
-			FLX_CRT_WRITE(2, msg, FLX_CRT_STRLEN(msg) - 1);
+			FLX_CRT_WRITE(2, msg, FLX_CRT_STRLEN(msg));
 			::flx::terminate();
 		}
 	}
