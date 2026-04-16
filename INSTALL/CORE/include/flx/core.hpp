@@ -79,11 +79,8 @@ namespace flx::inline types
 	using f64	= double;
 	using f80	= long double;
 
-#if FLX_ENV_ARCH == FLX_ENV_ARCH_X86_64 || FLX_ENV_ARCH == FLX_ENV_ARCH_ARM_64
-	using szt	= u64;
-#else
-	using szt	= u32;
-#endif
+	using szt	= decltype(sizeof nullptr);
+	using sszt	= decltype(static_cast<char*>(nullptr) - static_cast<char*>(nullptr));
 } // namespace flx::inline types
 
 

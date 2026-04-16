@@ -10,7 +10,7 @@
 #if defined(FLX_OPT_FORCE_DEBUG)
 	#define FLX_CFG_RELEASE	false
 	#define FLX_CFG_DEBUG	true
-#elif defined(FLX_OPT_FORCE_DEBUG)
+#elif defined(FLX_OPT_FORCE_RELEASE)
 	#define FLX_CFG_RELEASE	true
 	#define FLX_CFG_DEBUG	false
 #else
