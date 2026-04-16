@@ -17,7 +17,7 @@ extern "C"
 {
 	using namespace ::flx::types;
 
-#if FLX_ENV_CRT == FLX_ENV_CRT_UCRT || FLX_ENV_CRT_MSVCRT
+#if FLX_ENV_CRT == FLX_ENV_CRT_UCRT || FLX_ENV_CRT == FLX_ENV_CRT_MSVCRT
 	i32 _write(i32 fd, const void* buffer, u32 count);
 	#define FLX_CRT_WRITE(fd, buffer, count) \
 	::_write(static_cast<i32>(fd), static_cast<const void*>(buffer), static_cast<u32>(count))
