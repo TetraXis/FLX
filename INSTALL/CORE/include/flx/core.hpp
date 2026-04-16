@@ -9,6 +9,9 @@
 #define FLX_VERSION_PATCH 0
 
 // A brief list of options for building FLX:
+// 0. Choosing configuration:
+//		FLX_OPT_DEBUG				- for choosing debug mode
+//		FLX_OPT_RELEASE				- for choosing release mode
 // 1. Forcing configuration:
 //		FLX_OPT_FORCE_DEBUG			- for forcing debug mode
 //		FLX_OPT_FORCE_RELEASE		- for forcing release mode
@@ -22,26 +25,15 @@
 
 // Changelog:
 //
-// v.0.0.0 2026-Apr-14:
-// core_cfg.hpp created.
-// terminate.hpp created.
-// assert.hpp created.
-// core_has.hpp created.
-//
 // v.0.0.0 2026-Apr-13:
 // core.hpp created.
 // core_env.hpp created, necessary checks coded.
 // core_opt.hpp created, necessary checks coded.
-
-
-
-#include "flx/core_opt.hpp"
-
-#include "flx/core_cfg.hpp"
-
-#include "flx/core_has.hpp"
-
-#include "flx/core_env.hpp"
+// core_cfg.hpp created.
+// terminate.hpp created.
+// assert.hpp created.
+// core_has.hpp created.
+// core_crt.hpp created.
 
 
 
@@ -82,6 +74,18 @@ namespace flx::inline types
 	using szt	= decltype(sizeof nullptr);
 	using sszt	= decltype(static_cast<char*>(nullptr) - static_cast<char*>(nullptr));
 } // namespace flx::inline types
+
+
+#include "flx/core_opt.hpp"
+
+#include "flx/core_cfg.hpp"
+
+#include "flx/core_has.hpp"
+
+#include "flx/core_env.hpp"
+
+#include "flx/core_crt.hpp"
+
 
 
 #endif //FLX_INC_CORE_HPP

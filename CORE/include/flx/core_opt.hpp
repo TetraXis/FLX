@@ -41,6 +41,15 @@
 #endif
 
 
+
+// ===== CFG DEBUG/RELEASE ===== //
+
+#if defined(FLX_OPT_DEBUG) + defined(FLX_OPT_RELEASE) > 1
+	#error "You can choose DEBUG xor RELEASE"
+#endif
+
+
+
 // ===== FORCED DEBUG/RELEASE ===== //
 
 #if defined(FLX_OPT_FORCE_DEBUG) + defined(FLX_OPT_FORCE_RELEASE) > 1
