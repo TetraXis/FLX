@@ -32,7 +32,9 @@ add_library(flx_core INTERFACE
         include/flx/core_crt_stdint.hpp
         include/flx/core_crt_tgmath.hpp
         include/flx/core_crt_wchar.hpp
-        include/flx/core_crt_wctype.hpp)
+        include/flx/core_crt_wctype.hpp
+        include/flx/utility.hpp
+        include/flx/type_traits.hpp)
 
 target_include_directories(flx_core INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/include

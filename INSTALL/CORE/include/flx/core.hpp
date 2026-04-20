@@ -3,10 +3,10 @@
 
 // This header sets up macros and detects all necessary stuff.
 
-#define FLX_VERSION "0.0.0"
+#define FLX_VERSION "0.0.1"
 #define FLX_VERSION_MAJOR 0
 #define FLX_VERSION_MINOR 0
-#define FLX_VERSION_PATCH 0
+#define FLX_VERSION_PATCH 1
 
 // A brief list of options for building FLX:
 // 0. Choosing configuration:
@@ -24,6 +24,10 @@
 //		FLX_OPT_FORCE_CRT_*			- for forcing C Runtime
 
 // Changelog:
+//
+// v.0.0.1 2026-Apr-20+:
+// type_traits.hpp created.
+// utility.hpp created.
 //
 // v.0.0.0 2026-Apr-13+:
 // core.hpp created.
