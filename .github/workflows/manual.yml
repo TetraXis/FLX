@@ -1,0 +1,37 @@
+name: FLX Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        compiler:
+          - gcc
+          # - clang
+          # - msvc     (Windows only)
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up compiler
+        run: |
+          if [ "${{ matrix.compiler }}" = "gcc" ]; then
+            echo "CXX=g++" >> $GITHUB_ENV
+          # elif [ "${{ matrix.compiler }}" = "clang" ]; then
+          #   echo "CXX=clang++" >> $GITHUB_ENV
+          # elif [ "${{ matrix.compiler }}" = "msvc" ]; then
+          #   echo "CXX=cl" >> $GITHUB_ENV
+          fi
+        shell: bash
+
+      - name: Configure CMake
+        run: cmake -B build -DCMAKE_CXX_COMPILER=${{ env.CXX }}
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Run tests
+        run: ctest --test-dir build --output-on-failure
