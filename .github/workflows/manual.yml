@@ -1,3 +1,5 @@
+# This won't work, since as of 2026-Apr-20, no cloud based CI support C++26.
+
 name: FLX Test
 
 on:

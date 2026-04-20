@@ -1,4 +1,4 @@
-#cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 4.0)
 
 add_library(flx_core INTERFACE
         include/flx/core.hpp
