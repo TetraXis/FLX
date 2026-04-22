@@ -1,23 +1,13 @@
-#include "flx/core.hpp"
-#include <iostream>
-
-#include <type_traits>
-#include <utility>
-
-#include <stdio.h>
+#include "test/core.hpp"
+#include "test/type_traits.hpp"
 
 int main()
 {
-    //int a;
-    flx::crt::write(0, "10", 2);
+    test::type_traits();
 
-    char arr[10];
+    test::print_results();
 
-    flx::crt::read(0, arr, 2);
-
-
-
-    std::cout << arr[0] << arr[1];
+    //system("pause");
 
     return 0;
 }
