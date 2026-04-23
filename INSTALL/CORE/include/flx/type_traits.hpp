@@ -90,10 +90,11 @@ namespace flx
 			using type = ty&&;
 		};
 
-		template<>
-		struct add_rvalue_reference_imp<void>
+		template<typename ty>
+		requires ::flx::is_same<::flx::remove_cv<ty>, void>
+		struct add_rvalue_reference_imp<ty>
 		{
-			using type = void;
+			using type = ty;
 		};
 	} // namespace imp
 

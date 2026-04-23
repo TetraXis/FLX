@@ -55,7 +55,7 @@ namespace test
 	inline void print_results()
 	{
 		constexpr unsigned long long GROUP_WIDTH = 16;
-		constexpr unsigned long long SUBGROUP_WIDTH = 16;
+		constexpr unsigned long long SUBGROUP_WIDTH = 32;
 		constexpr unsigned long long PASS_WIDTH = 8;
 		constexpr unsigned long long ERROR_WIDTH = 64;
 
@@ -104,7 +104,7 @@ namespace test
 						++tests_failed;
 						ss
 							<< std::setw(SUBGROUP_WIDTH)	<< subgroup_
-							<< RED << std::setw(PASS_WIDTH)		 << "FAIL" << RESET
+							<< RED << std::setw(PASS_WIDTH)	<< "FAIL" << RESET
 							<< std::setw(ERROR_WIDTH)		<< result_.error
 							<< '\n';
 					}
@@ -114,7 +114,7 @@ namespace test
 
 				ss
 				<< std::setw(SUBGROUP_WIDTH - (temp_amount.size()))	<< subgroup_ << temp_amount
-				<< GREEN << std::setw(PASS_WIDTH)		 << "PASS" << RESET
+				<< GREEN << std::setw(PASS_WIDTH)					<< "PASS" << RESET
 				<< '\n';
 			}
 		}
