@@ -47,7 +47,7 @@ namespace flx
 		};
 	} // namespace imp
 
-	template<typename ty>
+	template <typename ty>
 	using remove_cv = typename ::flx::imp::remove_cv_imp<ty>::type;
 
 
@@ -56,26 +56,26 @@ namespace flx
 
 	namespace imp
 	{
-		template<typename ty>
+		template <typename ty>
 		struct remove_reference_imp
 		{
 			using type = ty;
 		};
 
-		template<typename ty>
+		template <typename ty>
 		struct remove_reference_imp<ty&>
 		{
 			using type = ty;
 		};
 
-		template<typename ty>
+		template <typename ty>
 		struct remove_reference_imp<ty&&>
 		{
 			using type = ty;
 		};
 	} // namespace imp
 
-	template<typename ty>
+	template <typename ty>
 	using remove_reference = typename ::flx::imp::remove_reference_imp<ty>::type;
 
 
@@ -84,13 +84,13 @@ namespace flx
 
 	namespace imp
 	{
-		template<typename ty>
+		template <typename ty>
 		struct add_rvalue_reference_imp
 		{
 			using type = ty&&;
 		};
 
-		template<typename ty>
+		template <typename ty>
 		requires ::flx::is_same<::flx::remove_cv<ty>, void>
 		struct add_rvalue_reference_imp<ty>
 		{
@@ -98,8 +98,18 @@ namespace flx
 		};
 	} // namespace imp
 
-	template<typename ty>
+	template <typename ty>
 	using add_rvalue_reference = typename ::flx::imp::add_rvalue_reference_imp<ty>::type;
+
+
+
+	// ===== declval ===== //
+
+	template <typename ty>
+	::flx::add_rvalue_reference<ty> declval() noexcept
+	{
+		static_assert(false, "Calling declval is ill-formed");
+	}
 
 
 
