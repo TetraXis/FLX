@@ -1,6 +1,10 @@
 ﻿# 2026-Apr-24 23:58
-# This file absolutly destroyed my will to live. I hate CMake. It took me ~6 hours to configure this bs.
+# These two files absolutly destroyed my will to live. I hate CMake. It took me ~6 hours to configure this bs.
 # If my life as a C++ programmer would involve more CMake than C++ (like it did today), I would rather die.
+#
+# C++26: barely supported.
+# CMake: pile of shitty spaghetti
+# Modules: barely supported. They were introduced in C++20, it's been 6 fucking years.
 
 cmake_minimum_required(VERSION 3.31)
 project(test_core LANGUAGES CXX)
@@ -17,8 +21,8 @@ else()
 endif()
 
 set(INSTALLED_CORE_DIR     "${FLX_INSTALL_BASE_DIR}/${INSTALL_CONFIG_DIR}/CORE")
-set(INSTALLED_CORE_INCLUDE "${INSTALLED_CORE_DIR}/include")          # parent of 'flx'
-set(INSTALLED_CORE_MODULES "${INSTALLED_CORE_DIR}/include/flx")      # where .cppm files are
+set(INSTALLED_CORE_INCLUDE "${INSTALLED_CORE_DIR}/include")         
+set(INSTALLED_CORE_MODULES "${INSTALLED_CORE_DIR}/include/flx")     
 set(INSTALLED_CORE_LIB     "${INSTALLED_CORE_DIR}/lib")
 
 

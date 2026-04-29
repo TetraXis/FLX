@@ -1,4 +1,12 @@
-﻿cmake_minimum_required(VERSION 3.31)
+﻿# 2026-Apr-24 23:58
+# These two files absolutly destroyed my will to live. I hate CMake. It took me ~6 hours to configure this bs.
+# If my life as a C++ programmer would involve more CMake than C++ (like it did today), I would rather die.
+#
+# C++26: barely supported.
+# CMake: pile of shitty spaghetti
+# Modules: barely supported. They were introduced in C++20, it's been 6 fucking years.
+
+cmake_minimum_required(VERSION 3.31)
 project(flx_core LANGUAGES CXX)
 
 # make proper names
