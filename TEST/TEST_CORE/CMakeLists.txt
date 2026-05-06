@@ -6,6 +6,11 @@
 # CMake: pile of shitty spaghetti
 # Modules: barely supported. They were introduced in C++20, it's been 6 fucking years.
 
+# 2026-May-6 16:17
+# CMake is absolute trash. I cant make TEST build CORE first and only then configure and build.
+# test_cote_exe target should be run TWICE (first time to update INSTALL, then so it links against new files there.)
+
+
 cmake_minimum_required(VERSION 3.31)
 project(test_core LANGUAGES CXX)
 
