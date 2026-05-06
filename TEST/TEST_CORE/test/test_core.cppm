@@ -72,10 +72,14 @@ export namespace test
 		unsigned long long subgroup_tests_passed = 0;
 		unsigned long long tests_failed = 0;
 
-#if defined(NDEBUG)
+#if FLX_CFG_RELEASE && FLX_CFG_DEBUG
+		ss << "Testing FLX v." FLX_VERSION " in BOTH.\n\n";
+#elif FLX_CFG_RELEASE
 		ss << "Testing FLX v." FLX_VERSION " in RELEASE.\n\n";
-#else
+#elif FLX_CFG_DEBUG
 		ss << "Testing FLX v." FLX_VERSION " in DEBUG.\n\n";
+#else
+		ss << "Testing FLX v." FLX_VERSION " in NONE.\n\n";
 #endif
 
 		ss

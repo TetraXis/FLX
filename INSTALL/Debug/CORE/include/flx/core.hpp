@@ -8,6 +8,8 @@
 #define FLX_VERSION_MINOR 0
 #define FLX_VERSION_PATCH 1
 
+
+
 // A brief list of options for building FLX:
 // 0. Choosing configuration:
 //		FLX_OPT_DEBUG				- for choosing debug mode

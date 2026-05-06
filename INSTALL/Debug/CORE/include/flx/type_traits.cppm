@@ -1,12 +1,9 @@
-//#ifndef FLX_INC_TYPE_TRAITS_HPP
-//#define FLX_INC_TYPE_TRAITS_HPP
-
 module;
-
-export module flx.type_traits;
 
 // This module defines type traits.
 // Note: naming does not match std naming, there are no _v or _t.
+
+export module flx.type_traits;
 
 export namespace flx
 {
@@ -108,7 +105,3 @@ export namespace flx
 
 
 } // namespace flx
-
-
-
-//#endif //FLX_INC_TYPE_TRAITS_HPP

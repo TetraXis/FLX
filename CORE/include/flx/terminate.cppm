@@ -1,12 +1,13 @@
-#ifndef FLX_INC_TERMINATE_HPP
-#define FLX_INC_TERMINATE_HPP
+module;
 
-// This header defines terminate behavior.
+// This module defines terminate behavior.
 // You can assign new functionality to 'flx::on_terminate'.
 
 #include "flx/core.hpp"
 
-namespace flx
+export module flx.terminate;
+
+export namespace flx
 {
 	inline thread_local void (*on_terminate) () noexcept =
 	+[]() noexcept
@@ -28,5 +29,3 @@ namespace flx
 #endif
 	}
 } // namespace flx
-
-#endif //FLX_INC_TERMINATE_HPP

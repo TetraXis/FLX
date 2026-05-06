@@ -1,12 +1,9 @@
-//#ifndef FLX_INC_TYPE_TRAITS_HPP
-//#define FLX_INC_TYPE_TRAITS_HPP
-
 module;
-
-export module flx.type_traits;
 
 // This module defines type traits.
 // Note: naming does not match std naming, there are no _v or _t.
+
+export module flx.type_traits;
 
 export namespace flx
 {
@@ -107,8 +104,14 @@ export namespace flx
 
 
 
+	// ===== declval ===== //
+
+	template <typename ty>
+	::flx::add_rvalue_reference<ty> declval() noexcept 
+	{
+		static_assert(false, "Calling declval is ill-formed.");
+	}
+
+
+
 } // namespace flx
-
-
-
-//#endif //FLX_INC_TYPE_TRAITS_HPP

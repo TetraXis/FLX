@@ -1,4 +1,4 @@
-﻿# 2026-Apr-24 23:58
+﻿# 2026-Apr-29 23:58
 # These two files absolutly destroyed my will to live. I hate CMake. It took me ~6 hours to configure this bs.
 # If my life as a C++ programmer would involve more CMake than C++ (like it did today), I would rather die.
 #
@@ -14,10 +14,12 @@ if(NOT FLX_INSTALL_BASE_DIR)
     set(FLX_INSTALL_BASE_DIR "${TEST_SOURCE_DIR}/../../INSTALL" CACHE PATH "Installation root" FORCE)
 endif()
 
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    set(INSTALL_CONFIG_DIR "Release")
-else()
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(INSTALL_CONFIG_DIR "Debug")
+    add_compile_definitions(FLX_OPT_DEBUG)
+else()
+    set(INSTALL_CONFIG_DIR "Release")
+    add_compile_definitions(FLX_OPT_RELEASE)
 endif()
 
 set(INSTALLED_CORE_DIR     "${FLX_INSTALL_BASE_DIR}/${INSTALL_CONFIG_DIR}/CORE")

@@ -1,18 +1,20 @@
-#ifndef FLX_INC_ASSERT_HPP
-#define FLX_INC_ASSERT_HPP
+module;
 
 // This header defines assert function.
 // CAUTION! This header links to flx::terminate and CRT only in DEBUG
 
 #include "flx/core.hpp"
+#if FLX_CFG_DEBUG
+	#include "flx/terminate.hpp"
+#endif
+
+export module flx.assert;
 
 #if FLX_CFG_DEBUG // in RELEASE this header should be a husk.
 
-#include "flx/terminate.hpp"
-
 // ===== ASSERT ===== //
 
-namespace flx
+export namespace flx
 {
 	inline void assert(const bool condition, const c8* msg) noexcept
 	{
@@ -26,7 +28,7 @@ namespace flx
 
 #else // We are in RELEASE.
 
-namespace flx
+export namespace flx
 {
 	inline void assert([[maybe_unused]] bool condition, [[maybe_unused]] const c8* msg) noexcept
 	{
@@ -34,7 +36,3 @@ namespace flx
 } // namespace flx
 
 #endif //FLX_CFG_DEBUG
-
-
-
-#endif //FLX_INC_ASSERT_HPP

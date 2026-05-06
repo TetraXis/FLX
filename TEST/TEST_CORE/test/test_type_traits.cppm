@@ -1,10 +1,9 @@
 module;
 
-//#include "test/core.hpp"
 #include <type_traits>
 #include <string>
+#include <functional>
 
-//#include "flx/type_traits.hpp"
 export module test.type_traits;
 
 import test.core;
@@ -17,6 +16,20 @@ export namespace test
 		group = "type_traits.hpp";
 
 		enum E { dummy };
+
+		struct incomplete;
+
+		struct abstract 
+		{ 
+			virtual void f() = 0; 
+		};
+
+		struct move_only
+		{
+			move_only(move_only&&)				= default;
+			move_only& operator=(move_only&&)	= default;
+			move_only(const move_only&)			= delete;
+		};
 
 		// ===== is_same ===== //
 		{
@@ -276,5 +289,78 @@ export namespace test
 
 
 
+		// ===== declval ===== //
+		{
+			subgroup = "declval";
+
+			// return type
+			{
+				// fundamental
+				check(std::is_same_v<	decltype(flx::declval<int>()),					decltype(std::declval<int>())					>,	"Return type mismatch with STD 00");
+				check(std::is_same_v<	decltype(flx::declval<const int>()),			decltype(std::declval<const int>())				>,	"Return type mismatch with STD 01");
+				check(std::is_same_v<	decltype(flx::declval<volatile int>()),			decltype(std::declval<volatile int>())			>,	"Return type mismatch with STD 02");
+				check(std::is_same_v<	decltype(flx::declval<const volatile int>()),	decltype(std::declval<const volatile int>())	>,	"Return type mismatch with STD 03");
+
+				// lvalue references
+				check(std::is_same_v<	decltype(flx::declval<int&>()),					decltype(std::declval<int&>())					>,	"Return type mismatch with STD 04");
+				check(std::is_same_v<	decltype(flx::declval<const int&>()),			decltype(std::declval<const int&>())			>,	"Return type mismatch with STD 05");
+				check(std::is_same_v<	decltype(flx::declval<volatile int&>()),		decltype(std::declval<volatile int&>())			>,	"Return type mismatch with STD 06");
+				check(std::is_same_v<	decltype(flx::declval<const volatile int&>()),	decltype(std::declval<const volatile int&>())	>,	"Return type mismatch with STD 07");
+
+				// rvalue references
+				check(std::is_same_v<	decltype(flx::declval<int&&>()),				decltype(std::declval<int&&>())					>,	"Return type mismatch with STD 08");
+				check(std::is_same_v<	decltype(flx::declval<const int&&>()),			decltype(std::declval<const int&&>())			>,	"Return type mismatch with STD 09");
+
+				// pointers
+				check(std::is_same_v<	decltype(flx::declval<int*>()),					decltype(std::declval<int*>())					>,	"Return type mismatch with STD 0A");
+				check(std::is_same_v<	decltype(flx::declval<const int*>()),			decltype(std::declval<const int*>())			>,	"Return type mismatch with STD 0B");
+				check(std::is_same_v<	decltype(flx::declval<int* const>()),			decltype(std::declval<int* const>())			>,	"Return type mismatch with STD 0C");
+
+				// arrays
+				check(std::is_same_v<	decltype(flx::declval<int[5]>()),				decltype(std::declval<int[5]>())				>,	"Return type mismatch with STD 0D");
+				check(std::is_same_v<	decltype(flx::declval<const int[5]>()),			decltype(std::declval<const int[5]>())			>,	"Return type mismatch with STD 0E");
+
+				// function types
+				check(std::is_same_v<	decltype(flx::declval<int()>()),				decltype(std::declval<int()>())					>,	"Return type mismatch with STD 0F");
+				check(std::is_same_v<	decltype(flx::declval<int(*)(int)>()),			decltype(std::declval<int(*)(int)>())			>,	"Return type mismatch with STD 10");
+
+				// void
+				check(std::is_same_v<	decltype(flx::declval<void>()),					decltype(std::declval<void>())					>,	"Return type mismatch with STD 11");
+
+				// enum
+				check(std::is_same_v<	decltype(flx::declval<E>()),					decltype(std::declval<E>())						>,	"Return type mismatch with STD 12");
+
+				// incomplete type
+				check(std::is_same_v<	decltype(flx::declval<incomplete>()),			decltype(std::declval<incomplete>())			>,	"Return type mismatch with STD 13");
+				
+				// abstract type
+				check(std::is_same_v<	decltype(flx::declval<abstract>()),				decltype(std::declval<abstract>())				>,	"Return type mismatch with STD 14");
+				
+				// move_only type
+				check(std::is_same_v<	decltype(flx::declval<move_only>()),			decltype(std::declval<move_only>())				>,	"Return type mismatch with STD 15");
+				
+				// function reference type
+				check(std::is_same_v<	decltype(flx::declval<int(&)()>()),				decltype(std::declval<int(&)()>())				>,	"Return type mismatch with STD 16");
+				
+				// volatile rvalue reference
+				check(std::is_same_v<	decltype(flx::declval<volatile int&&>()),		decltype(std::declval<volatile int&&>())		>,	"Return type mismatch with STD 17");
+				
+				// array of unknown bound
+				check(std::is_same_v<	decltype(flx::declval<int[]>()),				decltype(std::declval<int[]>())					>,	"Return type mismatch with STD 18");
+				
+				// cv-qualified array of unknown bound
+				check(std::is_same_v<	decltype(flx::declval<const int[]>()),			decltype(std::declval<const int[]>())			>,	"Return type mismatch with STD 19");
+				check(std::is_same_v<	decltype(flx::declval<volatile int[]>()),		decltype(std::declval<volatile int[]>())		>,	"Return type mismatch with STD 1A");
+				check(std::is_same_v<	decltype(flx::declval<const volatile int[]>()),	decltype(std::declval<const volatile int[]>())	>,	"Return type mismatch with STD 1B");
+			}
+
+			// calling declval should be ill-formed
+			// this line must not compile
+			// check(flx::declval<int>(),	"declval was incorrectly allowed in an evaluated context 00");
+
+			check(noexcept(flx::declval<int>()), "declval must be noexcept 00");
+
+			subgroup = "NULL";
+		}
 	}
 } // namespace test
