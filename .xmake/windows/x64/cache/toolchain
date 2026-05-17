@@ -1,0 +1,293 @@
+{
+    tool_target_test_core_windows_x64_ld = {
+        toolname = "clangxx",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            arch = "x64",
+            plat = "windows"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang++]]
+    },
+    rust_arch_x64_plat_windows = {
+        __checked = true,
+        plat = "windows",
+        arch = "x64",
+        __global = true
+    },
+    tool_target_flx_core_windows_x64_cxx = {
+        toolname = "clangxx",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            arch = "x64",
+            plat = "windows"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang++]]
+    },
+    clang_arch_x64_plat_windows = {
+        llvm_resourcedir = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\lib\clang\22]],
+        vcvars = {
+            VSCMD_ARG_HOST_ARCH = "x64",
+            VS170COMNTOOLS = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\]],
+            WindowsSdkDir = [[C:\Program Files (x86)\Windows Kits\10\]],
+            WindowsSDKVersion = "10.0.26100.0",
+            VSCMD_ARG_app_plat = "Desktop",
+            WindowsLibPath = [[C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0]],
+            VSInstallDir = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\]],
+            VCIDEInstallDir = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\VC\]],
+            UCRTVersion = "10.0.26100.0",
+            VCToolsRedistDir = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Redist\MSVC\14.44.35112\]],
+            VisualStudioVersion = "17.0",
+            LIB = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\ATLMFC\lib\x64;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\lib\x64;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\lib\um\x64;C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\ucrt\x64;C:\Program Files (x86)\Windows Kits\10\\lib\10.0.26100.0\\um\x64;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\ATLMFC\lib\x86;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\lib\x86;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\lib\um\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\ucrt\x86;C:\Program Files (x86)\Windows Kits\10\\lib\10.0.26100.0\\um\x86]],
+            LIBPATH = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\ATLMFC\lib\x64;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\lib\x64;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\lib\x86\store\references;C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\ATLMFC\lib\x86;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\lib\x86;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\lib\x86\store\references;C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0;C:\Windows\Microsoft.NET\Framework\v4.0.30319]],
+            WindowsSdkBinPath = [[C:\Program Files (x86)\Windows Kits\10\bin\]],
+            VCInstallDir = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\]],
+            ExtensionSdkDir = [[C:\Program Files (x86)\Microsoft SDKs\Windows Kits\10\ExtensionSDKs]],
+            WindowsSdkVerBinPath = [[C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\]],
+            PATH = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\VC\VCPackages;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64\;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Team Tools\DiagnosticsHub\Collector;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\Microsoft\CodeCoverage.Console;C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\\x64;C:\Program Files (x86)\Windows Kits\10\bin\\x64;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\VC\VCPackages;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Team Tools\DiagnosticsHub\Collector;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\Microsoft\CodeCoverage.Console;C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\\x86;C:\Program Files (x86)\Windows Kits\10\bin\\x86;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;C:\Program Files\dotnet\;C:\Program Files (x86)\ZeroTier\One\;C:\Program Files\Tailscale\;C:\Program Files\GitHub CLI\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\Program Files\Cloudflare\Cloudflare WARP\;C:\Program Files\xmake;C:\C++\mingw64 GCC 16.1\bin;C:\Users\Cherkasov_Danil\AppData\Local\Microsoft\WindowsApps;C:\Program Files\ffmpeg\ffmpeg-2025-06-28-git-cfd1f81e7d-full_build\bin;C:\Program Files\flac\flac-1.5.0-win\Win64;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64;C:\Users\Cherkasov_Danil\.dotnet\tools;C:\Users\Cherkasov_Danil\.lmstudio\bin;C:\Users\Cherkasov_Danil\AppData\Local\JetBrains\Toolbox\scripts;C:\C++\MinGW\bin;C:\Program Files\JetBrains\CLion 2025.2.3\bin;C:\Users\Cherkasov_Danil\.dotnet\tools;C:\C++\ninja-win;;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\VC\Linux\bin\ConnectionManagerExe;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\vcpkg;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\VC\Linux\bin\ConnectionManagerExe;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\vcpkg]],
+            DevEnvdir = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\]],
+            VSCMD_ARG_TGT_ARCH = "x64",
+            INCLUDE = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\ATLMFC\include;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\VS\include;C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\um;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\shared;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\winrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\cppwinrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\ATLMFC\include;C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\VS\include;C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\um;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\shared;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\winrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\cppwinrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um]],
+            VSCMD_VER = "17.14.31",
+            VCToolsVersion = "14.44.35207",
+            VCToolsInstallDir = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\]],
+            UniversalCRTSdkDir = [[C:\Program Files (x86)\Windows Kits\10\]]
+        },
+        llvm_target_triple = "x86_64-pc-windows-msvc",
+        plat = "windows",
+        __checked = "2022",
+        vcarchs = {
+            "arm",
+            "arm64",
+            "arm64ec",
+            "x64",
+            "x86"
+        },
+        __global = true,
+        vs_toolset = "14.44.35207",
+        vs_sdkver = "10.0.26100.0",
+        vs = "2022",
+        arch = "x64"
+    },
+    nasm_arch_x64_plat_windows = {
+        __checked = true,
+        plat = "windows",
+        arch = "x64",
+        __global = true
+    },
+    zig_arch_x64_plat_windows = {
+        __checked = false,
+        plat = "windows",
+        arch = "x64",
+        __global = true
+    },
+    go_arch_x64_plat_windows = {
+        __checked = true,
+        plat = "windows",
+        arch = "x64",
+        __global = true
+    },
+    tool_target_flx_core_windows_x64_sh = {
+        toolname = "clangxx",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            arch = "x64",
+            plat = "windows"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang++]]
+    },
+    tool_target_test_core_windows_x64_cxx = {
+        toolname = "clangxx",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            arch = "x64",
+            plat = "windows"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang++]]
+    },
+    tool_target_flx_dummy_windows_x64_ar = {
+        toolname = "llvm_ar",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            arch = "x64",
+            plat = "windows"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\llvm-ar]]
+    },
+    tool_target_flx_dummy_windows_x64_cc = {
+        toolname = "clang",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            plat = "windows",
+            arch = "x64"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang]]
+    },
+    tool_target_flx_dummy_windows_x64_cxx = {
+        toolname = "clangxx",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            arch = "x64",
+            plat = "windows"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang++]]
+    },
+    cuda_arch_x64_plat_windows = {
+        __checked = true,
+        plat = "windows",
+        arch = "x64",
+        __global = true
+    },
+    tool_target_test_core_windows_x64_cc = {
+        toolname = "clang",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            arch = "x64",
+            plat = "windows"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang]]
+    },
+    msvc_arch_x64_plat_windows = {
+        vs_sdkver = "10.0.26100.0",
+        vcvars = ref("clang_arch_x64_plat_windows", "vcvars"),
+        vcarchs = {
+            "arm",
+            "arm64",
+            "arm64ec",
+            "x64",
+            "x86"
+        },
+        __checked = "2022",
+        __global = true,
+        vs_toolset = "14.44.35207",
+        vs = "2022",
+        plat = "windows",
+        arch = "x64"
+    },
+    tool_target_test_core_windows_x64_sh = {
+        toolname = "clangxx",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            arch = "x64",
+            plat = "windows"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang++]]
+    },
+    tool_target_flx_dummy2_windows_x64_ar = {
+        toolname = "llvm_ar",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            arch = "x64",
+            plat = "windows"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\llvm-ar]]
+    },
+    nim_arch_x64_plat_windows = {
+        __checked = false,
+        plat = "windows",
+        arch = "x64",
+        __global = true
+    },
+    fpc_arch_x64_plat_windows = {
+        __checked = true,
+        plat = "windows",
+        arch = "x64",
+        __global = true
+    },
+    tool_target_flx_dummy2_windows_x64_cc = {
+        toolname = "clang",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            plat = "windows",
+            arch = "x64"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang]]
+    },
+    yasm_arch_x64_plat_windows = {
+        __checked = true,
+        plat = "windows",
+        arch = "x64",
+        __global = true
+    },
+    tool_target_flx_core_windows_x64_cc = {
+        toolname = "clang",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            arch = "x64",
+            plat = "windows"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang]]
+    },
+    tool_target_flx_core_windows_x64_ld = {
+        toolname = "clangxx",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            arch = "x64",
+            plat = "windows"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang++]]
+    },
+    tool_target_install_flx_windows_x64_cxx = {
+        toolname = "clangxx",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            plat = "windows",
+            arch = "x64"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang++]]
+    },
+    tool_target_flx_dummy2_windows_x64_cxx = {
+        toolname = "clangxx",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            arch = "x64",
+            plat = "windows"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang++]]
+    },
+    tool_target_install_flx_windows_x64_cc = {
+        toolname = "clang",
+        toolchain_info = {
+            cachekey = "clang_arch_x64_plat_windows",
+            name = "clang",
+            plat = "windows",
+            arch = "x64"
+        },
+        program = [[C:\C++\LLVM\clang+llvm-22.1.5-x86_64-pc-windows-msvc\bin\clang]]
+    },
+    dotnet_arch_x64_plat_windows = {
+        __checked = true,
+        bindir = [[C:\Program Files\dotnet]],
+        __global = true,
+        arch = "x64",
+        sdkver = "9.0.313",
+        sdkdir = [[C:\Program Files\dotnet\sdk\9.0.313]],
+        plat = "windows"
+    },
+    gfortran_arch_x64_plat_windows = {
+        __checked = true,
+        plat = "windows",
+        arch = "x64",
+        __global = true
+    },
+    swift_arch_x64_plat_windows = {
+        __checked = true,
+        plat = "windows",
+        arch = "x64",
+        __global = true
+    }
+}
