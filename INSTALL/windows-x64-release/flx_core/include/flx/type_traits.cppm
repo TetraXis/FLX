@@ -122,6 +122,12 @@ export namespace flx
 		return static_cast<ty&&>(arg);
 	}
 
+	template <class ty>
+	[[nodiscard]] constexpr ty&& forward(::flx::remove_reference<ty>&& arg) noexcept 
+	{
+		return static_cast<ty&&>(arg);
+	}
+
 
 
 	// ===== move ===== //

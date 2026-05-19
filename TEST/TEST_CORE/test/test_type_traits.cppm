@@ -1,4 +1,4 @@
-module;
+﻿module;
 
 #include <type_traits>
 #include <string>
@@ -26,10 +26,14 @@ export namespace test
 
 		struct move_only
 		{
-			move_only(move_only&&)				= default;
-			move_only& operator=(move_only&&)	= default;
-			move_only(const move_only&)			= delete;
+			move_only()								= default;
+			move_only(move_only&&)					= default;
+			move_only& operator=(move_only&&)		= default;
+			move_only& operator=(const move_only&)	= delete;
+			move_only(const move_only&)				= delete;
 		};
+
+
 
 		// ===== is_same ===== //
 		{
@@ -354,13 +358,147 @@ export namespace test
 				check(std::is_same_v<	decltype(flx::declval<const volatile int[]>()),	decltype(std::declval<const volatile int[]>())	>,	"Return type mismatch with STD 1B");
 			}
 
-			// calling declval should be ill-formed
-			// this line must not compile
-			// check(flx::declval<int>(),	"declval was incorrectly allowed in an evaluated context 00");
-
 			check(noexcept(flx::declval<int>()), "declval must be noexcept 00");
 
+			static_assert(std::is_same_v<decltype(flx::declval<int>()), int&&>, "declval must be constexpr 00");
+
+			// calling declval should be ill-formed
+			// check(flx::declval<int>(),	"declval was incorrectly allowed in an evaluated context 00");
+
 			subgroup = "NULL";
+		}
+
+
+
+		// ===== forward ===== //
+		{
+		    subgroup = "forward";
+		
+		    // fundamental types
+		    check(std::is_same_v<	decltype(flx::forward<int>(0)),						decltype(std::forward<int>(0))						>,	"Return type mismatch with STD 00");
+		    check(std::is_same_v<	decltype(flx::forward<const int>(0)),				decltype(std::forward<const int>(0))				>,	"Return type mismatch with STD 01");
+		    check(std::is_same_v<	decltype(flx::forward<volatile int>(0)),			decltype(std::forward<volatile int>(0))				>,	"Return type mismatch with STD 02");
+		    check(std::is_same_v<	decltype(flx::forward<const volatile int>(0)),		decltype(std::forward<const volatile int>(0))		>,	"Return type mismatch with STD 03");
+		
+		    // lvalue references
+		    int lval = 42;
+		    check(std::is_same_v<	decltype(flx::forward<int&>(lval)),					decltype(std::forward<int&>(lval))					>,	"Return type mismatch with STD 04");
+		    check(std::is_same_v<	decltype(flx::forward<const int&>(lval)),			decltype(std::forward<const int&>(lval))			>,	"Return type mismatch with STD 05");
+		    check(std::is_same_v<	decltype(flx::forward<volatile int&>(lval)),		decltype(std::forward<volatile int&>(lval))			>,	"Return type mismatch with STD 06");
+		    check(std::is_same_v<	decltype(flx::forward<const volatile int&>(lval)),	decltype(std::forward<const volatile int&>(lval))	>,	"Return type mismatch with STD 07");
+		
+		    // value references
+		    check(std::is_same_v<	decltype(flx::forward<int&&>(0)),					decltype(std::forward<int&&>(0))					>,	"Return type mismatch with STD 08");
+		    check(std::is_same_v<	decltype(flx::forward<const int&&>(0)),				decltype(std::forward<const int&&>(0))				>,	"Return type mismatch with STD 09");
+		    check(std::is_same_v<	decltype(flx::forward<volatile int&&>(0)),			decltype(std::forward<volatile int&&>(0))			>,	"Return type mismatch with STD 0A");
+		    check(std::is_same_v<	decltype(flx::forward<const volatile int&&>(0)),	decltype(std::forward<const volatile int&&>(0))		>,	"Return type mismatch with STD 0B");
+		
+		    // pointers
+			int* ptr = &lval;
+			int* const ptr_const = ptr;
+			const int* const_ptr = ptr;
+			const int* const const_ptr_const = ptr;
+			
+			check(std::is_same_v<	decltype(flx::forward<int*>(ptr)),							decltype(std::forward<int*>(ptr))							>,	"Return type mismatch with STD 0C");
+			check(std::is_same_v<	decltype(flx::forward<const int*>(const_ptr)),				decltype(std::forward<const int*>(const_ptr))				>,	"Return type mismatch with STD 0D");
+			check(std::is_same_v<	decltype(flx::forward<int* const>(ptr_const)),				decltype(std::forward<int* const>(ptr_const))				>,	"Return type mismatch with STD 0E");
+			check(std::is_same_v<	decltype(flx::forward<const int* const>(const_ptr_const)),	decltype(std::forward<const int* const>(const_ptr_const))	>,	"Return type mismatch with STD 0F");
+		
+		    // arrays
+		    int arr[5] = {};
+		    check(std::is_same_v<	decltype(flx::forward<int[5]>(arr)),				decltype(std::forward<int[5]>(arr))					>,	"Return type mismatch with STD 10");
+		    check(std::is_same_v<	decltype(flx::forward<const int[5]>(arr)),			decltype(std::forward<const int[5]>(arr))			>,	"Return type mismatch with STD 11");
+		
+		    // function types
+			auto fn_lambda = []() { return 0; };
+			using func_ptr_type = int(*)();
+			func_ptr_type fn_ptr = +fn_lambda;
+			int (&fn_ref)() = *fn_ptr;
+			
+			check(std::is_same_v<	decltype(flx::forward<func_ptr_type>(fn_ptr)),		decltype(std::forward<func_ptr_type>(fn_ptr))		>,	"Return type mismatch with STD 12");
+			check(std::is_same_v<	decltype(flx::forward<int(&)()>(fn_ref)),			decltype(std::forward<int(&)()>(fn_ref))			>,	"Return type mismatch with STD 13");
+			check(std::is_same_v<	decltype(flx::forward<int()>(*fn_ptr)),				decltype(std::forward<int()>(*fn_ptr))				>,	"Return type mismatch with STD 14"); // decays to pointer
+
+		    // enum
+		    enum E { E0 };
+		    E e = E0;
+		    check(std::is_same_v<	decltype(flx::forward<E>(e)),						decltype(std::forward<E>(e))						>,	"Return type mismatch with STD 15");
+		    check(std::is_same_v<	decltype(flx::forward<E&>(e)),						decltype(std::forward<E&>(e))						>,	"Return type mismatch with STD 16");
+		
+		    // incomplete type
+		    incomplete* inc = nullptr;
+		    check(std::is_same_v<	decltype(flx::forward<incomplete*>(inc)),			decltype(std::forward<incomplete*>(inc))			>,	"Return type mismatch with STD 17");
+		
+		    // abstract type
+		    abstract* ab = nullptr;
+		    check(std::is_same_v<	decltype(flx::forward<abstract*>(ab)),				decltype(std::forward<abstract*>(ab))				>,	"Return type mismatch with STD 18");
+		
+		    // move‑only type
+		    move_only mo;
+		    check(std::is_same_v<	decltype(flx::forward<move_only>(std::move(mo))),	decltype(std::forward<move_only>(std::move(mo)))	>,	"Return type mismatch with STD 19");
+		    check(std::is_same_v<	decltype(flx::forward<move_only&>(mo)),				decltype(std::forward<move_only&>(mo))				>,	"Return type mismatch with STD 1A");
+		
+		    // array of unknown bound
+		    int arr_unknown[] = { 1,2,3 };
+		    check(std::is_same_v<	decltype(flx::forward<int[]>(arr_unknown)),			decltype(std::forward<int[]>(arr_unknown))			>,	"Return type mismatch with STD 1B");
+		
+		    // cv‑qualified array of unknown bound
+		    const int arr_const_unknown[]		= { 1,2,3 };
+		    volatile int arr_vol_unknown[]		= { 1,2,3 };
+		    const volatile int arr_cv_unknown[]	= { 1,2,3 };
+		    check(std::is_same_v<	decltype(flx::forward<const int[]>(arr_const_unknown)),			decltype(std::forward<const int[]>(arr_const_unknown))			>,	"Return type mismatch with STD 1C");
+		    check(std::is_same_v<	decltype(flx::forward<volatile int[]>(arr_vol_unknown)),		decltype(std::forward<volatile int[]>(arr_vol_unknown))			>,	"Return type mismatch with STD 1D");
+		    check(std::is_same_v<	decltype(flx::forward<const volatile int[]>(arr_cv_unknown)),	decltype(std::forward<const volatile int[]>(arr_cv_unknown))	>,	"Return type mismatch with STD 1E");
+		
+		    // reference to function
+			auto fn_ptr2 = +[]() { return 0; };
+			int(&func_ref)() = *fn_ptr2;
+			check(std::is_same_v<	decltype(flx::forward<int(&)()>(func_ref)),			decltype(std::forward<int(&)()>(func_ref))			>,	"Return type mismatch with STD 1F");
+
+		    // void must be ill-formed
+		 // check(std::is_same_v<	decltype(flx::forward<void>(void())),				decltype(std::forward<void>(void()))				>,	"Return type mismatch with STD 20");
+
+			// edge case for int(&)[]
+			int(&ref_unknown)[] = arr_unknown;
+			check(std::is_same_v<	decltype(flx::forward<int(&)[]>(ref_unknown)),		decltype(std::forward<int(&)[]>(ref_unknown))		>,	"Return type mismatch with STD 21");
+
+			// noexcept function types
+			auto lambda_noexcept = []() noexcept { return 0; };
+			using func_ptr = int(*)() noexcept;
+			check(std::is_same_v<	decltype(flx::forward<func_ptr>(+lambda_noexcept)),	decltype(std::forward<func_ptr>(+lambda_noexcept))	>,	"Return type mismatch with STD 22");
+
+			// deducing ty
+			constexpr auto forward_wrapper = [](auto&& arg) constexpr -> decltype(auto)
+			{
+				return flx::forward<decltype(arg)>(arg);
+			};
+			int x = 42;
+			check(std::is_same_v<decltype(forward_wrapper(x)), int&>, "ty deduction failure 00");
+			check(std::is_same_v<decltype(forward_wrapper(42)), int&&>, "ty deduction failure 01");
+
+		    // noexcept
+		    check(noexcept(flx::forward<int>(0)), "forward must be noexcept 00");
+
+			// constexpr check
+			// if this fails to compile, forward isn't constexpr
+			constexpr int result = []() constexpr -> int
+			{
+				int x = 42;
+				return flx::forward<int&>(x);
+			}();
+			check(result == 42, "forward must be constexpr 00");
+		
+			struct bitfield_struct
+			{
+				int bf : 1;
+			};
+			bitfield_struct s = { 0 };
+
+		    // must be ill‑formed
+		    // flx::forward<int[5]>(0);		// array argument must be array lvalue
+			// flx::forward<int&>(s.bf);	// bit‑field: cannot form reference
+		
+		    subgroup = "NULL";
 		}
 	}
 } // namespace test

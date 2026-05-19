@@ -1,123 +1,1381 @@
 {
-    flx_modules = {
-        sourcebatch_sum = "ad9cc934916497c8",
-        ["c++.modules"] = {
+    flx_dummy2 = {
+        module_mapper = {
             ["CORE\\include\\flx\\memory.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\memory.cppm.obj]],
+                method = "by-name",
                 deps = {
                     ["flx.terminate"] = {
-                        headerunit = false,
                         method = "by-name",
-                        key = false,
+                        unique = false,
                         name = "flx.terminate",
-                        unique = false
+                        headerunit = false,
+                        key = false
                     },
                     ["flx.assert"] = {
-                        headerunit = false,
                         method = "by-name",
-                        key = false,
+                        unique = false,
                         name = "flx.assert",
-                        unique = false
+                        headerunit = false,
+                        key = false
                     }
                 },
-                interface = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
                 sourcefile = [[CORE\include\flx\memory.cppm]],
                 name = "flx.memory",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.gcm]]
-            },
-            ["CORE\\include\\flx\\utility.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\utility.cppm.obj]],
-                deps = { },
                 interface = true,
-                sourcefile = [[CORE\include\flx\utility.cppm]],
-                name = "flx.utility",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.gcm]]
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
             },
             ["CORE\\include\\flx\\terminate.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                deps = { },
-                interface = true,
-                sourcefile = [[CORE\include\flx\terminate.cppm]],
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
                 name = "flx.terminate",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.gcm]]
-            },
-            ["CORE\\include\\flx\\assert.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\assert.cppm.obj]],
-                deps = { },
+                sourcefile = [[CORE\include\flx\terminate.cppm]],
                 interface = true,
-                sourcefile = [[CORE\include\flx\assert.cppm]],
-                name = "flx.assert",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.gcm]]
-            },
-            ["CORE\\include\\flx\\type_traits.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\type_traits.cppm.obj]],
-                deps = { },
-                interface = true,
-                sourcefile = [[CORE\include\flx\type_traits.cppm]],
-                name = "flx.type_traits",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.gcm]]
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
             },
             ["CORE\\include\\flx\\flx.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\flx.cppm.obj]],
+                sourcealias = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
+                sourcefile = [[CORE\include\flx\flx.cppm]]
+            },
+            ["CORE\\source\\dummy2.cpp"] = {
+                sourcealias = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\source\dummy2.cpp.obj]],
+                sourcefile = [[CORE\source\dummy2.cpp]]
+            },
+            ["CORE\\include\\flx\\assert.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
+                name = "flx.assert",
+                sourcefile = [[CORE\include\flx\assert.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
+            },
+            std = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
+                name = "std",
+                interface = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
+            },
+            ["std.compat"] = {
+                method = "by-name",
                 deps = {
-                    ["flx.terminate"] = {
-                        headerunit = false,
+                    std = {
                         method = "by-name",
-                        key = false,
-                        name = "flx.terminate",
-                        unique = false
-                    },
-                    ["flx.type_traits"] = {
+                        unique = false,
+                        name = "std",
                         headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.type_traits",
-                        unique = false
-                    },
-                    ["flx.assert"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.assert",
-                        unique = false
-                    },
-                    ["flx.memory"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.memory",
-                        unique = false
-                    },
-                    ["flx.utility"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.utility",
-                        unique = false
+                        key = false
                     }
                 },
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
+                name = "std.compat",
                 interface = true,
-                sourcefile = [[CORE\include\flx\flx.cppm]],
-                name = "flx",
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
+            },
+            ["flx.type_traits"] = {
                 method = "by-name",
-                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\856d28485f885d33\flx.gcm]]
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                sourcefile = [[CORE\include\flx\type_traits.cppm]],
+                name = "flx.type_traits",
+                interface = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
+            },
+            ["CORE\\include\\flx\\utility.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
+                name = "flx.utility",
+                sourcefile = [[CORE\include\flx\utility.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
+            },
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = {
+                method = "by-name",
+                deps = ref("flx_dummy2", "module_mapper", "std.compat", "deps"),
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
+                name = "std.compat",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
+            },
+            ["flx.terminate"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                sourcefile = [[CORE\include\flx\terminate.cppm]],
+                name = "flx.terminate",
+                interface = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
+            },
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
+                name = "std",
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
+            },
+            ["flx.assert"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
+                sourcefile = [[CORE\include\flx\assert.cppm]],
+                name = "flx.assert",
+                interface = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
+            },
+            ["flx.memory"] = {
+                method = "by-name",
+                deps = ref("flx_dummy2", "module_mapper", [[CORE\include\flx\memory.cppm]], "deps"),
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
+                sourcefile = [[CORE\include\flx\memory.cppm]],
+                name = "flx.memory",
+                interface = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
+            },
+            ["flx.utility"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
+                sourcefile = [[CORE\include\flx\utility.cppm]],
+                name = "flx.utility",
+                interface = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
+            },
+            ["CORE\\include\\flx\\type_traits.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                name = "flx.type_traits",
+                sourcefile = [[CORE\include\flx\type_traits.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
+            }
+        },
+        ["c++.modules"] = {
+            ["CORE\\include\\flx\\memory.cppm"] = ref("flx_dummy2", "module_mapper", "flx.memory"),
+            ["CORE\\include\\flx\\terminate.cppm"] = ref("flx_dummy2", "module_mapper", "flx.terminate"),
+            ["CORE\\include\\flx\\flx.cppm"] = {
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
+                sourcefile = [[CORE\include\flx\flx.cppm]]
+            },
+            ["CORE\\source\\dummy2.cpp"] = {
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\source\dummy2.cpp.obj]],
+                sourcefile = [[CORE\source\dummy2.cpp]]
+            },
+            ["CORE\\include\\flx\\assert.cppm"] = ref("flx_dummy2", "module_mapper", "flx.assert"),
+            ["CORE\\include\\flx\\utility.cppm"] = ref("flx_dummy2", "module_mapper", "flx.utility"),
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = ref("flx_dummy2", "module_mapper", "std"),
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = ref("flx_dummy2", "module_mapper", "std.compat"),
+            ["CORE\\include\\flx\\type_traits.cppm"] = ref("flx_dummy2", "module_mapper", "flx.type_traits")
+        },
+        ["c++.build.sourcebatch"] = {
+            sourcefiles = {
+                [[CORE\source\dummy2.cpp]]
+            },
+            rulename = "c++.build",
+            dependfiles = {
+                [[build\.deps\flx_dummy2\windows\x64\release\CORE\source\dummy2.cpp.obj.d]]
+            },
+            sourcekind = "cxx",
+            objectfiles = {
+                [[build\.objs\flx_dummy2\windows\x64\release\CORE\source\dummy2.cpp.obj]]
             }
         },
         ["c++.modules.built_artifacts"] = {
             headerunits = { },
-            objectfiles = {
-                [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\assert.cppm.obj]],
-                [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\type_traits.cppm.obj]],
-                [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\utility.cppm.obj]],
-                [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\memory.cppm.obj]],
-                [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\flx.cppm.obj]]
+            modules = {
+                [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
+                [[CORE\include\flx\assert.cppm]],
+                [[CORE\include\flx\terminate.cppm]],
+                [[CORE\include\flx\memory.cppm]],
+                [[CORE\source\dummy2.cpp]],
+                [[CORE\include\flx\utility.cppm]],
+                [[CORE\include\flx\type_traits.cppm]],
+                [[CORE\include\flx\flx.cppm]]
             },
+            objectfiles = {
+                [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
+                [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
+                [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
+                [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
+                [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]]
+            }
+        },
+        sourcebatch_sum = "1d3a1320759c35a2"
+    },
+    flx_main = {
+        module_mapper = {
+            ["CORE\\include\\flx\\memory.cppm"] = {
+                method = "by-name",
+                deps = {
+                    ["flx.terminate"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.terminate",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.assert"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.assert",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\memory.cppm.obj]],
+                sourcefile = [[CORE\include\flx\memory.cppm]],
+                name = "flx.memory",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.gcm]]
+            },
+            ["CORE\\include\\flx\\terminate.cppm"] = {
+                method = "by-name",
+                deps = { },
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                sourcefile = [[CORE\include\flx\terminate.cppm]],
+                name = "flx.terminate",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.gcm]]
+            },
+            ["CORE\\include\\flx\\flx.cppm"] = {
+                sourcealias = true,
+                deps = { },
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\flx.cppm.obj]],
+                sourcefile = [[CORE\include\flx\flx.cppm]]
+            },
+            ["CORE\\include\\flx\\assert.cppm"] = {
+                method = "by-name",
+                deps = { },
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\assert.cppm.obj]],
+                sourcefile = [[CORE\include\flx\assert.cppm]],
+                name = "flx.assert",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.gcm]]
+            },
+            ["flx.type_traits"] = {
+                method = "by-name",
+                deps = { },
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                sourcefile = [[CORE\include\flx\type_traits.cppm]],
+                name = "flx.type_traits",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.gcm]]
+            },
+            ["CORE\\include\\flx\\utility.cppm"] = {
+                method = "by-name",
+                deps = { },
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\utility.cppm.obj]],
+                sourcefile = [[CORE\include\flx\utility.cppm]],
+                name = "flx.utility",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.gcm]]
+            },
+            ["CORE\\main.cpp"] = {
+                sourcealias = true,
+                deps = {
+                    ["flx.assert"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.assert",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.memory"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.memory",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.terminate"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.terminate",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.type_traits"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.type_traits",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\flx_main\mingw\x64\release\CORE\main.cpp.obj]],
+                sourcefile = [[CORE\main.cpp]]
+            },
+            ["flx.terminate"] = {
+                method = "by-name",
+                deps = { },
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                sourcefile = [[CORE\include\flx\terminate.cppm]],
+                name = "flx.terminate",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.gcm]]
+            },
+            ["flx.utility"] = {
+                method = "by-name",
+                deps = { },
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\utility.cppm.obj]],
+                sourcefile = [[CORE\include\flx\utility.cppm]],
+                name = "flx.utility",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.gcm]]
+            },
+            flx = {
+                method = "by-name",
+                deps = {
+                    ["flx.terminate"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.terminate",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.assert"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.assert",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.memory"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.memory",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.utility"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.utility",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.type_traits"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.type_traits",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\flx.cppm.obj]],
+                sourcefile = [[CORE\include\flx\flx.cppm]],
+                name = "flx",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\856d28485f885d33\flx.gcm]]
+            },
+            ["flx.memory"] = {
+                method = "by-name",
+                deps = {
+                    ["flx.terminate"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.terminate",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.assert"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.assert",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\memory.cppm.obj]],
+                sourcefile = [[CORE\include\flx\memory.cppm]],
+                name = "flx.memory",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.gcm]]
+            },
+            ["flx.assert"] = {
+                method = "by-name",
+                deps = { },
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\assert.cppm.obj]],
+                sourcefile = [[CORE\include\flx\assert.cppm]],
+                name = "flx.assert",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.gcm]]
+            },
+            ["CORE\\include\\flx\\type_traits.cppm"] = {
+                method = "by-name",
+                deps = { },
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                sourcefile = [[CORE\include\flx\type_traits.cppm]],
+                name = "flx.type_traits",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.gcm]]
+            }
+        },
+        ["c++.modules"] = {
+            ["CORE\\include\\flx\\memory.cppm"] = {
+                method = "by-name",
+                deps = ref("flx_main", "module_mapper", [[CORE\include\flx\memory.cppm]], "deps"),
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\memory.cppm.obj]],
+                sourcefile = [[CORE\include\flx\memory.cppm]],
+                name = "flx.memory",
+                interface = true,
+                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.gcm]]
+            },
+            ["CORE\\include\\flx\\terminate.cppm"] = {
+                method = "by-name",
+                deps = ref("flx_main", "module_mapper", [[CORE\include\flx\terminate.cppm]], "deps"),
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                sourcefile = [[CORE\include\flx\terminate.cppm]],
+                name = "flx.terminate",
+                interface = true,
+                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.gcm]]
+            },
+            ["CORE\\include\\flx\\flx.cppm"] = {
+                deps = ref("flx_main", "module_mapper", [[CORE\include\flx\flx.cppm]], "deps"),
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\flx.cppm.obj]],
+                sourcefile = [[CORE\include\flx\flx.cppm]]
+            },
+            ["CORE\\include\\flx\\assert.cppm"] = {
+                method = "by-name",
+                deps = ref("flx_main", "module_mapper", [[CORE\include\flx\assert.cppm]], "deps"),
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\assert.cppm.obj]],
+                sourcefile = [[CORE\include\flx\assert.cppm]],
+                name = "flx.assert",
+                interface = true,
+                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.gcm]]
+            },
+            ["CORE\\include\\flx\\utility.cppm"] = {
+                method = "by-name",
+                deps = ref("flx_main", "module_mapper", [[CORE\include\flx\utility.cppm]], "deps"),
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\utility.cppm.obj]],
+                sourcefile = [[CORE\include\flx\utility.cppm]],
+                name = "flx.utility",
+                interface = true,
+                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.gcm]]
+            },
+            ["CORE\\main.cpp"] = {
+                deps = ref("flx_main", "module_mapper", [[CORE\main.cpp]], "deps"),
+                objectfile = [[build\.objs\flx_main\mingw\x64\release\CORE\main.cpp.obj]],
+                sourcefile = [[CORE\main.cpp]]
+            },
+            ["CORE\\include\\flx\\type_traits.cppm"] = {
+                method = "by-name",
+                deps = ref("flx_main", "module_mapper", [[CORE\include\flx\type_traits.cppm]], "deps"),
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                sourcefile = [[CORE\include\flx\type_traits.cppm]],
+                name = "flx.type_traits",
+                interface = true,
+                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.gcm]]
+            }
+        },
+        ["c++.build.sourcebatch"] = {
+            sourcefiles = {
+                [[CORE\main.cpp]]
+            },
+            rulename = "c++.build",
+            dependfiles = {
+                [[build\.deps\flx_main\mingw\x64\release\CORE\main.cpp.obj.d]]
+            },
+            sourcekind = "cxx",
+            objectfiles = {
+                [[build\.objs\flx_main\mingw\x64\release\CORE\main.cpp.obj]]
+            }
+        },
+        ["c++.modules.built_artifacts"] = {
+            headerunits = { },
+            modules = {
+                [[CORE\main.cpp]]
+            },
+            objectfiles = { }
+        },
+        sourcebatch_sum = "acef98d539799043"
+    },
+    flx_dummy = {
+        module_mapper = {
+            ["CORE\\include\\flx\\memory.cppm"] = {
+                method = "by-name",
+                deps = {
+                    ["flx.terminate"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.terminate",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.assert"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.assert",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
+                sourcefile = [[CORE\include\flx\memory.cppm]],
+                name = "flx.memory",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
+            },
+            ["CORE\\include\\flx\\terminate.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                name = "flx.terminate",
+                sourcefile = [[CORE\include\flx\terminate.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
+            },
+            ["CORE\\include\\flx\\flx.cppm"] = {
+                sourcealias = true,
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
+                sourcefile = [[CORE\include\flx\flx.cppm]]
+            },
+            std = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
+                name = "std",
+                interface = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
+            },
+            ["CORE\\include\\flx\\assert.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
+                name = "flx.assert",
+                sourcefile = [[CORE\include\flx\assert.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
+            },
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = {
+                method = "by-name",
+                deps = ref("flx_dummy", "module_mapper", "std.compat", "deps"),
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
+                name = "std.compat",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
+            },
+            ["std.compat"] = {
+                method = "by-name",
+                deps = {
+                    std = {
+                        method = "by-name",
+                        unique = false,
+                        name = "std",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
+                name = "std.compat",
+                interface = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
+            },
+            ["flx.type_traits"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                sourcefile = [[CORE\include\flx\type_traits.cppm]],
+                name = "flx.type_traits",
+                interface = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
+            },
+            ["CORE\\include\\flx\\utility.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
+                name = "flx.utility",
+                sourcefile = [[CORE\include\flx\utility.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
+            },
+            ["flx.utility"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
+                sourcefile = [[CORE\include\flx\utility.cppm]],
+                name = "flx.utility",
+                interface = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
+            },
+            ["flx.terminate"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                sourcefile = [[CORE\include\flx\terminate.cppm]],
+                name = "flx.terminate",
+                interface = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
+            },
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
+                name = "std",
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
+            },
+            ["flx.assert"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
+                sourcefile = [[CORE\include\flx\assert.cppm]],
+                name = "flx.assert",
+                interface = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
+            },
+            ["flx.memory"] = {
+                method = "by-name",
+                deps = ref("flx_dummy", "module_mapper", [[CORE\include\flx\memory.cppm]], "deps"),
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
+                sourcefile = [[CORE\include\flx\memory.cppm]],
+                name = "flx.memory",
+                interface = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
+            },
+            ["CORE\\source\\dummy.cpp"] = {
+                sourcealias = true,
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\source\dummy.cpp.obj]],
+                sourcefile = [[CORE\source\dummy.cpp]]
+            },
+            ["CORE\\include\\flx\\type_traits.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                name = "flx.type_traits",
+                sourcefile = [[CORE\include\flx\type_traits.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
+            }
+        },
+        ["c++.modules"] = {
+            ["CORE\\include\\flx\\memory.cppm"] = ref("flx_dummy", "module_mapper", "flx.memory"),
+            ["CORE\\include\\flx\\terminate.cppm"] = ref("flx_dummy", "module_mapper", "flx.terminate"),
+            ["CORE\\include\\flx\\flx.cppm"] = {
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
+                sourcefile = [[CORE\include\flx\flx.cppm]]
+            },
+            ["CORE\\include\\flx\\assert.cppm"] = ref("flx_dummy", "module_mapper", "flx.assert"),
+            ["CORE\\source\\dummy.cpp"] = {
+                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\source\dummy.cpp.obj]],
+                sourcefile = [[CORE\source\dummy.cpp]]
+            },
+            ["CORE\\include\\flx\\utility.cppm"] = ref("flx_dummy", "module_mapper", "flx.utility"),
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = ref("flx_dummy", "module_mapper", "std"),
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = ref("flx_dummy", "module_mapper", "std.compat"),
+            ["CORE\\include\\flx\\type_traits.cppm"] = ref("flx_dummy", "module_mapper", "flx.type_traits")
+        },
+        ["c++.build.sourcebatch"] = {
+            sourcefiles = {
+                [[CORE\source\dummy.cpp]]
+            },
+            rulename = "c++.build",
+            dependfiles = {
+                [[build\.deps\flx_dummy\windows\x64\release\CORE\source\dummy.cpp.obj.d]]
+            },
+            sourcekind = "cxx",
+            objectfiles = {
+                [[build\.objs\flx_dummy\windows\x64\release\CORE\source\dummy.cpp.obj]]
+            }
+        },
+        ["c++.modules.built_artifacts"] = {
+            headerunits = { },
+            modules = {
+                [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
+                [[CORE\include\flx\assert.cppm]],
+                [[CORE\include\flx\terminate.cppm]],
+                [[CORE\include\flx\memory.cppm]],
+                [[CORE\source\dummy.cpp]],
+                [[CORE\include\flx\utility.cppm]],
+                [[CORE\include\flx\type_traits.cppm]],
+                [[CORE\include\flx\flx.cppm]]
+            },
+            objectfiles = {
+                [[build\.objs\flx_dummy\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
+                [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
+                [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
+                [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
+                [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\flx.cppm.obj]]
+            }
+        },
+        sourcebatch_sum = "7f634a950ca9afd4"
+    },
+    flx_core = {
+        module_mapper = {
+            ["CORE\\include\\flx\\memory.cppm"] = {
+                method = "by-name",
+                deps = {
+                    ["flx.terminate"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.terminate",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.assert"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.assert",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
+                sourcefile = [[CORE\include\flx\memory.cppm]],
+                name = "flx.memory",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
+            },
+            ["CORE\\include\\flx\\terminate.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                name = "flx.terminate",
+                sourcefile = [[CORE\include\flx\terminate.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
+            },
+            ["CORE\\include\\flx\\flx.cppm"] = {
+                sourcealias = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
+                sourcefile = [[CORE\include\flx\flx.cppm]]
+            },
+            std = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
+                name = "std",
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
+            },
+            ["CORE\\include\\flx\\assert.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
+                name = "flx.assert",
+                sourcefile = [[CORE\include\flx\assert.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
+            },
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = {
+                method = "by-name",
+                deps = {
+                    std = {
+                        method = "by-name",
+                        unique = false,
+                        name = "std",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
+                name = "std.compat",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
+            },
+            ["std.compat"] = {
+                method = "by-name",
+                deps = {
+                    std = {
+                        method = "by-name",
+                        unique = false,
+                        name = "std",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
+                name = "std.compat",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
+            },
+            ["flx.type_traits"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                name = "flx.type_traits",
+                sourcefile = [[CORE\include\flx\type_traits.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
+            },
+            ["CORE\\include\\flx\\utility.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
+                name = "flx.utility",
+                sourcefile = [[CORE\include\flx\utility.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
+            },
+            ["flx.utility"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
+                name = "flx.utility",
+                sourcefile = [[CORE\include\flx\utility.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
+            },
+            ["flx.terminate"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                name = "flx.terminate",
+                sourcefile = [[CORE\include\flx\terminate.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
+            },
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
+                name = "std",
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
+            },
+            ["flx.assert"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
+                name = "flx.assert",
+                sourcefile = [[CORE\include\flx\assert.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
+            },
+            ["flx.memory"] = {
+                method = "by-name",
+                deps = {
+                    ["flx.terminate"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.terminate",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.assert"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.assert",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
+                sourcefile = [[CORE\include\flx\memory.cppm]],
+                name = "flx.memory",
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
+            },
+            ["CORE\\main.cpp"] = {
+                sourcealias = true,
+                deps = {
+                    ["flx.assert"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.assert",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.memory"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.memory",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.terminate"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.terminate",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.type_traits"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.type_traits",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\flx_core\windows\x64\release\CORE\main.cpp.obj]],
+                sourcefile = [[CORE\main.cpp]]
+            },
+            ["CORE\\include\\flx\\type_traits.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                name = "flx.type_traits",
+                sourcefile = [[CORE\include\flx\type_traits.cppm]],
+                interface = true,
+                sourcealias = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
+            }
+        },
+        ["c++.modules"] = {
+            ["CORE\\include\\flx\\memory.cppm"] = {
+                method = "by-name",
+                deps = ref("flx_core", "module_mapper", [[CORE\include\flx\memory.cppm]], "deps"),
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
+                sourcefile = [[CORE\include\flx\memory.cppm]],
+                name = "flx.memory",
+                interface = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
+            },
+            ["CORE\\include\\flx\\terminate.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                sourcefile = [[CORE\include\flx\terminate.cppm]],
+                name = "flx.terminate",
+                interface = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
+            },
+            ["CORE\\include\\flx\\flx.cppm"] = {
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
+                sourcefile = [[CORE\include\flx\flx.cppm]]
+            },
+            ["CORE\\include\\flx\\assert.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
+                sourcefile = [[CORE\include\flx\assert.cppm]],
+                name = "flx.assert",
+                interface = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
+            },
+            ["CORE\\include\\flx\\utility.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
+                sourcefile = [[CORE\include\flx\utility.cppm]],
+                name = "flx.utility",
+                interface = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
+            },
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
+                name = "std",
+                interface = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
+            },
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = {
+                method = "by-name",
+                deps = ref("flx_core", "module_mapper", [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]], "deps"),
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
+                name = "std.compat",
+                interface = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
+            },
+            ["CORE\\main.cpp"] = {
+                deps = ref("flx_core", "module_mapper", [[CORE\main.cpp]], "deps"),
+                objectfile = [[build\.objs\flx_core\windows\x64\release\CORE\main.cpp.obj]],
+                sourcefile = [[CORE\main.cpp]]
+            },
+            ["CORE\\include\\flx\\type_traits.cppm"] = {
+                method = "by-name",
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                sourcefile = [[CORE\include\flx\type_traits.cppm]],
+                name = "flx.type_traits",
+                interface = true,
+                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
+            }
+        },
+        ["c++.build.sourcebatch"] = {
+            sourcefiles = {
+                [[CORE\main.cpp]]
+            },
+            rulename = "c++.build",
+            dependfiles = {
+                [[build\.deps\flx_core\windows\x64\release\CORE\main.cpp.obj.d]]
+            },
+            sourcekind = "cxx",
+            objectfiles = {
+                [[build\.objs\flx_core\windows\x64\release\CORE\main.cpp.obj]]
+            }
+        },
+        ["c++.modules.built_artifacts"] = {
+            headerunits = { },
+            modules = {
+                [[CORE\main.cpp]]
+            },
+            objectfiles = {
+                [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]]
+            }
+        },
+        sourcebatch_sum = "bd580dc2a141f422"
+    },
+    test_core = {
+        module_mapper = {
+            ["CORE\\include\\flx\\terminate.cppm"] = {
+                interface = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                sourcefile = [[CORE\include\flx\terminate.cppm]],
+                sourcealias = true,
+                method = "by-name",
+                name = "flx.terminate",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
+            },
+            ["CORE\\include\\flx\\flx.cppm"] = {
+                sourcealias = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
+                sourcefile = [[CORE\include\flx\flx.cppm]]
+            },
+            ["CORE\\include\\flx\\assert.cppm"] = {
+                interface = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
+                sourcefile = [[CORE\include\flx\assert.cppm]],
+                sourcealias = true,
+                method = "by-name",
+                name = "flx.assert",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
+            },
+            ["TEST\\TEST_CORE\\test\\test_core.cppm"] = {
+                interface = true,
+                objectfile = [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\test\test_core.cppm.obj]],
+                sourcefile = [[TEST\TEST_CORE\test\test_core.cppm]],
+                sourcealias = true,
+                method = "by-name",
+                name = "test.core",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\415160e37bab68cf\test.core.pcm]]
+            },
+            ["flx.type_traits"] = ref("flx_dummy2", "module_mapper", [[CORE\include\flx\type_traits.cppm]]),
+            ["CORE\\include\\flx\\utility.cppm"] = {
+                interface = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
+                sourcefile = [[CORE\include\flx\utility.cppm]],
+                sourcealias = true,
+                method = "by-name",
+                name = "flx.utility",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
+            },
+            ["flx.terminate"] = ref("flx_dummy2", "module_mapper", [[CORE\include\flx\terminate.cppm]]),
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = {
+                interface = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
+                sourcealias = true,
+                method = "by-name",
+                name = "std",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
+            },
+            ["test.core"] = {
+                interface = true,
+                objectfile = [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\test\test_core.cppm.obj]],
+                sourcefile = [[TEST\TEST_CORE\test\test_core.cppm]],
+                name = "test.core",
+                method = "by-name",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\415160e37bab68cf\test.core.pcm]]
+            },
+            ["CORE\\include\\flx\\type_traits.cppm"] = {
+                interface = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                sourcefile = [[CORE\include\flx\type_traits.cppm]],
+                sourcealias = true,
+                method = "by-name",
+                name = "flx.type_traits",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
+            },
+            ["CORE\\include\\flx\\memory.cppm"] = {
+                interface = true,
+                deps = {
+                    ["flx.assert"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.assert",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.terminate"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.terminate",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
+                name = "flx.memory",
+                sourcealias = true,
+                method = "by-name",
+                sourcefile = [[CORE\include\flx\memory.cppm]],
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
+            },
+            ["test.type_traits"] = {
+                interface = true,
+                deps = {
+                    ["test.core"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "test.core",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["flx.type_traits"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "flx.type_traits",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\test\test_type_traits.cppm.obj]],
+                name = "test.type_traits",
+                sourcefile = [[TEST\TEST_CORE\test\test_type_traits.cppm]],
+                method = "by-name",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\7f04e307523fd972\test.type_traits.pcm]]
+            },
+            ["std.compat"] = ref("flx_dummy2", "module_mapper", [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]]),
+            ["TEST\\TEST_CORE\\test\\test_type_traits.cppm"] = {
+                interface = true,
+                deps = ref("test_core", "module_mapper", "test.type_traits", "deps"),
+                objectfile = [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\test\test_type_traits.cppm.obj]],
+                name = "test.type_traits",
+                sourcealias = true,
+                method = "by-name",
+                sourcefile = [[TEST\TEST_CORE\test\test_type_traits.cppm]],
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\7f04e307523fd972\test.type_traits.pcm]]
+            },
+            ["flx.utility"] = ref("flx_dummy2", "module_mapper", [[CORE\include\flx\utility.cppm]]),
+            ["TEST\\TEST_CORE\\main.cpp"] = {
+                sourcealias = true,
+                deps = {
+                    ["test.core"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "test.core",
+                        headerunit = false,
+                        key = false
+                    },
+                    ["test.type_traits"] = {
+                        method = "by-name",
+                        unique = false,
+                        name = "test.type_traits",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\main.cpp.obj]],
+                sourcefile = [[TEST\TEST_CORE\main.cpp]]
+            },
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = {
+                interface = true,
+                deps = {
+                    std = {
+                        method = "by-name",
+                        unique = false,
+                        name = "std",
+                        headerunit = false,
+                        key = false
+                    }
+                },
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
+                name = "std.compat",
+                sourcealias = true,
+                method = "by-name",
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
+            },
+            ["flx.memory"] = ref("flx_dummy2", "module_mapper", [[CORE\include\flx\memory.cppm]]),
+            ["flx.assert"] = ref("flx_dummy2", "module_mapper", [[CORE\include\flx\assert.cppm]]),
+            std = ref("flx_dummy2", "module_mapper", [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]])
+        },
+        ["c++.modules"] = {
+            ["CORE\\include\\flx\\memory.cppm"] = {
+                interface = true,
+                deps = ref("test_core", "module_mapper", [[CORE\include\flx\memory.cppm]], "deps"),
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
+                name = "flx.memory",
+                sourcefile = [[CORE\include\flx\memory.cppm]],
+                method = "by-name",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
+            },
+            ["CORE\\include\\flx\\terminate.cppm"] = {
+                interface = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                sourcefile = [[CORE\include\flx\terminate.cppm]],
+                name = "flx.terminate",
+                method = "by-name",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
+            },
+            ["CORE\\include\\flx\\flx.cppm"] = {
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
+                sourcefile = [[CORE\include\flx\flx.cppm]]
+            },
+            ["CORE\\include\\flx\\assert.cppm"] = {
+                interface = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
+                sourcefile = [[CORE\include\flx\assert.cppm]],
+                name = "flx.assert",
+                method = "by-name",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
+            },
+            ["TEST\\TEST_CORE\\test\\test_core.cppm"] = ref("test_core", "module_mapper", "test.core"),
+            ["CORE\\include\\flx\\utility.cppm"] = {
+                interface = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
+                sourcefile = [[CORE\include\flx\utility.cppm]],
+                name = "flx.utility",
+                method = "by-name",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
+            },
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = {
+                interface = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
+                name = "std",
+                method = "by-name",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
+            },
+            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = {
+                interface = true,
+                deps = ref("test_core", "module_mapper", [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]], "deps"),
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
+                name = "std.compat",
+                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
+                method = "by-name",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
+            },
+            ["TEST\\TEST_CORE\\test\\test_type_traits.cppm"] = ref("test_core", "module_mapper", "test.type_traits"),
+            ["TEST\\TEST_CORE\\main.cpp"] = {
+                deps = ref("test_core", "module_mapper", [[TEST\TEST_CORE\main.cpp]], "deps"),
+                objectfile = [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\main.cpp.obj]],
+                sourcefile = [[TEST\TEST_CORE\main.cpp]]
+            },
+            ["CORE\\include\\flx\\type_traits.cppm"] = {
+                interface = true,
+                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                sourcefile = [[CORE\include\flx\type_traits.cppm]],
+                name = "flx.type_traits",
+                method = "by-name",
+                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
+            }
+        },
+        ["c++.build.sourcebatch"] = {
+            sourcefiles = {
+                [[TEST\TEST_CORE\main.cpp]]
+            },
+            dependfiles = {
+                [[build\.deps\test_core\windows\x64\release\TEST\TEST_CORE\main.cpp.obj.d]]
+            },
+            objectfiles = {
+                [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\main.cpp.obj]]
+            },
+            sourcekind = "cxx",
+            rulename = "c++.build"
+        },
+        ["c++.modules.built_artifacts"] = {
+            headerunits = { },
+            modules = {
+                [[TEST\TEST_CORE\test\test_core.cppm]],
+                [[TEST\TEST_CORE\test\test_type_traits.cppm]],
+                [[TEST\TEST_CORE\main.cpp]]
+            },
+            objectfiles = {
+                [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
+                [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\test\test_core.cppm.obj]],
+                [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\test\test_type_traits.cppm.obj]]
+            }
+        },
+        sourcebatch_sum = "4ee3140378d1b06f"
+    },
+    flx_modules = {
+        sourcebatch_sum = "ad9cc934916497c8",
+        module_mapper = {
+            ["CORE\\include\\flx\\memory.cppm"] = ref("flx_main", "module_mapper", "flx.memory"),
+            ["CORE\\include\\flx\\terminate.cppm"] = ref("flx_main", "module_mapper", "flx.terminate"),
+            ["CORE\\include\\flx\\flx.cppm"] = ref("flx_main", "module_mapper", "flx"),
+            ["CORE\\include\\flx\\assert.cppm"] = ref("flx_main", "module_mapper", "flx.assert"),
+            ["flx.type_traits"] = {
+                method = "by-name",
+                deps = ref("flx_main", "module_mapper", "flx.type_traits", "deps"),
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                sourcefile = [[CORE\include\flx\type_traits.cppm]],
+                name = "flx.type_traits",
+                interface = true,
+                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.gcm]]
+            },
+            ["CORE\\include\\flx\\utility.cppm"] = ref("flx_main", "module_mapper", "flx.utility"),
+            ["flx.terminate"] = {
+                method = "by-name",
+                deps = ref("flx_main", "module_mapper", "flx.terminate", "deps"),
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                sourcefile = [[CORE\include\flx\terminate.cppm]],
+                name = "flx.terminate",
+                interface = true,
+                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.gcm]]
+            },
+            ["flx.assert"] = {
+                method = "by-name",
+                deps = ref("flx_main", "module_mapper", "flx.assert", "deps"),
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\assert.cppm.obj]],
+                sourcefile = [[CORE\include\flx\assert.cppm]],
+                name = "flx.assert",
+                interface = true,
+                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.gcm]]
+            },
+            flx = {
+                method = "by-name",
+                deps = ref("flx_main", "module_mapper", "flx", "deps"),
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\flx.cppm.obj]],
+                sourcefile = [[CORE\include\flx\flx.cppm]],
+                name = "flx",
+                interface = true,
+                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\856d28485f885d33\flx.gcm]]
+            },
+            ["flx.memory"] = {
+                method = "by-name",
+                deps = ref("flx_main", "module_mapper", "flx.memory", "deps"),
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\memory.cppm.obj]],
+                sourcefile = [[CORE\include\flx\memory.cppm]],
+                name = "flx.memory",
+                interface = true,
+                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.gcm]]
+            },
+            ["flx.utility"] = {
+                method = "by-name",
+                deps = ref("flx_main", "module_mapper", "flx.utility", "deps"),
+                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\utility.cppm.obj]],
+                sourcefile = [[CORE\include\flx\utility.cppm]],
+                name = "flx.utility",
+                interface = true,
+                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.gcm]]
+            },
+            ["CORE\\include\\flx\\type_traits.cppm"] = ref("flx_main", "module_mapper", "flx.type_traits")
+        },
+        ["c++.modules.built_artifacts"] = {
+            headerunits = { },
             modules = {
                 [[CORE\include\flx\assert.cppm]],
                 [[CORE\include\flx\terminate.cppm]],
@@ -125,1200 +1383,23 @@
                 [[CORE\include\flx\utility.cppm]],
                 [[CORE\include\flx\memory.cppm]],
                 [[CORE\include\flx\flx.cppm]]
+            },
+            objectfiles = {
+                [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\assert.cppm.obj]],
+                [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\terminate.cppm.obj]],
+                [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\type_traits.cppm.obj]],
+                [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\utility.cppm.obj]],
+                [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\memory.cppm.obj]],
+                [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\flx.cppm.obj]]
             }
         },
-        module_mapper = {
-            ["CORE\\include\\flx\\type_traits.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\type_traits.cppm.obj]],
-                deps = ref("flx_modules", "c++.modules", [[CORE\include\flx\type_traits.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx.type_traits",
-                sourcefile = [[CORE\include\flx\type_traits.cppm]],
-                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.gcm]]
-            },
-            ["flx.utility"] = ref("flx_modules", "c++.modules", [[CORE\include\flx\utility.cppm]]),
-            flx = ref("flx_modules", "c++.modules", [[CORE\include\flx\flx.cppm]]),
-            ["flx.type_traits"] = ref("flx_modules", "c++.modules", [[CORE\include\flx\type_traits.cppm]]),
-            ["CORE\\include\\flx\\memory.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\memory.cppm.obj]],
-                deps = ref("flx_modules", "c++.modules", [[CORE\include\flx\memory.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx.memory",
-                sourcefile = [[CORE\include\flx\memory.cppm]],
-                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.gcm]]
-            },
-            ["CORE\\include\\flx\\assert.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\assert.cppm.obj]],
-                deps = ref("flx_modules", "c++.modules", [[CORE\include\flx\assert.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx.assert",
-                sourcefile = [[CORE\include\flx\assert.cppm]],
-                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.gcm]]
-            },
-            ["CORE\\include\\flx\\terminate.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                deps = ref("flx_modules", "c++.modules", [[CORE\include\flx\terminate.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx.terminate",
-                sourcefile = [[CORE\include\flx\terminate.cppm]],
-                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.gcm]]
-            },
-            ["CORE\\include\\flx\\utility.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\utility.cppm.obj]],
-                deps = ref("flx_modules", "c++.modules", [[CORE\include\flx\utility.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx.utility",
-                sourcefile = [[CORE\include\flx\utility.cppm]],
-                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.gcm]]
-            },
-            ["flx.terminate"] = ref("flx_modules", "c++.modules", [[CORE\include\flx\terminate.cppm]]),
-            ["CORE\\include\\flx\\flx.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\flx.cppm.obj]],
-                deps = ref("flx_modules", "c++.modules", [[CORE\include\flx\flx.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx",
-                sourcefile = [[CORE\include\flx\flx.cppm]],
-                bmifile = [[build\.gens\flx_modules\mingw\x64\release\rules\bmi\cache\interfaces\856d28485f885d33\flx.gcm]]
-            },
-            ["flx.memory"] = ref("flx_modules", "c++.modules", [[CORE\include\flx\memory.cppm]]),
-            ["flx.assert"] = ref("flx_modules", "c++.modules", [[CORE\include\flx\assert.cppm]])
-        }
-    },
-    flx_main = {
-        ["c++.build.sourcebatch"] = {
-            sourcefiles = {
-                [[CORE\main.cpp]]
-            },
-            sourcekind = "cxx",
-            objectfiles = {
-                [[build\.objs\flx_main\mingw\x64\release\CORE\main.cpp.obj]]
-            },
-            dependfiles = {
-                [[build\.deps\flx_main\mingw\x64\release\CORE\main.cpp.obj.d]]
-            },
-            rulename = "c++.build"
-        },
-        sourcebatch_sum = "acef98d539799043",
         ["c++.modules"] = {
-            ["CORE\\main.cpp"] = {
-                objectfile = [[build\.objs\flx_main\mingw\x64\release\CORE\main.cpp.obj]],
-                sourcefile = [[CORE\main.cpp]],
-                deps = {
-                    ["flx.terminate"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.terminate",
-                        unique = false
-                    },
-                    ["flx.type_traits"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.type_traits",
-                        unique = false
-                    },
-                    ["flx.memory"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.memory",
-                        unique = false
-                    },
-                    ["flx.assert"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.assert",
-                        unique = false
-                    }
-                }
-            },
-            ["CORE\\include\\flx\\utility.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\utility.cppm.obj]],
-                deps = { },
-                interface = true,
-                sourcefile = [[CORE\include\flx\utility.cppm]],
-                name = "flx.utility",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.gcm]]
-            },
-            ["CORE\\include\\flx\\terminate.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                deps = { },
-                interface = true,
-                sourcefile = [[CORE\include\flx\terminate.cppm]],
-                name = "flx.terminate",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.gcm]]
-            },
-            ["CORE\\include\\flx\\memory.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\memory.cppm.obj]],
-                deps = {
-                    ["flx.terminate"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.terminate",
-                        unique = false
-                    },
-                    ["flx.assert"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.assert",
-                        unique = false
-                    }
-                },
-                interface = true,
-                sourcefile = [[CORE\include\flx\memory.cppm]],
-                name = "flx.memory",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.gcm]]
-            },
-            ["CORE\\include\\flx\\type_traits.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\type_traits.cppm.obj]],
-                deps = { },
-                interface = true,
-                sourcefile = [[CORE\include\flx\type_traits.cppm]],
-                name = "flx.type_traits",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.gcm]]
-            },
-            ["CORE\\include\\flx\\assert.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\assert.cppm.obj]],
-                deps = { },
-                interface = true,
-                sourcefile = [[CORE\include\flx\assert.cppm]],
-                name = "flx.assert",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.gcm]]
-            },
-            ["CORE\\include\\flx\\flx.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\flx.cppm.obj]],
-                sourcefile = [[CORE\include\flx\flx.cppm]],
-                deps = { }
-            }
-        },
-        ["c++.modules.built_artifacts"] = {
-            headerunits = { },
-            objectfiles = { },
-            modules = {
-                [[CORE\main.cpp]]
-            }
-        },
-        module_mapper = {
-            ["CORE\\main.cpp"] = {
-                objectfile = [[build\.objs\flx_main\mingw\x64\release\CORE\main.cpp.obj]],
-                sourcefile = [[CORE\main.cpp]],
-                deps = ref("flx_main", "c++.modules", [[CORE\main.cpp]], "deps"),
-                sourcealias = true
-            },
-            ["CORE\\include\\flx\\type_traits.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\type_traits.cppm.obj]],
-                deps = ref("flx_main", "c++.modules", [[CORE\include\flx\type_traits.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx.type_traits",
-                sourcefile = [[CORE\include\flx\type_traits.cppm]],
-                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.gcm]]
-            },
-            ["flx.assert"] = ref("flx_modules", "module_mapper", [[CORE\include\flx\assert.cppm]]),
-            flx = ref("flx_modules", "module_mapper", [[CORE\include\flx\flx.cppm]]),
-            ["flx.type_traits"] = ref("flx_modules", "module_mapper", [[CORE\include\flx\type_traits.cppm]]),
-            ["CORE\\include\\flx\\memory.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\memory.cppm.obj]],
-                deps = ref("flx_main", "c++.modules", [[CORE\include\flx\memory.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx.memory",
-                sourcefile = [[CORE\include\flx\memory.cppm]],
-                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.gcm]]
-            },
-            ["CORE\\include\\flx\\utility.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\utility.cppm.obj]],
-                deps = ref("flx_main", "c++.modules", [[CORE\include\flx\utility.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx.utility",
-                sourcefile = [[CORE\include\flx\utility.cppm]],
-                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.gcm]]
-            },
-            ["CORE\\include\\flx\\terminate.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                deps = ref("flx_main", "c++.modules", [[CORE\include\flx\terminate.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx.terminate",
-                sourcefile = [[CORE\include\flx\terminate.cppm]],
-                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.gcm]]
-            },
-            ["CORE\\include\\flx\\assert.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\assert.cppm.obj]],
-                deps = ref("flx_main", "c++.modules", [[CORE\include\flx\assert.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx.assert",
-                sourcefile = [[CORE\include\flx\assert.cppm]],
-                bmifile = [[build\.gens\flx_main\mingw\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.gcm]]
-            },
-            ["flx.terminate"] = ref("flx_modules", "module_mapper", [[CORE\include\flx\terminate.cppm]]),
-            ["CORE\\include\\flx\\flx.cppm"] = {
-                objectfile = [[build\.objs\flx_modules\mingw\x64\release\CORE\include\flx\flx.cppm.obj]],
-                sourcefile = [[CORE\include\flx\flx.cppm]],
-                deps = ref("flx_main", "c++.modules", [[CORE\include\flx\flx.cppm]], "deps"),
-                sourcealias = true
-            },
-            ["flx.memory"] = ref("flx_modules", "module_mapper", [[CORE\include\flx\memory.cppm]]),
-            ["flx.utility"] = ref("flx_modules", "module_mapper", [[CORE\include\flx\utility.cppm]])
-        }
-    },
-    flx_core = {
-        ["c++.build.sourcebatch"] = {
-            sourcefiles = {
-                [[CORE\main.cpp]]
-            },
-            sourcekind = "cxx",
-            objectfiles = {
-                [[build\.objs\flx_core\windows\x64\release\CORE\main.cpp.obj]]
-            },
-            dependfiles = {
-                [[build\.deps\flx_core\windows\x64\release\CORE\main.cpp.obj.d]]
-            },
-            rulename = "c++.build"
-        },
-        sourcebatch_sum = "bd580dc2a141f422",
-        ["c++.modules"] = {
-            ["CORE\\main.cpp"] = {
-                objectfile = [[build\.objs\flx_core\windows\x64\release\CORE\main.cpp.obj]],
-                sourcefile = [[CORE\main.cpp]],
-                deps = {
-                    ["flx.terminate"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.terminate",
-                        unique = false
-                    },
-                    ["flx.type_traits"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.type_traits",
-                        unique = false
-                    },
-                    ["flx.memory"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.memory",
-                        unique = false
-                    },
-                    ["flx.assert"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.assert",
-                        unique = false
-                    }
-                }
-            },
-            ["CORE\\include\\flx\\type_traits.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                name = "flx.type_traits",
-                sourcefile = [[CORE\include\flx\type_traits.cppm]],
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
-            },
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
-                method = "by-name",
-                interface = true,
-                name = "std",
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
-            },
-            ["CORE\\include\\flx\\flx.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
-                sourcefile = [[CORE\include\flx\flx.cppm]]
-            },
-            ["CORE\\include\\flx\\memory.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
-                deps = {
-                    ["flx.terminate"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.terminate",
-                        unique = false
-                    },
-                    ["flx.assert"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.assert",
-                        unique = false
-                    }
-                },
-                interface = true,
-                sourcefile = [[CORE\include\flx\memory.cppm]],
-                name = "flx.memory",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
-            },
-            ["CORE\\include\\flx\\assert.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                name = "flx.assert",
-                sourcefile = [[CORE\include\flx\assert.cppm]],
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
-            },
-            ["CORE\\include\\flx\\terminate.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                name = "flx.terminate",
-                sourcefile = [[CORE\include\flx\terminate.cppm]],
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
-            },
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
-                deps = {
-                    std = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "std",
-                        unique = false
-                    }
-                },
-                interface = true,
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
-                name = "std.compat",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
-            },
-            ["CORE\\include\\flx\\utility.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                name = "flx.utility",
-                sourcefile = [[CORE\include\flx\utility.cppm]],
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
-            }
-        },
-        ["c++.modules.built_artifacts"] = {
-            headerunits = { },
-            objectfiles = {
-                [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]]
-            },
-            modules = {
-                [[CORE\main.cpp]]
-            }
-        },
-        module_mapper = {
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
-                deps = ref("flx_core", "c++.modules", [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "std.compat",
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
-            },
-            ["CORE\\include\\flx\\type_traits.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "flx.type_traits",
-                sourcefile = [[CORE\include\flx\type_traits.cppm]],
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
-            },
-            ["flx.utility"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "flx.utility",
-                sourcefile = [[CORE\include\flx\utility.cppm]],
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
-            },
-            ["flx.terminate"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "flx.terminate",
-                sourcefile = [[CORE\include\flx\terminate.cppm]],
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
-            },
-            std = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "std",
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
-            },
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "std",
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
-            },
-            ["std.compat"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
-                deps = {
-                    std = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "std",
-                        unique = false
-                    }
-                },
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "std.compat",
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
-            },
-            ["flx.type_traits"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "flx.type_traits",
-                sourcefile = [[CORE\include\flx\type_traits.cppm]],
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
-            },
-            ["CORE\\include\\flx\\memory.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
-                deps = ref("flx_core", "c++.modules", [[CORE\include\flx\memory.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx.memory",
-                sourcefile = [[CORE\include\flx\memory.cppm]],
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
-            },
-            ["CORE\\include\\flx\\assert.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "flx.assert",
-                sourcefile = [[CORE\include\flx\assert.cppm]],
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
-            },
-            ["CORE\\include\\flx\\terminate.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "flx.terminate",
-                sourcefile = [[CORE\include\flx\terminate.cppm]],
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
-            },
-            ["CORE\\main.cpp"] = {
-                objectfile = [[build\.objs\flx_core\windows\x64\release\CORE\main.cpp.obj]],
-                sourcefile = [[CORE\main.cpp]],
-                deps = ref("flx_core", "c++.modules", [[CORE\main.cpp]], "deps"),
-                sourcealias = true
-            },
-            ["CORE\\include\\flx\\flx.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
-                sourcefile = [[CORE\include\flx\flx.cppm]],
-                sourcealias = true
-            },
-            ["CORE\\include\\flx\\utility.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "flx.utility",
-                sourcefile = [[CORE\include\flx\utility.cppm]],
-                bmifile = [[build\.gens\flx_core\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
-            },
-            ["flx.memory"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
-                deps = {
-                    ["flx.terminate"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.terminate",
-                        unique = false
-                    },
-                    ["flx.assert"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.assert",
-                        unique = false
-                    }
-                },
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx.memory",
-                sourcefile = [[CORE\include\flx\memory.cppm]],
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
-            },
-            ["flx.assert"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "flx.assert",
-                sourcefile = [[CORE\include\flx\assert.cppm]],
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
-            }
-        }
-    },
-    flx_dummy = {
-        ["c++.build.sourcebatch"] = {
-            sourcefiles = {
-                [[CORE\source\dummy.cpp]]
-            },
-            sourcekind = "cxx",
-            objectfiles = {
-                [[build\.objs\flx_dummy\windows\x64\release\CORE\source\dummy.cpp.obj]]
-            },
-            dependfiles = {
-                [[build\.deps\flx_dummy\windows\x64\release\CORE\source\dummy.cpp.obj.d]]
-            },
-            rulename = "c++.build"
-        },
-        sourcebatch_sum = "7f634a950ca9afd4",
-        ["c++.modules"] = {
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
-                deps = {
-                    std = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "std",
-                        unique = false
-                    }
-                },
-                interface = true,
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
-                name = "std.compat",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
-            },
-            ["CORE\\include\\flx\\type_traits.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                name = "flx.type_traits",
-                sourcefile = [[CORE\include\flx\type_traits.cppm]],
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
-            },
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
-                method = "by-name",
-                interface = true,
-                name = "std",
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
-            },
-            ["CORE\\include\\flx\\flx.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
-                sourcefile = [[CORE\include\flx\flx.cppm]]
-            },
-            ["CORE\\include\\flx\\memory.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
-                deps = {
-                    ["flx.terminate"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.terminate",
-                        unique = false
-                    },
-                    ["flx.assert"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.assert",
-                        unique = false
-                    }
-                },
-                interface = true,
-                sourcefile = [[CORE\include\flx\memory.cppm]],
-                name = "flx.memory",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
-            },
-            ["CORE\\include\\flx\\assert.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                name = "flx.assert",
-                sourcefile = [[CORE\include\flx\assert.cppm]],
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
-            },
-            ["CORE\\include\\flx\\terminate.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                name = "flx.terminate",
-                sourcefile = [[CORE\include\flx\terminate.cppm]],
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
-            },
-            ["CORE\\include\\flx\\utility.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                name = "flx.utility",
-                sourcefile = [[CORE\include\flx\utility.cppm]],
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
-            },
-            ["CORE\\source\\dummy.cpp"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\source\dummy.cpp.obj]],
-                sourcefile = [[CORE\source\dummy.cpp]]
-            }
-        },
-        ["c++.modules.built_artifacts"] = {
-            headerunits = { },
-            objectfiles = {
-                [[build\.objs\flx_dummy\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
-                [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
-                [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
-                [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
-                [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
-                [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]]
-            },
-            modules = {
-                [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
-                [[CORE\include\flx\assert.cppm]],
-                [[CORE\include\flx\terminate.cppm]],
-                [[CORE\include\flx\memory.cppm]],
-                [[CORE\include\flx\flx.cppm]],
-                [[CORE\include\flx\utility.cppm]],
-                [[CORE\source\dummy.cpp]],
-                [[CORE\include\flx\type_traits.cppm]]
-            }
-        },
-        module_mapper = {
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
-                deps = ref("flx_dummy", "c++.modules", [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "std.compat",
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
-            },
-            ["CORE\\include\\flx\\type_traits.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "flx.type_traits",
-                sourcefile = [[CORE\include\flx\type_traits.cppm]],
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
-            },
-            ["CORE\\source\\dummy.cpp"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\source\dummy.cpp.obj]],
-                sourcefile = [[CORE\source\dummy.cpp]],
-                sourcealias = true
-            },
-            ["flx.terminate"] = ref("flx_dummy", "c++.modules", [[CORE\include\flx\terminate.cppm]]),
-            std = ref("flx_dummy", "c++.modules", [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]]),
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "std",
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
-            },
-            ["std.compat"] = ref("flx_dummy", "c++.modules", [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]]),
-            ["flx.type_traits"] = ref("flx_dummy", "c++.modules", [[CORE\include\flx\type_traits.cppm]]),
-            ["CORE\\include\\flx\\memory.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
-                deps = ref("flx_dummy", "c++.modules", [[CORE\include\flx\memory.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                name = "flx.memory",
-                sourcefile = [[CORE\include\flx\memory.cppm]],
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
-            },
-            ["CORE\\include\\flx\\assert.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "flx.assert",
-                sourcefile = [[CORE\include\flx\assert.cppm]],
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
-            },
-            ["CORE\\include\\flx\\terminate.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "flx.terminate",
-                sourcefile = [[CORE\include\flx\terminate.cppm]],
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
-            },
-            ["CORE\\include\\flx\\flx.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
-                sourcefile = [[CORE\include\flx\flx.cppm]],
-                sourcealias = true
-            },
-            ["flx.utility"] = ref("flx_dummy", "c++.modules", [[CORE\include\flx\utility.cppm]]),
-            ["CORE\\include\\flx\\utility.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcealias = true,
-                name = "flx.utility",
-                sourcefile = [[CORE\include\flx\utility.cppm]],
-                bmifile = [[build\.gens\flx_dummy\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
-            },
-            ["flx.memory"] = ref("flx_dummy", "c++.modules", [[CORE\include\flx\memory.cppm]]),
-            ["flx.assert"] = ref("flx_dummy", "c++.modules", [[CORE\include\flx\assert.cppm]])
-        }
-    },
-    test_core = {
-        ["c++.build.sourcebatch"] = {
-            sourcefiles = {
-                [[TEST\TEST_CORE\main.cpp]]
-            },
-            sourcekind = "cxx",
-            objectfiles = {
-                [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\main.cpp.obj]]
-            },
-            dependfiles = {
-                [[build\.deps\test_core\windows\x64\release\TEST\TEST_CORE\main.cpp.obj.d]]
-            },
-            rulename = "c++.build"
-        },
-        sourcebatch_sum = "4ee3140378d1b06f",
-        ["c++.modules"] = {
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
-                deps = {
-                    std = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "std",
-                        unique = false
-                    }
-                },
-                interface = true,
-                method = "by-name",
-                name = "std.compat",
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
-            },
-            ["CORE\\include\\flx\\type_traits.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcefile = [[CORE\include\flx\type_traits.cppm]],
-                name = "flx.type_traits",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
-            },
-            ["TEST\\TEST_CORE\\main.cpp"] = {
-                objectfile = [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\main.cpp.obj]],
-                sourcefile = [[TEST\TEST_CORE\main.cpp]],
-                deps = {
-                    ["test.core"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "test.core",
-                        unique = false
-                    },
-                    ["test.type_traits"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "test.type_traits",
-                        unique = false
-                    }
-                }
-            },
-            ["TEST\\TEST_CORE\\test\\test_core.cppm"] = {
-                objectfile = [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\test\test_core.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcefile = [[TEST\TEST_CORE\test\test_core.cppm]],
-                name = "test.core",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\415160e37bab68cf\test.core.pcm]]
-            },
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
-                method = "by-name",
-                interface = true,
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
-                name = "std",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
-            },
-            ["CORE\\include\\flx\\flx.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
-                sourcefile = [[CORE\include\flx\flx.cppm]]
-            },
-            ["CORE\\include\\flx\\memory.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
-                deps = {
-                    ["flx.terminate"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.terminate",
-                        unique = false
-                    },
-                    ["flx.assert"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.assert",
-                        unique = false
-                    }
-                },
-                interface = true,
-                method = "by-name",
-                name = "flx.memory",
-                sourcefile = [[CORE\include\flx\memory.cppm]],
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
-            },
-            ["CORE\\include\\flx\\utility.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcefile = [[CORE\include\flx\utility.cppm]],
-                name = "flx.utility",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
-            },
-            ["CORE\\include\\flx\\terminate.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcefile = [[CORE\include\flx\terminate.cppm]],
-                name = "flx.terminate",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
-            },
-            ["CORE\\include\\flx\\assert.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                sourcefile = [[CORE\include\flx\assert.cppm]],
-                name = "flx.assert",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
-            },
-            ["TEST\\TEST_CORE\\test\\test_type_traits.cppm"] = {
-                objectfile = [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\test\test_type_traits.cppm.obj]],
-                deps = {
-                    ["test.core"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "test.core",
-                        unique = false
-                    },
-                    ["flx.type_traits"] = {
-                        headerunit = false,
-                        method = "by-name",
-                        key = false,
-                        name = "flx.type_traits",
-                        unique = false
-                    }
-                },
-                interface = true,
-                method = "by-name",
-                name = "test.type_traits",
-                sourcefile = [[TEST\TEST_CORE\test\test_type_traits.cppm]],
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\7f04e307523fd972\test.type_traits.pcm]]
-            }
-        },
-        ["c++.modules.built_artifacts"] = {
-            headerunits = { },
-            objectfiles = {
-                [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
-                [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\test\test_core.cppm.obj]],
-                [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\test\test_type_traits.cppm.obj]]
-            },
-            modules = {
-                [[TEST\TEST_CORE\test\test_core.cppm]],
-                [[TEST\TEST_CORE\test\test_type_traits.cppm]],
-                [[TEST\TEST_CORE\main.cpp]]
-            }
-        },
-        module_mapper = {
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
-                deps = ref("test_core", "c++.modules", [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
-                name = "std.compat",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
-            },
-            ["TEST\\TEST_CORE\\main.cpp"] = {
-                objectfile = [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\main.cpp.obj]],
-                sourcefile = [[TEST\TEST_CORE\main.cpp]],
-                deps = ref("test_core", "c++.modules", [[TEST\TEST_CORE\main.cpp]], "deps"),
-                sourcealias = true
-            },
-            ["TEST\\TEST_CORE\\test\\test_core.cppm"] = {
-                objectfile = [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\test\test_core.cppm.obj]],
-                sourcealias = true,
-                interface = true,
-                sourcefile = [[TEST\TEST_CORE\test\test_core.cppm]],
-                name = "test.core",
-                method = "by-name",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\415160e37bab68cf\test.core.pcm]]
-            },
-            ["std.compat"] = ref("flx_core", "module_mapper", "std.compat"),
-            ["flx.type_traits"] = ref("flx_core", "module_mapper", "flx.type_traits"),
-            ["flx.terminate"] = ref("flx_core", "module_mapper", "flx.terminate"),
-            ["CORE\\include\\flx\\utility.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
-                sourcealias = true,
-                interface = true,
-                sourcefile = [[CORE\include\flx\utility.cppm]],
-                name = "flx.utility",
-                method = "by-name",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
-            },
-            ["test.core"] = ref("test_core", "c++.modules", [[TEST\TEST_CORE\test\test_core.cppm]]),
-            ["CORE\\include\\flx\\type_traits.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
-                sourcealias = true,
-                interface = true,
-                sourcefile = [[CORE\include\flx\type_traits.cppm]],
-                name = "flx.type_traits",
-                method = "by-name",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
-            },
-            ["test.type_traits"] = ref("test_core", "c++.modules", [[TEST\TEST_CORE\test\test_type_traits.cppm]]),
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
-                sourcealias = true,
-                interface = true,
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
-                name = "std",
-                method = "by-name",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
-            },
-            ["flx.utility"] = ref("flx_core", "module_mapper", "flx.utility"),
-            ["CORE\\include\\flx\\memory.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
-                deps = ref("test_core", "c++.modules", [[CORE\include\flx\memory.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                sourcefile = [[CORE\include\flx\memory.cppm]],
-                name = "flx.memory",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
-            },
-            ["CORE\\include\\flx\\assert.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
-                sourcealias = true,
-                interface = true,
-                sourcefile = [[CORE\include\flx\assert.cppm]],
-                name = "flx.assert",
-                method = "by-name",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
-            },
-            ["CORE\\include\\flx\\terminate.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                sourcealias = true,
-                interface = true,
-                sourcefile = [[CORE\include\flx\terminate.cppm]],
-                name = "flx.terminate",
-                method = "by-name",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
-            },
-            std = ref("flx_core", "module_mapper", "std"),
-            ["CORE\\include\\flx\\flx.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
-                sourcefile = [[CORE\include\flx\flx.cppm]],
-                sourcealias = true
-            },
-            ["TEST\\TEST_CORE\\test\\test_type_traits.cppm"] = {
-                objectfile = [[build\.objs\test_core\windows\x64\release\TEST\TEST_CORE\test\test_type_traits.cppm.obj]],
-                deps = ref("test_core", "c++.modules", [[TEST\TEST_CORE\test\test_type_traits.cppm]], "deps"),
-                sourcealias = true,
-                interface = true,
-                method = "by-name",
-                sourcefile = [[TEST\TEST_CORE\test\test_type_traits.cppm]],
-                name = "test.type_traits",
-                bmifile = [[build\.gens\test_core\windows\x64\release\rules\bmi\cache\interfaces\7f04e307523fd972\test.type_traits.pcm]]
-            },
-            ["flx.memory"] = ref("flx_core", "module_mapper", "flx.memory"),
-            ["flx.assert"] = ref("flx_core", "module_mapper", "flx.assert")
-        }
-    },
-    flx_dummy2 = {
-        ["c++.build.sourcebatch"] = {
-            sourcefiles = {
-                [[CORE\source\dummy2.cpp]]
-            },
-            sourcekind = "cxx",
-            objectfiles = {
-                [[build\.objs\flx_dummy2\windows\x64\release\CORE\source\dummy2.cpp.obj]]
-            },
-            dependfiles = {
-                [[build\.deps\flx_dummy2\windows\x64\release\CORE\source\dummy2.cpp.obj.d]]
-            },
-            rulename = "c++.build"
-        },
-        sourcebatch_sum = "1d3a1320759c35a2",
-        ["c++.modules"] = {
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.compat.ixx.obj]],
-                deps = ref("flx_core", "module_mapper", "std.compat", "deps"),
-                interface = true,
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]],
-                name = "std.compat",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\14538ca850f74920\std.compat.pcm]]
-            },
-            ["CORE\\include\\flx\\type_traits.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                name = "flx.type_traits",
-                sourcefile = [[CORE\include\flx\type_traits.cppm]],
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\3555a5432b63a77a\flx.type_traits.pcm]]
-            },
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
-                method = "by-name",
-                interface = true,
-                name = "std",
-                sourcefile = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\8381e1260223d99f\std.pcm]]
-            },
-            ["CORE\\include\\flx\\flx.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
-                sourcefile = [[CORE\include\flx\flx.cppm]]
-            },
-            ["CORE\\include\\flx\\memory.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
-                deps = ref("flx_core", "module_mapper", "flx.memory", "deps"),
-                interface = true,
-                sourcefile = [[CORE\include\flx\memory.cppm]],
-                name = "flx.memory",
-                method = "by-name",
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\4d8956f0b2b33026\flx.memory.pcm]]
-            },
-            ["CORE\\include\\flx\\utility.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                name = "flx.utility",
-                sourcefile = [[CORE\include\flx\utility.cppm]],
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\aabc3d42faf40650\flx.utility.pcm]]
-            },
-            ["CORE\\include\\flx\\terminate.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                name = "flx.terminate",
-                sourcefile = [[CORE\include\flx\terminate.cppm]],
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\df229ed5a79ad8ea\flx.terminate.pcm]]
-            },
-            ["CORE\\source\\dummy2.cpp"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\source\dummy2.cpp.obj]],
-                sourcefile = [[CORE\source\dummy2.cpp]]
-            },
-            ["CORE\\include\\flx\\assert.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
-                method = "by-name",
-                interface = true,
-                name = "flx.assert",
-                sourcefile = [[CORE\include\flx\assert.cppm]],
-                bmifile = [[build\.gens\flx_dummy2\windows\x64\release\rules\bmi\cache\interfaces\4077b3dc5b6a1776\flx.assert.pcm]]
-            }
-        },
-        ["c++.modules.built_artifacts"] = {
-            headerunits = { },
-            objectfiles = {
-                [[build\.objs\flx_dummy2\windows\x64\release\89dfb9bae37370825d30336e585f33cd\std.ixx.obj]],
-                [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\assert.cppm.obj]],
-                [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\terminate.cppm.obj]],
-                [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\memory.cppm.obj]],
-                [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
-                [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\utility.cppm.obj]],
-                [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\type_traits.cppm.obj]]
-            },
-            modules = {
-                [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]],
-                [[CORE\include\flx\assert.cppm]],
-                [[CORE\include\flx\terminate.cppm]],
-                [[CORE\include\flx\memory.cppm]],
-                [[CORE\include\flx\flx.cppm]],
-                [[CORE\source\dummy2.cpp]],
-                [[CORE\include\flx\utility.cppm]],
-                [[CORE\include\flx\type_traits.cppm]]
-            }
-        },
-        module_mapper = {
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.compat.ixx"] = ref("flx_core", "module_mapper", "std.compat"),
-            ["CORE\\include\\flx\\type_traits.cppm"] = ref("flx_core", "module_mapper", "flx.type_traits"),
-            ["flx.utility"] = ref("flx_dummy2", "c++.modules", [[CORE\include\flx\utility.cppm]]),
-            ["flx.terminate"] = ref("flx_dummy2", "c++.modules", [[CORE\include\flx\terminate.cppm]]),
-            std = ref("flx_dummy2", "c++.modules", [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.ixx]]),
-            ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\modules\\std.ixx"] = ref("flx_core", "module_mapper", "std"),
-            ["std.compat"] = ref("flx_dummy2", "c++.modules", [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\modules\std.compat.ixx]]),
-            ["flx.type_traits"] = ref("flx_dummy2", "c++.modules", [[CORE\include\flx\type_traits.cppm]]),
-            ["CORE\\include\\flx\\memory.cppm"] = ref("flx_core", "module_mapper", "flx.memory"),
-            ["CORE\\include\\flx\\assert.cppm"] = ref("flx_core", "module_mapper", "flx.assert"),
-            ["CORE\\include\\flx\\terminate.cppm"] = ref("flx_core", "module_mapper", "flx.terminate"),
-            ["CORE\\include\\flx\\flx.cppm"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\include\flx\flx.cppm.obj]],
-                sourcefile = [[CORE\include\flx\flx.cppm]],
-                sourcealias = true
-            },
-            ["CORE\\source\\dummy2.cpp"] = {
-                objectfile = [[build\.objs\flx_dummy2\windows\x64\release\CORE\source\dummy2.cpp.obj]],
-                sourcefile = [[CORE\source\dummy2.cpp]],
-                sourcealias = true
-            },
-            ["CORE\\include\\flx\\utility.cppm"] = ref("flx_core", "module_mapper", "flx.utility"),
-            ["flx.memory"] = ref("flx_dummy2", "c++.modules", [[CORE\include\flx\memory.cppm]]),
-            ["flx.assert"] = ref("flx_dummy2", "c++.modules", [[CORE\include\flx\assert.cppm]])
+            ["CORE\\include\\flx\\memory.cppm"] = ref("flx_modules", "module_mapper", "flx.memory"),
+            ["CORE\\include\\flx\\terminate.cppm"] = ref("flx_modules", "module_mapper", "flx.terminate"),
+            ["CORE\\include\\flx\\flx.cppm"] = ref("flx_modules", "module_mapper", "flx"),
+            ["CORE\\include\\flx\\assert.cppm"] = ref("flx_modules", "module_mapper", "flx.assert"),
+            ["CORE\\include\\flx\\utility.cppm"] = ref("flx_modules", "module_mapper", "flx.utility"),
+            ["CORE\\include\\flx\\type_traits.cppm"] = ref("flx_modules", "module_mapper", "flx.type_traits")
         }
     }
 }
