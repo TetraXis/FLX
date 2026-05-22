@@ -38,6 +38,32 @@ for _, src in ipairs(core_sources) do
     table.insert(all_libs, lib_target)
 end
 
+target("clean_all")
+    set_kind("phony")
+    on_run(function ()
+        local function rmdir(path)
+            if os.isdir(path) then
+                os.rmdir(path)
+                print("removed " .. path)
+            end
+        end
+        local function rmfile(path)
+            if os.isfile(path) then
+                os.remove(path)
+                print("removed " .. path)
+            end
+        end
+        -- Remove build directory
+        rmdir("build")
+        -- Remove .xmake cache directory
+        rmdir(".xmake")
+        -- Remove local configuration cache
+        rmfile("xmake.lua.local")
+        rmfile(".clang-format")
+        rmfile(".clang-tidy")
+        print("Full clean completed. Run 'xmake f' to reconfigure.")
+    end)
+
 target("install_flx")
     set_kind("phony")
     add_deps(all_libs)
@@ -76,6 +102,7 @@ target("install_flx")
 
 target("flx_core")
     set_kind("binary")
+    add_deps("clean_all")
     add_files("CORE/main.cpp")
     -- ensure installation is done before linking
     add_deps("install_flx")
@@ -94,6 +121,7 @@ target("flx_core")
 
 target("test_core")
     set_kind("binary")
+    add_deps("clean_all")
     add_deps("install_flx")
     add_linkdirs(path.join(os.projectdir(), "INSTALL", "$(plat)-$(arch)-$(mode)", "flx_core", "libs"))
     for _, lib in ipairs(all_libs) do

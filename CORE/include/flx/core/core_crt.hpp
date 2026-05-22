@@ -7,7 +7,8 @@
 
 
 
-// ===== ISO C headers ===== //
+// ===== ISO C Headers ===== //
+// https://cppreference.com/c/header
 
 #include "flx/core/crt/iso_c/core_crt_iso_c_assert.hpp"
 #include "flx/core/crt/iso_c/core_crt_iso_c_complex.hpp"
@@ -43,7 +44,9 @@
 
 
 
-// ===== POSIX headers ===== //
+// ===== POSIX Headers ===== //
+// https://pubs.opengroup.org/onlinepubs/9699919799/idx/head.html
+// https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/crt-alphabetical-function-reference?view=msvc-170
 
 #include "flx/core/crt/posix/core_crt_posix_aio.hpp"
 #include "flx/core/crt/posix/core_crt_posix_arpa_inet.hpp"

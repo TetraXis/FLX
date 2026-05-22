@@ -36,10 +36,7 @@ extern "C"
 
 namespace flx::crt
 {
-	inline i32 rand() noexcept
-	{
-		return ::rand();
-	}
+	inline i32	rand()	noexcept { return ::rand(); }
 } // namespace flx::crt
 
 
