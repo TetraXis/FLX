@@ -182,6 +182,10 @@
 	#error "Could not resolve C Runtime. Your CRT is likely linked after FLX. Consider using 'FLX_OPT_FORCE_CRT_*'."
 #endif
 
+#if FLX_ENV_CRT == FLX_ENV_CRT_MSVCRT
+	#error "MSVCRT is depricated. If you don't have UCRT you may remove this constraint on your own risk."
+#endif
+
 
 
 #endif //FLX_INC_CORE_ENV_HPP

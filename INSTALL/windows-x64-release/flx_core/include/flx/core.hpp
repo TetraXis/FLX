@@ -29,52 +29,6 @@
 //		FLX_OPT_FORCE_TRACE			- for forcing use of trace	(by default it is only active in DEBUG)
 //		FLX_OPT_TRACE_DEPTH			- for setting trace depth	(default is 32)
 
-// Changelog:
-//
-// v.0.0.2 2026-May-07+:
-// Added new.hpp
-// Added core_error.hpp
-//
-// v.0.0.1 2026-May-01+:
-// Switched from modules to headers.
-//
-// v.0.0.1 2026-Apr-20+:
-// type_traits.hpp created.
-// utility.hpp created.
-//
-// v.0.0.0 2026-Apr-13+:
-// core.hpp created.
-// core_env.hpp created, necessary checks coded.
-// core_opt.hpp created, necessary checks coded.
-// core_cfg.hpp created.
-// terminate.hpp created.
-// assert.hpp created.
-// core_has.hpp created.
-// core_crt.hpp created.
-// flx/core_crt_assert.hpp created.
-// flx/core_crt_complex.hpp created.
-// flx/core_crt_ctype.hpp created.
-// flx/core_crt_errno.hpp created.
-// flx/core_crt_fenv.hpp created.
-// flx/core_crt_float.hpp created.
-// flx/core_crt_inttypes.hpp created.
-// flx/core_crt_iso646.hpp created.
-// flx/core_crt_limits.hpp created.
-// flx/core_crt_locale.hpp created.
-// flx/core_crt_math.hpp created.
-// flx/core_crt_setjmp.hpp created.
-// flx/core_crt_signal.hpp created.
-// flx/core_crt_stdbool.hpp created.
-// flx/core_crt_stddef.hpp created.
-// flx/core_crt_stdint.hpp created.
-// flx/core_crt_stdio.hpp created.
-// flx/core_crt_stdlib.hpp created.
-// flx/core_crt_string.hpp created.
-// flx/core_crt_tgmath.hpp created.
-// flx/core_crt_time.hpp created.
-// flx/core_crt_wchar.hpp created.
-// flx/core_crt_wctype.hpp created.
-
 
 
 #ifdef FLX_OPT_FORCE_PUBLIC_MEMBERS
@@ -125,7 +79,7 @@ namespace flx
 		};
 	}
 
-	constexpr ::flx::imp::tag_use_flx use_flx{};
+	inline constexpr ::flx::imp::tag_use_flx use_flx{};
 } // namespace flx
 
 

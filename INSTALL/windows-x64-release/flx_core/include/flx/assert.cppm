@@ -1,11 +1,10 @@
 module;
 
 // This header defines assert function.
-// CAUTION! This header links to flx/terminate and CRT only in DEBUG
 
 #include "flx/core.hpp"
 #if FLX_CFG_DEBUG
-	#include "flx/terminate.hpp"
+	import flx.terminate;
 #endif
 
 export module flx.assert;

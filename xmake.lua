@@ -21,6 +21,11 @@ local all_libs = {}
 for _, src in ipairs(core_sources) do
     local name = path.basename(src)
     local lib_target = "flx_" .. name
+    if is_mode("debug") then
+        lib_target = lib_target .. "_d"
+    end
+    
+    -- local lib_target = "flx_" .. name
     target(lib_target)
         set_kind("static")
         add_files(src)

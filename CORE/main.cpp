@@ -1,15 +1,19 @@
 #include "flx/core.hpp"
+//
+//import flx.assert;
+//import flx.terminate;
+//import flx.memory;
+//import flx.type_traits;
 
-import flx.assert;
-import flx.terminate;
-import flx.memory;
-import flx.type_traits;
+import flx;
 
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
 
 int main()
 {
+    using namespace flx;
+
     const c8* ver = "FLX v." FLX_VERSION " built successfully.\n";
 
     const char* cpp = "CPP: " TOSTRING(__cplusplus) ".\n";

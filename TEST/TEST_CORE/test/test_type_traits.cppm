@@ -500,5 +500,141 @@ export namespace test
 		
 		    subgroup = "NULL";
 		}
+
+
+
+		// ===== move ===== //
+		{
+		    subgroup = "move";
+		
+		    // fundamental types
+		    check(std::is_same_v<	decltype(flx::move(0)),								decltype(std::move(0))								>,	"Return type mismatch with STD 00");
+		    check(std::is_same_v<	decltype(flx::move(::std::declval<int>())),			decltype(::std::move(::std::declval<int>()))		>,	"Return type mismatch with STD 01");
+		    check(std::is_same_v<	decltype(flx::move(::std::declval<const int>())),	decltype(::std::move(::std::declval<const int>()))	>,	"Return type mismatch with STD 02");
+		
+		    // lvalues
+		    int lval = 42;
+		    const int clval = 42;
+		    volatile int vlval = 42;
+		    const volatile int cvlval = 42;
+		    check(std::is_same_v<	decltype(flx::move(lval)),					decltype(std::move(lval))					>,	"Return type mismatch with STD 03");
+		    check(std::is_same_v<	decltype(flx::move(clval)),					decltype(std::move(clval))					>,	"Return type mismatch with STD 04");
+		    check(std::is_same_v<	decltype(flx::move(vlval)),					decltype(std::move(vlval))					>,	"Return type mismatch with STD 05");
+		    check(std::is_same_v<	decltype(flx::move(cvlval)),				decltype(std::move(cvlval))					>,	"Return type mismatch with STD 06");
+		
+		    // rvalues
+		    check(std::is_same_v<	decltype(flx::move(42)),					decltype(std::move(42))						>,	"Return type mismatch with STD 07");
+		    // xvalues
+		    check(std::is_same_v<	decltype(flx::move(std::move(lval))),		decltype(std::move(std::move(lval)))		>,	"Return type mismatch with STD 08");
+		
+		    // nullptr_t
+		    std::nullptr_t np = nullptr;
+		    check(std::is_same_v<	decltype(flx::move(np)),					decltype(std::move(np))						>,	"Return type mismatch with STD 09");
+		
+		    // pointers
+		    int* ptr = &lval;
+		    const int* cptr = ptr;
+		    int* const ptr_const = ptr;
+		    const int* const cptr_const = ptr;
+		    check(std::is_same_v<	decltype(flx::move(ptr)),					decltype(std::move(ptr))					>,	"Return type mismatch with STD 0A");
+		    check(std::is_same_v<	decltype(flx::move(cptr)),					decltype(std::move(cptr))					>,	"Return type mismatch with STD 0B");
+		    check(std::is_same_v<	decltype(flx::move(ptr_const)),				decltype(std::move(ptr_const))				>,	"Return type mismatch with STD 0C");
+		    check(std::is_same_v<	decltype(flx::move(cptr_const)),			decltype(std::move(cptr_const))				>,	"Return type mismatch with STD 0D");
+		
+		    // arrays
+		    int arr[5] = {};
+		    const int carr[5] = {};
+		    volatile int varr[5] = {};
+		    const volatile int cvarr[5] = {};
+		    check(std::is_same_v<	decltype(flx::move(arr)),					decltype(std::move(arr))					>,	"Return type mismatch with STD 0E");
+		    check(std::is_same_v<	decltype(flx::move(carr)),					decltype(std::move(carr))					>,	"Return type mismatch with STD 0F");
+		    check(std::is_same_v<	decltype(flx::move(varr)),					decltype(std::move(varr))					>,	"Return type mismatch with STD 10");
+		    check(std::is_same_v<	decltype(flx::move(cvarr)),					decltype(std::move(cvarr))					>,	"Return type mismatch with STD 11");
+		
+		    // array of unknown bound
+		    int arr_unknown[] = {1,2,3};
+		    const int carr_unknown[] = {1,2,3};
+		    volatile int varr_unknown[] = {1,2,3};
+		    const volatile int cvarr_unknown[] = {1,2,3};
+		    check(std::is_same_v<	decltype(flx::move(arr_unknown)),			decltype(std::move(arr_unknown))			>,	"Return type mismatch with STD 12");
+		    check(std::is_same_v<	decltype(flx::move(carr_unknown)),			decltype(std::move(carr_unknown))			>,	"Return type mismatch with STD 13");
+		    check(std::is_same_v<	decltype(flx::move(varr_unknown)),			decltype(std::move(varr_unknown))			>,	"Return type mismatch with STD 14");
+		    check(std::is_same_v<	decltype(flx::move(cvarr_unknown)),			decltype(std::move(cvarr_unknown))			>,	"Return type mismatch with STD 15");
+		
+		    // reference to array of unknown bound
+		    int(&ref_unknown)[] = arr_unknown;
+		    const int(&cref_unknown)[] = carr_unknown;
+		    check(std::is_same_v<	decltype(flx::move(ref_unknown)),			decltype(std::move(ref_unknown))			>,	"Return type mismatch with STD 16");
+		    check(std::is_same_v<	decltype(flx::move(cref_unknown)),			decltype(std::move(cref_unknown))			>,	"Return type mismatch with STD 17");
+		
+		    // function types
+		    auto fn_lambda = []() { return 0; };
+		    using FnPtr = int(*)();
+		    FnPtr fn_ptr = +fn_lambda;
+		    int(&fn_ref)() = *fn_ptr;
+		    check(std::is_same_v<	decltype(flx::move(fn_ptr)),				decltype(std::move(fn_ptr))					>,	"Return type mismatch with STD 18");
+		    check(std::is_same_v<	decltype(flx::move(fn_ref)),				decltype(std::move(fn_ref))					>,	"Return type mismatch with STD 19");
+		    check(std::is_same_v<	decltype(flx::move(*fn_ptr)),				decltype(std::move(*fn_ptr))				>,	"Return type mismatch with STD 1A"); // function lvalue
+		
+		    // noexcept function types
+		    auto noexcept_lambda = []() noexcept { return 0; };
+		    using NoexceptFnPtr = int(*)() noexcept;
+		    NoexceptFnPtr noexcept_ptr = +noexcept_lambda;
+		    check(std::is_same_v<	decltype(flx::move(noexcept_ptr)),			decltype(std::move(noexcept_ptr))			>,	"Return type mismatch with STD 1B");
+		
+		    // enum
+		    E e = dummy;
+		    check(std::is_same_v<	decltype(flx::move(e)),						decltype(std::move(e))						>,	"Return type mismatch with STD 1C");
+		
+		    // incomplete type
+		    incomplete* inc = nullptr;
+		    check(std::is_same_v<	decltype(flx::move(inc)),					decltype(std::move(inc))					>,	"Return type mismatch with STD 1D");
+		
+		    // abstract type
+		    abstract* ab = nullptr;
+		    check(std::is_same_v<	decltype(flx::move(ab)),					decltype(std::move(ab))						>,	"Return type mismatch with STD 1E");
+		
+		    // move‑only type
+		    move_only mo;
+		    check(std::is_same_v<	decltype(flx::move(move_only())),			decltype(std::move(move_only()))			>,	"Return type mismatch with STD 1F");
+		    check(std::is_same_v<	decltype(flx::move(mo)),					decltype(std::move(mo))						>,	"Return type mismatch with STD 20");
+		    check(std::is_same_v<	decltype(flx::move(std::move(mo))),			decltype(std::move(std::move(mo)))			>,	"Return type mismatch with STD 21");
+		
+		    // deduction wrapper (forwarding reference)
+		    constexpr auto move_wrapper = [](auto&& arg) constexpr -> decltype(auto)
+			{
+		        return flx::move(arg);
+		    };
+		    int x = 42;
+		    const int cx = 42;
+		    volatile int vx = 42;
+		    const volatile int cvx = 42;
+		    check(std::is_same_v<	decltype(move_wrapper(x)),		int&&>,					"Deduction failure: lvalue as rvalue 00");
+		    check(std::is_same_v<	decltype(move_wrapper(42)),		int&&>,					"Deduction failure: rvalue as rvalue 01");
+		    check(std::is_same_v<	decltype(move_wrapper(cx)),		const int&&>,			"Deduction failure: const lvalue 02");
+		    check(std::is_same_v<	decltype(move_wrapper(vx)),		volatile int&&>,		"Deduction failure: volatile lvalue 03");
+		    check(std::is_same_v<	decltype(move_wrapper(cvx)),	const volatile int&&>,	"Deduction failure: cv lvalue 04");
+		
+		    // noexcept check
+		    check(noexcept(flx::move(0)),		"move must be noexcept 00");
+		    check(noexcept(flx::move(lval)),	"move must be noexcept 01");
+		
+		    // constexpr check
+		    constexpr int result = []() constexpr -> int
+			{
+		        int a = 42;
+		        return flx::move(a);
+		    }();
+		    check(result == 42, "move must be constexpr 00");
+		
+		    // ill‑formed
+		    // struct bitfield { int bf : 1; } bf;
+		    // flx::move(bf.bf);
+		    // flx::move(void());
+		    // flx::move(flx::declval<void>());
+		    // flx::move(std::declval<void>());
+		
+		    subgroup = "NULL";
+		}
 	}
 } // namespace test

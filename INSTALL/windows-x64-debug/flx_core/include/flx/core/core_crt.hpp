@@ -3,7 +3,6 @@
 
 // This is a compatibility layer between FLX and CRT.
 // It is needed since Windows' CRT does not follow POSIX.
-// FLX will link against the C Standard Library and as much of the C POSIX Library as Win CRT implements
 
 #include "flx/core/core_crt_assert.hpp"
 #include "flx/core/core_crt_complex.hpp"
