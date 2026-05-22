@@ -24,8 +24,6 @@ for _, src in ipairs(core_sources) do
     if is_mode("debug") then
         lib_target = lib_target .. "_d"
     end
-    
-    -- local lib_target = "flx_" .. name
     target(lib_target)
         set_kind("static")
         add_files(src)
@@ -104,6 +102,7 @@ target("test_core")
     add_files("TEST/TEST_CORE/*.cpp")
     add_files("TEST/TEST_CORE/test/*.cppm")
     add_includedirs(path.join("INSTALL", "$(plat)-$(arch)-$(mode)", "flx_core", "include"))
+    add_cxxflags("-iquote " .. path.join(os.projectdir(), "INSTALL", "$(plat)-$(arch)-$(mode)", "flx_core", "include"))
     if is_mode("debug") then
         add_defines("FLX_OPT_DEBUG")
     else
