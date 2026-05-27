@@ -14,31 +14,43 @@ int main()
 {
     using namespace flx;
 
-    const c8* ver = "FLX v." FLX_VERSION " built successfully.\n";
+    const char* ver = "FLX v." FLX_VERSION " built successfully.\n";
 
     const char* cpp = "CPP: " TOSTRING(__cplusplus) ".\n";
 
 #if FLX_ENV_COMPILER == FLX_ENV_COMPILER_MSVC
 
-    const c8* compiler = "MSVC v." _MSC_VER ".\n";
+    const char* compiler = "MSVC v." _MSC_VER ".\n";
 
 #elif FLX_ENV_COMPILER == FLX_ENV_COMPILER_GCC
 
-    const c8* compiler = "GCC v." __GNUC__ ".\n";
+    const char* compiler = "GCC v." __GNUC__ ".\n";
 
 #elif FLX_ENV_COMPILER == FLX_ENV_COMPILER_CLANG
 
-    const c8* compiler = "Clang v." __clang_version__  ".\n";
+    const char* compiler = "Clang v." __clang_version__  ".\n";
 
 #else
 
-    const c8* compiler = "Unknown.\n";
+    const char* compiler = "Unknown.\n";
+
+#endif
+
+
+#if FLX_CFG_RELEASE
+
+    const char* mode = "RELEASE\n";
+
+#else
+
+    const char* mode = "RELEASE\n";
 
 #endif
 
     flx::crt::write(1, ver, flx::crt::strlen(ver));
     flx::crt::write(1, cpp, flx::crt::strlen(cpp));
     flx::crt::write(1, compiler, flx::crt::strlen(compiler));
+    flx::crt::write(1, mode, flx::crt::strlen(mode));
 
     return 0;
 }

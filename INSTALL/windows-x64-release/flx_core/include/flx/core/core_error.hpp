@@ -2,7 +2,7 @@
 #define FLX_INC_CORE_ERROR_HPP
 
 // This header defines error handling
-// This header is useless. Constexpr trace is impossible and imptractical.
+// This header is useless. Constexpr trace is impossible and impractical.
 // Runtime is arlready supplied by most IDEs
 // This should be redone when C++26 Reflections are fully supported.
 

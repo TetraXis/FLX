@@ -14,7 +14,7 @@ extern "C"
 
 	// ===== SAME CRT ===== //
 
-	szt strlen(const c8*);
+	szt strlen(const char*);
 
 
 
@@ -37,7 +37,7 @@ extern "C"
 
 namespace flx::crt
 {
-	inline szt strlen(const c8* buffer) noexcept
+	inline szt strlen(const char* buffer) noexcept
 	{
 		return ::strlen(buffer);
 	}

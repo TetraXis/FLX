@@ -47,24 +47,26 @@ namespace flx::inline types
 	using u00	= void;
 	using b8	= bool;
 	using b08	= bool;
-	using c8	= char;
-	using c08	= char;
+	using c8	= char8_t;
+	using c08	= char8_t;
 	using c16	= char16_t;
 	using c32	= char32_t;
-	using i8	= signed char;
-	using i08	= signed char;
-	using i16	= short;
-	using i32	= int;
-	using i64	= long long;
-	using u8	= unsigned char;
-	using u08	= unsigned char;
-	using u16	= unsigned short;
+	using i8	= signed char;		// no way to guarantee 8 bits
+	using i08	= signed char;		// no way to guarantee 8 bits
+	using i16	= signed short;
+	using i32	= signed int;
+	using i64	= signed long long;
+	using u8	= unsigned char;	// no way to guarantee 8 bits
+	using u08	= unsigned char;	// no way to guarantee 8 bits
+	using u16	= unsigned short;	
 	using u32	= unsigned int;
 	using u64	= unsigned long long;
 	using f32	= float;
 	using f64	= double;
 	using f80	= long double;
 
+	using chr	= char;
+	using wct	= wchar_t;
 	using szt	= decltype(sizeof nullptr);
 	using sszt	= decltype(static_cast<char*>(nullptr) - static_cast<char*>(nullptr));
 } // namespace flx::inline types
@@ -82,6 +84,23 @@ namespace flx
 	inline constexpr ::flx::imp::tag_use_flx use_flx{};
 } // namespace flx
 
+// This defines custom placement news for FLX.
+// The problem is: other headers already define this placement new, so conflicts arise
+// operator new can only be global or class specific
+// Forcing all types to implement placement new is bad
+// MSVC doesn't have weak linking, so we need entirely unique placement new
+// Custom tag 'use_flx' is therefore used.
+// Since operator new can only be global, there is no point of making this a module.
+
+constexpr void* operator new ([[maybe_unused]] ::flx::szt, void* ptr, [[maybe_unused]] ::flx::imp::tag_use_flx) noexcept
+{
+	return ptr;
+}
+
+constexpr void* operator new[]([[maybe_unused]] ::flx::szt, void* ptr, [[maybe_unused]] ::flx::imp::tag_use_flx) noexcept
+{
+	return ptr;
+}
 
 #include "flx/core/core_opt.hpp"
 

@@ -30,7 +30,7 @@ export namespace flx
 #endif
 	}
 
-	[[noreturn]] inline void terminate(const c8* msg) noexcept
+	[[noreturn]] inline void terminate(const char* msg) noexcept
 	{
 		::flx::on_terminate();
 
