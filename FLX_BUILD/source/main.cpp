@@ -1,8 +1,9 @@
+#include "flx_build.hpp"
+
 #include <iostream>
 #include <filesystem>
 using namespace std::filesystem;
 
-#include "flx_build.hpp"
 
 
 // path find_project_root(const std::string& marker = "flx_build.cpp")
@@ -31,12 +32,8 @@ int main(int argc, char* argv[])
 
     std::cout << '\n';
 
-    auto root = flx::build::find_project_root();
-    if (root.empty())
-    {
-        std::cerr << "No build.cpp found in any parent directory.\n";
-        return 1;
-    }
+    auto root = flx::build::find_root_dir();
+
     std::cout << "Project root: " << root << '\n';
 
 	return 0;

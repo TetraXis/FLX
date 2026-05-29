@@ -7,6 +7,9 @@
 // Everything is noexcept so if anything fails, build stops.
 // Only not unessential functions can fail.
 
+#ifndef FLX_INC_FLX_BUILD_HPP
+#define FLX_INC_FLX_BUILD_HPP
+
 #define FLX_BUILD_VERSION "0.0.0"
 #define FLX_BUILD_VERSION_MAJOR 0
 #define FLX_BUILD_VERSION_MINOR 0
@@ -14,8 +17,24 @@
 
 #include <memory>
 #include <vector>
+#include <algorithm>
 #include <string>
 #include <filesystem>
+#include <iostream>
+#include <regex>
+#include <set>
+
+// ===== SYNOPSIS ===== //
+
+namespace flx::build
+{
+    inline std::filesystem::path find_root_dir(const std::string& build_file = "flx_build.cpp") noexcept;
+    inline void create_dir(const std::filesystem::path& dir_path) noexcept;
+}
+
+
+
+// ===== IMPLEMENTATION ===== //
 
 namespace flx::build
 {
@@ -30,14 +49,14 @@ namespace flx::build
 
     enum struct cpp_standard_e : int8_t
     {
-        default, latest,
+        default_, latest,
         cpp98, cpp03, cpp11, cpp14, cpp17, cpp20, cpp23, cpp26,
         gnu98, gnu11, gnu14, gnu17, gnu20, gnu23, gnu26
     };
 
     enum struct c_standard_e : uint8_t
     {
-        default, latest,
+        default_, latest,
         c89, c99, c11, c17, c23,
         gnu89, gnu99, gnu11, gnu17, gnu23
     };
@@ -89,16 +108,277 @@ namespace flx::build
         phony
     };
 
+    // TODO: add missing remove...
+
     struct target_t
     {
         toolchain_flags_t flags{}; // will override toolchain flags per category (leaving one category empty will result in global setting used)
         std::string name = "Unnamed target";
-        std::vector< std::string > dependencies{};
-        std::vector< std::filesystem::path > sources{};
+        target_type_e type = target_type_e::unknown;
+        std::unordored_set< std::string > dependencies{};
+        std::unordored_set< std::filesystem::path > sources{};
+        std::unordored_set< std::filesystem::path > modules{};
+        std::unordored_set< std::filesystem::path > libraries{};
+        std::unordored_set< std::filesystem::path > user_includes{};
+        std::unordored_set< std::filesystem::path > system_includes{};
         std::filesystem::path output_path{};
         std::vector< std::filesystem::path > files_build_order;
         // std::unordered_map< std::filesystem::path, std::vector< std::filesystem::path > > file_deps; // should be calculated and discarded when populating files_build_order
-        target_type_e type = target_type_e::unknown;
+
+        target_t& set_name(const std::string& new_name) noexcept
+        {
+            name = new_name;
+            return *this;
+        }
+        std::string& get_name() noexcept
+        {
+            return name;
+        }
+        const std::string& get_name() const noexcept
+        {
+            return name;
+        }
+
+        target_t* add_dependency(const std::string& target_name) noexcept // does not check for unique names, in cases where people need to build something twice or more
+        {
+            dependencies.emplace_back(target_name);
+            return *this;
+        }
+        target_t* remove_dependency(const std::string& target_name) noexcept
+        {
+            std::erase(dependencies, target_name);
+            return *this;
+        }
+        std::vector< std::string >& get_dependencies() noexcept
+        {
+            return dependencies;
+        }
+        const std::vector< std::string >& get_dependencies() const noexcept
+        {
+            return dependencies;
+        }
+
+        // yes, these are almost identical functions
+        target_t& add_sources(const std::filesystem::path& pattern) noexcept
+        {
+            std::error_code ec;
+            std::string pattern_str = pattern.string();
+
+            if (pattern_str.find('*') == std::string::npos)
+            {
+                if (!std::filesystem::is_regular_file(pattern, ec) || ec)
+                {
+                    std::cerr << "target_t::add_sources: not a regular file: " << pattern << '\n';
+                    std::exit(EXIT_FAILURE);
+                }
+                sources.insert(pattern.string());
+                return *this;
+            }
+
+            std::filesystem::path parent = pattern.parent_path();
+            std::string filename_pattern = pattern.filename().string();
+
+            if (!std::filesystem::is_directory(parent, ec) || ec)
+            {
+                std::cerr << "target_t::add_sources: directory does not exist: " << parent << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+
+            std::string regex_str = std::regex_replace(filename_pattern, std::regex(R"(\*)"), ".*");
+            std::regex pattern_regex(regex_str, std::regex::icase);
+
+            bool found = false;
+            for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(parent, ec))
+            {
+                if (entry.is_regular_file(ec) && !ec)
+                {
+                    std::string filename = entry.path().filename().string();
+                    if (std::regex_match(filename, pattern_regex) && is_cpp_source(entry.path()))
+                    {
+                        found = true;
+                        sources.insert(entry.path().string());
+                    }
+                }
+                if (ec)
+                {
+                    std::cerr << "target_t::add_sources: error parsing sources: " << ec.message() << '\n';
+                    std::cerr << "Problematic source: " << entry.path() << '\n';
+                    std::exit(EXIT_FAILURE);
+                }
+            }
+
+            if (!found)
+            {
+                std::cerr << "add_source: no files matched pattern: " << pattern << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+
+            return *this;
+        }
+        target_t& add_modules(const std::filesystem::path& pattern) noexcept
+        {
+            std::error_code ec;
+            std::string pattern_str = pattern.string();
+
+            if (pattern_str.find('*') == std::string::npos)
+            {
+                if (!std::filesystem::is_regular_file(pattern, ec) || ec)
+                {
+                    std::cerr << "target_t::add_modules: not a regular file: " << pattern << '\n';
+                    std::exit(EXIT_FAILURE);
+                }
+                modules.insert(pattern.string());
+                return *this;
+            }
+
+            std::filesystem::path parent = pattern.parent_path();
+            std::string filename_pattern = pattern.filename().string();
+
+            if (!std::filesystem::is_directory(parent, ec) || ec)
+            {
+                std::cerr << "target_t::add_modules: directory does not exist: " << parent << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+
+            std::string regex_str = std::regex_replace(filename_pattern, std::regex(R"(\*)"), ".*");
+            std::regex pattern_regex(regex_str, std::regex::icase);
+
+            bool found = false;
+            for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(parent, ec))
+            {
+                if (entry.is_regular_file(ec) && !ec)
+                {
+                    std::string filename = entry.path().filename().string();
+                    if (std::regex_match(filename, pattern_regex) && is_cpp_source(entry.path()))
+                    {
+                        found = true;
+                        modules.insert(entry.path().string());
+                    }
+                }
+                if (ec)
+                {
+                    std::cerr << "target_t::add_modules: error parsing modules: " << ec.message() << '\n';
+                    std::cerr << "Problematic module: " << entry.path() << '\n';
+                    std::exit(EXIT_FAILURE);
+                }
+            }
+
+            if (!found)
+            {
+                std::cerr << "target_t::add_modules: no files matched pattern: " << pattern << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+
+            return *this;
+        }
+        target_t& add_libraries(const std::filesystem::path& pattern) noexcept
+        {
+            std::error_code ec;
+            std::string pattern_str = pattern.string();
+
+            if (pattern_str.find('*') == std::string::npos)
+            {
+                if (!std::filesystem::is_regular_file(pattern, ec) || ec)
+                {
+                    std::cerr << "target_t::add_libraries: not a regular file: " << pattern << '\n';
+                    std::exit(EXIT_FAILURE);
+                }
+                libraries.insert(pattern.string());
+                return *this;
+            }
+
+            std::filesystem::path parent = pattern.parent_path();
+            std::string filename_pattern = pattern.filename().string();
+
+            if (!std::filesystem::is_directory(parent, ec) || ec)
+            {
+                std::cerr << "target_t::add_libraries: directory does not exist: " << parent << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+
+            std::string regex_str = std::regex_replace(filename_pattern, std::regex(R"(\*)"), ".*");
+            std::regex pattern_regex(regex_str, std::regex::icase);
+
+            bool found = false;
+            for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(parent, ec))
+            {
+                if (entry.is_regular_file(ec) && !ec)
+                {
+                    std::string filename = entry.path().filename().string();
+                    if (std::regex_match(filename, pattern_regex) && is_cpp_source(entry.path()))
+                    {
+                        found = true;
+                        libraries.insert(entry.path().string());
+                    }
+                }
+                if (ec)
+                {
+                    std::cerr << "target_t::add_libraries: error parsing libraries: " << ec.message() << '\n';
+                    std::cerr << "Problematic library: " << entry.path() << '\n';
+                    std::exit(EXIT_FAILURE);
+                }
+            }
+
+            if (!found)
+            {
+                std::cerr << "target_t::add_libraries: no files matched pattern: " << pattern << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+
+            return *this;
+        }
+        target_t& add_include_dir(const std::filesystem::path& include_dir) noexcept
+        {
+            std::error_code ec;
+            std::filesystem::path abs_path = std::filesystem::absolute(include_path, ec);
+
+            if (ec)
+            {
+                std::cerr << "workplace_t::add_include_dir: Error resolving absolute path: " << ec.message() << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+
+            if (!std::filesystem::exists(abs_path, ec))
+            {
+                std::cerr << "workplace_t::add_include_dir: Path does not exist: " << abs_path.string() << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+
+            if (!std::filesystem::is_directory(abs_path, ec))
+            {
+                std::cerr << "workplace_t::add_include_dir: Not a directory: " << abs_path.string() << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+
+            user_includes.emplace_back(abs_path);
+            return *this;
+        }
+        target_t& add_system_include_dir(const std::filesystem::path& include_dir) noexcept
+        {
+            std::error_code ec;
+            std::filesystem::path abs_path = std::filesystem::absolute(include_path, ec);
+
+            if (ec)
+            {
+                std::cerr << "workplace_t::add_system_include_dir: Error resolving absolute path: " << ec.message() << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+
+            if (!std::filesystem::exists(abs_path, ec))
+            {
+                std::cerr << "workplace_t::add_system_include_dir: Path does not exist: " << abs_path.string() << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+
+            if (!std::filesystem::is_directory(abs_path, ec))
+            {
+                std::cerr << "workplace_t::add_system_include_dir: Not a directory: " << abs_path.string() << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+
+            system_includes.emplace_back(abs_path);
+            return *this;
+        }
     };
 
     struct workplace_t
@@ -118,9 +398,9 @@ namespace flx::build
         std::vector< std::unique_ptr<target_t> > targets{};
         std::vector< std::string > build_order; // target names
 
-        // TODO: add dir creation if non existant
+        // TODO: change to set when applicable
 
-        void set_root_dir(const std::filesystem::path& root_path) noexcept
+        workplace_t& set_root_dir(const std::filesystem::path& root_path) noexcept
         {
             std::error_code ec;
             std::filesystem::path abs_path = std::filesystem::absolute(root_path, ec);
@@ -131,19 +411,19 @@ namespace flx::build
                 std::exit(EXIT_FAILURE);
             }
 
-            if (!std::filesystem::exists(abs_path, ec))
-            {
-                std::cerr << "workplace_t::set_root_dir: Path does not exist: " << abs_path.string() << '\n';
-                std::exit(EXIT_FAILURE);
-            }
-
             if (!std::filesystem::is_directory(abs_path, ec))
             {
                 std::cerr << "workplace_t::set_root_dir: Not a directory: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
+            if (!std::filesystem::exists(abs_path, ec))
+            {
+                create_dir(abs_path);
+            }
+
             root_dir = abs_path;
+            return *this;
         }
         std::filesystem::path& get_root_dir() noexcept
         {
@@ -154,7 +434,7 @@ namespace flx::build
             return root_dir;
         }
 
-        void set_output_dir(const std::filesystem::path& output_path) noexcept
+        workplace_t& set_output_dir(const std::filesystem::path& output_path) noexcept
         {
             std::error_code ec;
             std::filesystem::path abs_path = std::filesystem::absolute(output_path, ec);
@@ -165,19 +445,19 @@ namespace flx::build
                 std::exit(EXIT_FAILURE);
             }
 
-            if (!std::filesystem::exists(abs_path, ec))
-            {
-                std::cerr << "workplace_t::set_output_dir: Path does not exist: " << abs_path.string() << '\n';
-                std::exit(EXIT_FAILURE);
-            }
-
             if (!std::filesystem::is_directory(abs_path, ec))
             {
                 std::cerr << "workplace_t::set_output_dir: Not a directory: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
+            if (!std::filesystem::exists(abs_path, ec))
+            {
+                create_dir(abs_path);
+            }
+
             output_dir = abs_path;
+            return *this;
         }
         std::filesystem::path& get_output_dir() noexcept
         {
@@ -188,9 +468,10 @@ namespace flx::build
             return output_dir;
         }
 
-        void set_configuration(const std::string& conf) noexcept
+        workplace_t& set_configuration(const std::string& conf) noexcept
         {
             configuration = conf;
+            return *this;
         }
         std::string& get_configuration() noexcept
         {
@@ -201,13 +482,15 @@ namespace flx::build
             return configuration;
         }
 
-        void add_define(const std::string& define) noexcept
+        workplace_t& add_define(const std::string& define) noexcept
         {
             global_defines.emplace_back(define);
+            return *this;
         }
-        bool remove_define(const std::string& define)
+        workplace_t& remove_define(const std::string& define) noexcept
         {
-            return std::erase(global_defines, define) > 0;
+            std::erase(global_defines, define);
+            return *this;
         }
         std::vector< std::string >& get_defines() noexcept
         {
@@ -218,7 +501,7 @@ namespace flx::build
             return global_defines;
         }
 
-        void add_include_dir(const std::filesystem::path& include_path) noexcept
+        workplace_t& add_include_dir(const std::filesystem::path& include_path) noexcept
         {
             std::error_code ec;
             std::filesystem::path abs_path = std::filesystem::absolute(include_path, ec);
@@ -242,10 +525,12 @@ namespace flx::build
             }
 
             global_user_includes.emplace_back(abs_path);
+            return *this;
         }
-        bool remove_include_dir(const std::filesystem::path& include_path)
+        workplace_t& remove_include_dir(const std::filesystem::path& include_path) noexcept
         {
-            return std::erase(global_user_includes, include_path) > 0;
+            std::erase(global_user_includes, include_path);
+            return *this;
         }
         std::vector< std::filesystem::path >& get_includes() noexcept
         {
@@ -256,7 +541,7 @@ namespace flx::build
             return global_user_includes;
         }
 
-        void add_system_include_dir(const std::filesystem::path& system_include_path) noexcept
+        workplace_t& add_system_include_dir(const std::filesystem::path& system_include_path) noexcept
         {
             std::error_code ec;
             std::filesystem::path abs_path = std::filesystem::absolute(system_include_path, ec);
@@ -280,10 +565,12 @@ namespace flx::build
             }
 
             global_system_includes.emplace_back(abs_path);
+            return *this;
         }
-        bool remove_system_include_dir(const std::filesystem::path& system_include_path)
+        workplace_t& remove_system_include_dir(const std::filesystem::path& system_include_path) noexcept
         {
-            return std::erase(global_system_includes, system_include_path) > 0;
+            std::erase(global_system_includes, system_include_path);
+            return *this;
         }
         std::vector< std::filesystem::path >& get_system_includes() noexcept
         {
@@ -294,7 +581,7 @@ namespace flx::build
             return global_system_includes;
         }
 
-        void create_target(const std::string& target_name) noexcept
+        workplace_t& create_target(const std::string& target_name) noexcept
         {
             auto it = std::find_if(targets.begin(), targets.end(),
                 [&](const std::unique_ptr<target_t>& ptr)
@@ -309,18 +596,21 @@ namespace flx::build
 
             targets.emplace_back(std::make_unique<target_t>());
             targets.back()->name = target_name;
+            return *this;
         }
-        void add_target(std::unique_ptr<target_t> target) noexcept
+        workplace_t& add_target(std::unique_ptr<target_t> target) noexcept
         {
             targets.emplace_back(std::move(target));
+            return *this;
         }
-        bool remove_target(const std::string& target_name) noexcept
+        workplace_t& remove_target(const std::string& target_name) noexcept
         {
-            return std::erase_if(targets,
+            std::erase_if(targets,
                 [&](const std::unique_ptr<target_t>& ptr)
                 {
                     return ptr && ptr->name == target_name;
-                }) > 0;
+                });
+            return *this;
         }
         target_t& operator [] (const std::string& target_name) noexcept
         {
@@ -355,7 +645,7 @@ namespace flx::build
 
     }; // workplace_t
 
-    std::filesystem::path find_root_dir(const std::string& build_file = "flx_build.cpp") noexcept
+    inline std::filesystem::path find_root_dir(const std::string& build_file = "flx_build.cpp") noexcept
     {
         static constexpr size_t MAX_SEARCH_DEPTH = 10;
 
@@ -376,4 +666,37 @@ namespace flx::build
         std::cerr << "find_root_dir: Could not find build file: Max search depth reached.\n";
         std::exit(EXIT_FAILURE);
     } // find_root_dir
+
+    inline void create_dir(const std::filesystem::path& dir_path) noexcept
+    {
+        std::error_code ec;
+        std::filesystem::path abs_path = std::filesystem::absolute(dir_path, ec);
+
+        if (ec)
+        {
+            std::cerr << "create_directory: Error resolving absolute path: " << ec.message() << '\n';
+            std::exit(EXIT_FAILURE);
+        }
+
+        if (std::filesystem::exists(abs_path, ec))
+        {
+            if (!std::filesystem::is_directory(abs_path, ec))
+            {
+                std::cerr << "create_directory: Path exists but is not a directory: " << abs_path.string() << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+            return;
+        }
+
+        if (!std::filesystem::create_directories(abs_path, ec))
+        {
+            std::cerr << "create_directory: Failed to create directory '" << abs_path.string()
+                << "': " << ec.message() << '\n';
+            std::exit(EXIT_FAILURE);
+        }
+    }
 } // flx::build
+
+
+
+#endif // !FLX_INC_FLX_BUILD_HPP
