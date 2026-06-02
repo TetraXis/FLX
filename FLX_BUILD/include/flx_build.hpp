@@ -22,7 +22,7 @@
 #include <filesystem>
 #include <iostream>
 #include <regex>
-#include <set>
+#include <unordered_set>
 
 // ===== SYNOPSIS ===== //
 
@@ -115,12 +115,12 @@ namespace flx::build
         toolchain_flags_t flags{}; // will override toolchain flags per category (leaving one category empty will result in global setting used)
         std::string name = "Unnamed target";
         target_type_e type = target_type_e::unknown;
-        std::unordored_set< std::string > dependencies{};
-        std::unordored_set< std::filesystem::path > sources{};
-        std::unordored_set< std::filesystem::path > modules{};
-        std::unordored_set< std::filesystem::path > libraries{};
-        std::unordored_set< std::filesystem::path > user_includes{};
-        std::unordored_set< std::filesystem::path > system_includes{};
+        std::vector< std::string > dependencies{}; // by target name, in order
+        std::unordered_set< std::filesystem::path > sources{};
+        std::unordered_set< std::filesystem::path > modules{};
+        std::unordered_set< std::filesystem::path > libraries{};
+        std::unordered_set< std::filesystem::path > user_includes{};
+        std::unordered_set< std::filesystem::path > system_includes{};
         std::filesystem::path output_path{};
         std::vector< std::filesystem::path > files_build_order;
         // std::unordered_map< std::filesystem::path, std::vector< std::filesystem::path > > file_deps; // should be calculated and discarded when populating files_build_order
@@ -139,12 +139,12 @@ namespace flx::build
             return name;
         }
 
-        target_t* add_dependency(const std::string& target_name) noexcept // does not check for unique names, in cases where people need to build something twice or more
+        target_t& add_dependency(const std::string& target_name) noexcept // does not check for unique names, in cases where people need to build something twice or more
         {
             dependencies.emplace_back(target_name);
             return *this;
         }
-        target_t* remove_dependency(const std::string& target_name) noexcept
+        target_t& remove_dependency(const std::string& target_name) noexcept
         {
             std::erase(dependencies, target_name);
             return *this;
@@ -193,7 +193,7 @@ namespace flx::build
                 if (entry.is_regular_file(ec) && !ec)
                 {
                     std::string filename = entry.path().filename().string();
-                    if (std::regex_match(filename, pattern_regex) && is_cpp_source(entry.path()))
+                    if (std::regex_match(filename, pattern_regex))
                     {
                         found = true;
                         sources.insert(entry.path().string());
@@ -249,7 +249,7 @@ namespace flx::build
                 if (entry.is_regular_file(ec) && !ec)
                 {
                     std::string filename = entry.path().filename().string();
-                    if (std::regex_match(filename, pattern_regex) && is_cpp_source(entry.path()))
+                    if (std::regex_match(filename, pattern_regex))
                     {
                         found = true;
                         modules.insert(entry.path().string());
@@ -305,7 +305,7 @@ namespace flx::build
                 if (entry.is_regular_file(ec) && !ec)
                 {
                     std::string filename = entry.path().filename().string();
-                    if (std::regex_match(filename, pattern_regex) && is_cpp_source(entry.path()))
+                    if (std::regex_match(filename, pattern_regex))
                     {
                         found = true;
                         libraries.insert(entry.path().string());
@@ -330,7 +330,7 @@ namespace flx::build
         target_t& add_include_dir(const std::filesystem::path& include_dir) noexcept
         {
             std::error_code ec;
-            std::filesystem::path abs_path = std::filesystem::absolute(include_path, ec);
+            std::filesystem::path abs_path = std::filesystem::absolute(include_dir, ec);
 
             if (ec)
             {
@@ -350,13 +350,13 @@ namespace flx::build
                 std::exit(EXIT_FAILURE);
             }
 
-            user_includes.emplace_back(abs_path);
+            user_includes.emplace(abs_path);
             return *this;
         }
         target_t& add_system_include_dir(const std::filesystem::path& include_dir) noexcept
         {
             std::error_code ec;
-            std::filesystem::path abs_path = std::filesystem::absolute(include_path, ec);
+            std::filesystem::path abs_path = std::filesystem::absolute(include_dir, ec);
 
             if (ec)
             {
@@ -376,7 +376,7 @@ namespace flx::build
                 std::exit(EXIT_FAILURE);
             }
 
-            system_includes.emplace_back(abs_path);
+            system_includes.emplace(abs_path);
             return *this;
         }
     };
@@ -391,9 +391,9 @@ namespace flx::build
         std::string configuration{}; // release, debug, ...
         // bool is_shared_library_build = false;
 
-        std::vector< std::string > global_defines{};
-        std::vector< std::filesystem::path > global_user_includes{};
-        std::vector< std::filesystem::path > global_system_includes{};
+        std::unordered_set< std::string > global_defines{};
+        std::unordered_set< std::filesystem::path > global_user_includes{};
+        std::unordered_set< std::filesystem::path > global_system_includes{};
 
         std::vector< std::unique_ptr<target_t> > targets{};
         std::vector< std::string > build_order; // target names
@@ -484,19 +484,19 @@ namespace flx::build
 
         workplace_t& add_define(const std::string& define) noexcept
         {
-            global_defines.emplace_back(define);
+            global_defines.emplace(define);
             return *this;
         }
         workplace_t& remove_define(const std::string& define) noexcept
         {
-            std::erase(global_defines, define);
+            global_defines.erase(define);
             return *this;
         }
-        std::vector< std::string >& get_defines() noexcept
+        std::unordered_set< std::string >& get_defines() noexcept
         {
             return global_defines;
         }
-        const std::vector< std::string >& get_defines() const noexcept
+        const std::unordered_set< std::string >& get_defines() const noexcept
         {
             return global_defines;
         }
@@ -524,19 +524,19 @@ namespace flx::build
                 std::exit(EXIT_FAILURE);
             }
 
-            global_user_includes.emplace_back(abs_path);
+            global_user_includes.emplace(abs_path);
             return *this;
         }
         workplace_t& remove_include_dir(const std::filesystem::path& include_path) noexcept
         {
-            std::erase(global_user_includes, include_path);
+            global_user_includes.erase(include_path);
             return *this;
         }
-        std::vector< std::filesystem::path >& get_includes() noexcept
+        std::unordered_set< std::filesystem::path >& get_includes() noexcept
         {
             return global_user_includes;
         }
-        const std::vector< std::filesystem::path >& get_includes() const noexcept
+        const std::unordered_set< std::filesystem::path >& get_includes() const noexcept
         {
             return global_user_includes;
         }
@@ -564,19 +564,19 @@ namespace flx::build
                 std::exit(EXIT_FAILURE);
             }
 
-            global_system_includes.emplace_back(abs_path);
+            global_system_includes.emplace(abs_path);
             return *this;
         }
         workplace_t& remove_system_include_dir(const std::filesystem::path& system_include_path) noexcept
         {
-            std::erase(global_system_includes, system_include_path);
+            global_system_includes.erase(system_include_path);
             return *this;
         }
-        std::vector< std::filesystem::path >& get_system_includes() noexcept
+        std::unordered_set< std::filesystem::path >& get_system_includes() noexcept
         {
             return global_system_includes;
         }
-        const std::vector< std::filesystem::path >& get_system_includes() const noexcept
+        const std::unordered_set< std::filesystem::path >& get_system_includes() const noexcept
         {
             return global_system_includes;
         }
@@ -645,7 +645,7 @@ namespace flx::build
 
     }; // workplace_t
 
-    inline std::filesystem::path find_root_dir(const std::string& build_file = "flx_build.cpp") noexcept
+    inline std::filesystem::path find_root_dir(const std::string& build_file /* = "flx_build.cpp" */) noexcept
     {
         static constexpr size_t MAX_SEARCH_DEPTH = 10;
 
