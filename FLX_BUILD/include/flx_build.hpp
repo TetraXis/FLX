@@ -10,10 +10,10 @@
 #ifndef FLX_INC_FLX_BUILD_HPP
 #define FLX_INC_FLX_BUILD_HPP
 
-#define FLX_BUILD_VERSION "0.0.0"
+#define FLX_BUILD_VERSION "0.0.1"
 #define FLX_BUILD_VERSION_MAJOR 0
 #define FLX_BUILD_VERSION_MINOR 0
-#define FLX_BUILD_VERSION_PATCH 0
+#define FLX_BUILD_VERSION_PATCH 1
 
 #include <memory>
 #include <vector>
@@ -23,6 +23,7 @@
 #include <iostream>
 #include <regex>
 #include <unordered_set>
+#include <fstream>
 
 // ===== SYNOPSIS ===== //
 
@@ -667,6 +668,17 @@ namespace flx::build
         std::exit(EXIT_FAILURE);
     } // find_root_dir
 
+
+    inline bool dir_exists(const std::filesystem::path& path) noexcept
+    {
+        return std::filesystem::exists(path) && std::filesystem::is_directory(path);
+    }
+
+    inline bool file_exists(const std::filesystem::path& path) noexcept
+    {
+        return std::filesystem::exists(path) && std::filesystem::is_regular_file(path);
+    }
+
     inline void create_dir(const std::filesystem::path& dir_path) noexcept
     {
         std::error_code ec;
@@ -695,6 +707,55 @@ namespace flx::build
             std::exit(EXIT_FAILURE);
         }
     }
+
+    inline void create_file(const std::filesystem::path& file_path) noexcept
+    {
+        std::error_code ec;
+        std::filesystem::path abs_path = std::filesystem::absolute(file_path, ec);
+
+        if (ec)
+        {
+            std::cerr << "create_file: Error resolving absolute path: " << ec.message() << '\n';
+            std::exit(EXIT_FAILURE);
+        }
+
+        if (std::filesystem::exists(abs_path, ec))
+        {
+            if (ec)
+            {
+                std::cerr << "create_file: Error checking existence: " << ec.message() << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+
+            if (!std::filesystem::is_regular_file(abs_path, ec))
+            {
+                std::cerr << "create_file: Path exists but is not a regular file: " << abs_path.string() << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+            return;
+        }
+
+        std::filesystem::path parent = abs_path.parent_path();
+        if (!parent.empty())
+        {
+            std::filesystem::create_directories(parent, ec);
+            if (ec)
+            {
+                std::cerr << "create_file: Failed to create parent directories for '" << abs_path.string()
+                    << "': " << ec.message() << '\n';
+                std::exit(EXIT_FAILURE);
+            }
+        }
+
+        std::ofstream file(abs_path, std::ios::out | std::ios::trunc);
+        if (!file.is_open())
+        {
+            std::cerr << "create_file: Failed to create file '" << abs_path.string() << "'\n";
+            std::exit(EXIT_FAILURE);
+        }
+        file.close();
+    }
+
 } // flx::build
 
 
