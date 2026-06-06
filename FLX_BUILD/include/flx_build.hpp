@@ -39,6 +39,35 @@ namespace flx::build
 
 namespace flx::build
 {
+    constexpr const char* BLACK = "\033[30m";
+    constexpr const char* RED = "\033[31m";
+    constexpr const char* GREEN = "\033[32m";
+    constexpr const char* YELLOW = "\033[33m";
+    constexpr const char* BLUE = "\033[34m";
+    constexpr const char* MAGENTA = "\033[35m";
+    constexpr const char* CYAN = "\033[36m";
+    constexpr const char* WHITE = "\033[37m";
+
+    constexpr const char* BRIGHT_BLACK = "\033[90m";
+    constexpr const char* BRIGHT_RED = "\033[91m";
+    constexpr const char* BRIGHT_GREEN = "\033[92m";
+    constexpr const char* BRIGHT_YELLOW = "\033[93m";
+    constexpr const char* BRIGHT_BLUE = "\033[94m";
+    constexpr const char* BRIGHT_MAGENTA = "\033[95m";
+    constexpr const char* BRIGHT_CYAN = "\033[96m";
+    constexpr const char* BRIGHT_WHITE = "\033[97m";
+
+    constexpr const char* BOLD = "\033[1m";
+    constexpr const char* DIM = "\033[2m";
+    constexpr const char* ITALIC = "\033[3m";
+    constexpr const char* UNDERLINE = "\033[4m";
+    constexpr const char* RESET = "\033[0m";
+
+    constexpr const char* INFO = "\033[90m[>] \033[0m";
+    constexpr const char* ERR = "\033[91m[ERROR] \033[0m";
+    constexpr const char* WARN = "\033[93m[WARN] \033[0m";
+    constexpr const char* USER = "\033[97m$ \033[0m";
+
     enum struct compiler_family_e : int8_t
     {
         unknown,
@@ -169,7 +198,7 @@ namespace flx::build
             {
                 if (!std::filesystem::is_regular_file(pattern, ec) || ec)
                 {
-                    std::cerr << "target_t::add_sources: not a regular file: " << pattern << '\n';
+                    std::cerr << ERR << "flx_build::target_t::add_sources: not a regular file: " << pattern << '\n';
                     std::exit(EXIT_FAILURE);
                 }
                 sources.insert(pattern.string());
@@ -181,7 +210,7 @@ namespace flx::build
 
             if (!std::filesystem::is_directory(parent, ec) || ec)
             {
-                std::cerr << "target_t::add_sources: directory does not exist: " << parent << '\n';
+                std::cerr << ERR << "flx_build::target_t::add_sources: directory does not exist: " << parent << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
@@ -202,15 +231,15 @@ namespace flx::build
                 }
                 if (ec)
                 {
-                    std::cerr << "target_t::add_sources: error parsing sources: " << ec.message() << '\n';
-                    std::cerr << "Problematic source: " << entry.path() << '\n';
+                    std::cerr << ERR << "flx_build::target_t::add_sources: error parsing sources: " << ec.message() << '\n';
+                    std::cerr << ERR << "flx_build::Problematic source: " << entry.path() << '\n';
                     std::exit(EXIT_FAILURE);
                 }
             }
 
             if (!found)
             {
-                std::cerr << "add_source: no files matched pattern: " << pattern << '\n';
+                std::cerr << ERR << "flx_build::add_source: no files matched pattern: " << pattern << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
@@ -225,7 +254,7 @@ namespace flx::build
             {
                 if (!std::filesystem::is_regular_file(pattern, ec) || ec)
                 {
-                    std::cerr << "target_t::add_modules: not a regular file: " << pattern << '\n';
+                    std::cerr << ERR << "flx_build::target_t::add_modules: not a regular file: " << pattern << '\n';
                     std::exit(EXIT_FAILURE);
                 }
                 modules.insert(pattern.string());
@@ -237,7 +266,7 @@ namespace flx::build
 
             if (!std::filesystem::is_directory(parent, ec) || ec)
             {
-                std::cerr << "target_t::add_modules: directory does not exist: " << parent << '\n';
+                std::cerr << ERR << "flx_build::target_t::add_modules: directory does not exist: " << parent << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
@@ -258,15 +287,15 @@ namespace flx::build
                 }
                 if (ec)
                 {
-                    std::cerr << "target_t::add_modules: error parsing modules: " << ec.message() << '\n';
-                    std::cerr << "Problematic module: " << entry.path() << '\n';
+                    std::cerr << ERR << "flx_build::target_t::add_modules: error parsing modules: " << ec.message() << '\n';
+                    std::cerr << ERR << "flx_build::Problematic module: " << entry.path() << '\n';
                     std::exit(EXIT_FAILURE);
                 }
             }
 
             if (!found)
             {
-                std::cerr << "target_t::add_modules: no files matched pattern: " << pattern << '\n';
+                std::cerr << ERR << "flx_build::target_t::add_modules: no files matched pattern: " << pattern << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
@@ -281,7 +310,7 @@ namespace flx::build
             {
                 if (!std::filesystem::is_regular_file(pattern, ec) || ec)
                 {
-                    std::cerr << "target_t::add_libraries: not a regular file: " << pattern << '\n';
+                    std::cerr << ERR << "flx_build::target_t::add_libraries: not a regular file: " << pattern << '\n';
                     std::exit(EXIT_FAILURE);
                 }
                 libraries.insert(pattern.string());
@@ -293,7 +322,7 @@ namespace flx::build
 
             if (!std::filesystem::is_directory(parent, ec) || ec)
             {
-                std::cerr << "target_t::add_libraries: directory does not exist: " << parent << '\n';
+                std::cerr << ERR << "flx_build::target_t::add_libraries: directory does not exist: " << parent << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
@@ -314,15 +343,15 @@ namespace flx::build
                 }
                 if (ec)
                 {
-                    std::cerr << "target_t::add_libraries: error parsing libraries: " << ec.message() << '\n';
-                    std::cerr << "Problematic library: " << entry.path() << '\n';
+                    std::cerr << ERR << "flx_build::target_t::add_libraries: error parsing libraries: " << ec.message() << '\n';
+                    std::cerr << ERR << "flx_build::Problematic library: " << entry.path() << '\n';
                     std::exit(EXIT_FAILURE);
                 }
             }
 
             if (!found)
             {
-                std::cerr << "target_t::add_libraries: no files matched pattern: " << pattern << '\n';
+                std::cerr << ERR << "flx_build::target_t::add_libraries: no files matched pattern: " << pattern << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
@@ -335,19 +364,19 @@ namespace flx::build
 
             if (ec)
             {
-                std::cerr << "workplace_t::add_include_dir: Error resolving absolute path: " << ec.message() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::add_include_dir: Error resolving absolute path: " << ec.message() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
             if (!std::filesystem::exists(abs_path, ec))
             {
-                std::cerr << "workplace_t::add_include_dir: Path does not exist: " << abs_path.string() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::add_include_dir: Path does not exist: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
             if (!std::filesystem::is_directory(abs_path, ec))
             {
-                std::cerr << "workplace_t::add_include_dir: Not a directory: " << abs_path.string() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::add_include_dir: Not a directory: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
@@ -361,19 +390,19 @@ namespace flx::build
 
             if (ec)
             {
-                std::cerr << "workplace_t::add_system_include_dir: Error resolving absolute path: " << ec.message() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::add_system_include_dir: Error resolving absolute path: " << ec.message() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
             if (!std::filesystem::exists(abs_path, ec))
             {
-                std::cerr << "workplace_t::add_system_include_dir: Path does not exist: " << abs_path.string() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::add_system_include_dir: Path does not exist: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
             if (!std::filesystem::is_directory(abs_path, ec))
             {
-                std::cerr << "workplace_t::add_system_include_dir: Not a directory: " << abs_path.string() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::add_system_include_dir: Not a directory: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
@@ -408,13 +437,13 @@ namespace flx::build
 
             if (ec)
             {
-                std::cerr << "workplace_t::set_root_dir: Error resolving absolute path: " << ec.message() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::set_root_dir: Error resolving absolute path: " << ec.message() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
             if (!std::filesystem::is_directory(abs_path, ec))
             {
-                std::cerr << "workplace_t::set_root_dir: Not a directory: " << abs_path.string() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::set_root_dir: Not a directory: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
@@ -442,13 +471,13 @@ namespace flx::build
 
             if (ec)
             {
-                std::cerr << "workplace_t::set_output_dir: Error resolving absolute path: " << ec.message() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::set_output_dir: Error resolving absolute path: " << ec.message() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
             if (!std::filesystem::is_directory(abs_path, ec))
             {
-                std::cerr << "workplace_t::set_output_dir: Not a directory: " << abs_path.string() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::set_output_dir: Not a directory: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
@@ -509,19 +538,19 @@ namespace flx::build
 
             if (ec)
             {
-                std::cerr << "workplace_t::add_include_dir: Error resolving absolute path: " << ec.message() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::add_include_dir: Error resolving absolute path: " << ec.message() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
             if (!std::filesystem::exists(abs_path, ec))
             {
-                std::cerr << "workplace_t::add_include_dir: Path does not exist: " << abs_path.string() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::add_include_dir: Path does not exist: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
             if (!std::filesystem::is_directory(abs_path, ec))
             {
-                std::cerr << "workplace_t::add_include_dir: Not a directory: " << abs_path.string() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::add_include_dir: Not a directory: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
@@ -549,19 +578,19 @@ namespace flx::build
 
             if (ec)
             {
-                std::cerr << "workplace_t::add_system_include_dir: Error resolving absolute path: " << ec.message() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::add_system_include_dir: Error resolving absolute path: " << ec.message() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
             if (!std::filesystem::exists(abs_path, ec))
             {
-                std::cerr << "workplace_t::add_system_include_dir: Path does not exist: " << abs_path.string() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::add_system_include_dir: Path does not exist: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
             if (!std::filesystem::is_directory(abs_path, ec))
             {
-                std::cerr << "workplace_t::add_system_include_dir: Not a directory: " << abs_path.string() << '\n';
+                std::cerr << ERR << "flx_build::workplace_t::add_system_include_dir: Not a directory: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
@@ -591,7 +620,7 @@ namespace flx::build
                 });
             if (it != targets.end())
             {
-                std::cerr << "workspace_t::create_target: Target with the name: \"" << target_name << "\" already existed.\n";
+                std::cerr << ERR << "flx_build::workspace_t::create_target: Target with the name: \"" << target_name << "\" already existed\n";
                 std::exit(EXIT_FAILURE);
             }
 
@@ -625,7 +654,7 @@ namespace flx::build
                 return **it;
             }
 
-            std::cerr << "workplace_t::operator []: No target with name: \"" << target_name << "\" found.\n";
+            std::cerr << ERR << "flx_build::workplace_t::operator []: No target with name: \"" << target_name << "\" found\n";
             std::exit(EXIT_FAILURE);
         }
         const target_t& operator [] (const std::string& target_name) const noexcept
@@ -640,7 +669,7 @@ namespace flx::build
                 return **it;
             }
 
-            std::cerr << "workplace_t::operator []: No target with name: \"" << target_name << "\" found.\n";
+            std::cerr << ERR << "flx_build::workplace_t::operator []: No target with name: \"" << target_name << "\" found\n";
             std::exit(EXIT_FAILURE);
         }
 
@@ -659,12 +688,12 @@ namespace flx::build
             }
             if (current == current.root_path())
             {
-                std::cerr << "find_root_dir: Could not find build file: Search reached disc root.\n";
+                std::cerr << ERR << "flx_build::find_root_dir: Could not find build file: Search reached disc root\n";
                 std::exit(EXIT_FAILURE);
             }
             current = current.parent_path();
         }
-        std::cerr << "find_root_dir: Could not find build file: Max search depth reached.\n";
+        std::cerr << ERR << "flx_build::find_root_dir: Could not find build file: Max search depth reached\n";
         std::exit(EXIT_FAILURE);
     } // find_root_dir
 
@@ -686,7 +715,7 @@ namespace flx::build
 
         if (ec)
         {
-            std::cerr << "create_directory: Error resolving absolute path: " << ec.message() << '\n';
+            std::cerr << ERR << "flx_build::create_directory: Error resolving absolute path: " << ec.message() << '\n';
             std::exit(EXIT_FAILURE);
         }
 
@@ -694,7 +723,7 @@ namespace flx::build
         {
             if (!std::filesystem::is_directory(abs_path, ec))
             {
-                std::cerr << "create_directory: Path exists but is not a directory: " << abs_path.string() << '\n';
+                std::cerr << ERR << "flx_build::create_directory: Path exists but is not a directory: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
             return;
@@ -702,8 +731,38 @@ namespace flx::build
 
         if (!std::filesystem::create_directories(abs_path, ec))
         {
-            std::cerr << "create_directory: Failed to create directory '" << abs_path.string()
+            std::cerr << ERR << "flx_build::create_directory: Failed to create directory '" << abs_path.string()
                 << "': " << ec.message() << '\n';
+            std::exit(EXIT_FAILURE);
+        }
+    }
+
+    inline void remove_dir(const std::filesystem::path& dir_path) noexcept
+    {
+        std::error_code ec;
+        std::filesystem::path abs_path = std::filesystem::absolute(dir_path, ec);
+
+        if (ec)
+        {
+            std::cerr << ERR << "flx_build::remove_dir: Error resolving absolute path: " << ec.message() << '\n';
+            std::exit(EXIT_FAILURE);
+        }
+
+        if (!std::filesystem::exists(abs_path, ec))
+        {
+            return;
+        }
+
+        if (!std::filesystem::is_directory(abs_path, ec))
+        {
+            std::cerr << ERR << "flx_build::remove_dir: Path exists but is not a directory: " << abs_path.string() << '\n';
+            std::exit(EXIT_FAILURE);
+        }
+
+        std::filesystem::remove_all(abs_path, ec);
+        if (ec)
+        {
+            std::cerr << ERR << "flx_build::remove_dir: Failed to remove directory '" << abs_path.string() << "': " << ec.message() << '\n';
             std::exit(EXIT_FAILURE);
         }
     }
@@ -715,7 +774,7 @@ namespace flx::build
 
         if (ec)
         {
-            std::cerr << "create_file: Error resolving absolute path: " << ec.message() << '\n';
+            std::cerr << ERR << "flx_build::create_file: Error resolving absolute path: " << ec.message() << '\n';
             std::exit(EXIT_FAILURE);
         }
 
@@ -723,13 +782,13 @@ namespace flx::build
         {
             if (ec)
             {
-                std::cerr << "create_file: Error checking existence: " << ec.message() << '\n';
+                std::cerr << ERR << "flx_build::create_file: Error checking existence: " << ec.message() << '\n';
                 std::exit(EXIT_FAILURE);
             }
 
             if (!std::filesystem::is_regular_file(abs_path, ec))
             {
-                std::cerr << "create_file: Path exists but is not a regular file: " << abs_path.string() << '\n';
+                std::cerr << ERR << "flx_build::create_file: Path exists but is not a regular file: " << abs_path.string() << '\n';
                 std::exit(EXIT_FAILURE);
             }
             return;
@@ -741,7 +800,7 @@ namespace flx::build
             std::filesystem::create_directories(parent, ec);
             if (ec)
             {
-                std::cerr << "create_file: Failed to create parent directories for '" << abs_path.string()
+                std::cerr << ERR << "flx_build::create_file: Failed to create parent directories for '" << abs_path.string()
                     << "': " << ec.message() << '\n';
                 std::exit(EXIT_FAILURE);
             }
@@ -750,12 +809,40 @@ namespace flx::build
         std::ofstream file(abs_path, std::ios::out | std::ios::trunc);
         if (!file.is_open())
         {
-            std::cerr << "create_file: Failed to create file '" << abs_path.string() << "'\n";
+            std::cerr << ERR << "flx_build::create_file: Failed to create file '" << abs_path.string() << "'\n";
             std::exit(EXIT_FAILURE);
         }
         file.close();
     }
 
+    inline void remove_file(const std::filesystem::path& file_path) noexcept
+    {
+        std::error_code ec;
+        std::filesystem::path abs_path = std::filesystem::absolute(file_path, ec);
+
+        if (ec)
+        {
+            std::cerr << ERR << "flx_build::remove_file: Error resolving absolute path: " << ec.message() << '\n';
+            std::exit(EXIT_FAILURE);
+        }
+
+        if (!std::filesystem::exists(abs_path, ec))
+        {
+            return;
+        }
+
+        if (std::filesystem::is_directory(abs_path, ec))
+        {
+            std::cerr << ERR << "flx_build::remove_file: Path exists but is a directory: " << abs_path.string() << '\n';
+            std::exit(EXIT_FAILURE);
+        }
+
+        if (!std::filesystem::remove(abs_path, ec))
+        {
+            std::cerr << ERR << "flx_build::remove_file: Failed to remove file '" << abs_path.string() << "': " << ec.message() << '\n';
+            std::exit(EXIT_FAILURE);
+        }
+    }
 } // flx::build
 
 
