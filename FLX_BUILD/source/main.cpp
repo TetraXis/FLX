@@ -8,7 +8,7 @@ using namespace flx::build;
 
 compiler_family_e compiler_family = compiler_family_e::unknown;
 std::filesystem::path installed_path = "";
-std::filesystem::path compiler_path = "";
+std::filesystem::path compiler_tools_path = "";
 std::filesystem::path temp_dir_path = "";
 std::filesystem::path config_path = "";
 std::filesystem::path root_path = "";
@@ -19,7 +19,7 @@ void save_cfg(const std::filesystem::path& cfg_path) noexcept
 {
     std::cout << INFO << "Saving cfg: \"" << cfg_path.string() << "\"...\n";
 
-    if (compiler_path.empty() || compiler_family == compiler_family_e::unknown)
+    if (compiler_tools_path.empty() || compiler_family == compiler_family_e::unknown)
     {
         std::cout << WARN << "Saving aborted: Missing compiler path or family\n";
         return;
@@ -47,7 +47,7 @@ void save_cfg(const std::filesystem::path& cfg_path) noexcept
             cfg << "compiler_family = \"UNKNOWN\"\n";
             break;
     }
-    cfg << "compiler_path = \"" << compiler_path.string() << "\"\n";
+    cfg << "compiler_tools_path = \"" << compiler_tools_path.string() << "\"\n";
     cfg.close();
     std::cout << INFO << "Saving finished\n";
 }
@@ -61,7 +61,7 @@ void config_dialog(const std::filesystem::path& cfg_path) noexcept
 
     std::cout << INFO << "Settings mode.\n";
     std::cout << INFO << "\tTo set compiler family type: family {Clang/GCC/MSVC}\n";
-    std::cout << INFO << "\tTo set compiler path: path \"{full path to g++/cl.exe}\"\n";
+    std::cout << INFO << "\tTo set compiler tools path: path \"{full path to bin/}\"\n";
     std::cout << INFO << "\tTo exit: exit\n";
 
     std::string user_input = "";
@@ -103,14 +103,14 @@ void config_dialog(const std::filesystem::path& cfg_path) noexcept
         }
         else if (std::regex_search(user_input, match, COMPILER_PATH_RGX))
         {
-            compiler_path = match[1].str();
-            if (file_exists(compiler_path))
+            compiler_tools_path = match[1].str();
+            if (file_exists(compiler_tools_path))
             {
                 std::cout << INFO << "Compiler path set\n";
             }
             else
             {
-                compiler_path = "";
+                compiler_tools_path = "";
                 std::cerr << ERR << "Compiler path is invalid\n";
             }
         }
@@ -124,7 +124,7 @@ void load_config(const std::filesystem::path& cfg_path) noexcept
     std::cout << INFO << "Loading config...\n";
 
     static std::regex COMPILER_FAMILY_RGX("\\s*compiler_family\\s*=\\s*\"(.*)\"");
-    static std::regex COMPILER_PATH_RGX("\\s*compiler_path\\s*=\\s*\"(.*)\"");
+    static std::regex COMPILER_PATH_RGX("\\s*compiler_tools_path\\s*=\\s*\"(.*)\"");
     std::smatch match;
 
     std::ifstream cfg(cfg_path);
@@ -160,12 +160,12 @@ void load_config(const std::filesystem::path& cfg_path) noexcept
         }
         else if (std::regex_search(line, match, COMPILER_PATH_RGX))
         {
-            compiler_path = match[1].str();
+            compiler_tools_path = match[1].str();
         }
     }
     cfg.close();
 
-    if ((compiler_path == "" || !std::filesystem::exists(compiler_path)) && compiler_family == compiler_family_e::unknown)
+    if ((compiler_tools_path == "" || !std::filesystem::exists(compiler_tools_path)) && compiler_family == compiler_family_e::unknown)
     {
         std::cout << INFO << "flx_build::load_config: Missing settings, run \"" << BRIGHT_WHITE << "flxb config" << RESET << "\"\n";
         std::exit(EXIT_FAILURE);
@@ -176,7 +176,7 @@ void load_config(const std::filesystem::path& cfg_path) noexcept
         std::exit(EXIT_FAILURE);
         config_dialog(cfg_path);
     }
-    else if (compiler_path == "" || !std::filesystem::exists(compiler_path))
+    else if (compiler_tools_path == "" || !std::filesystem::exists(compiler_tools_path))
     {
         std::cout << INFO << "flx_build::load_config: Missing compiler path, run \"" << BRIGHT_WHITE << "flxb config" << RESET << "\"\n";
         std::exit(EXIT_FAILURE);
@@ -218,14 +218,14 @@ void parse_args(int argc, char* argv[]) noexcept
         }
         else if (std::strcmp(argv[argi], "def") == 0)
         {
-            compiler_path = "C:\\C++\\LLVM\\clang+llvm-22.1.5-x86_64-pc-windows-msvc\\bin\\clang++.exe";
+            compiler_tools_path = "C:\\C++\\LLVM\\clang+llvm-22.1.5-x86_64-pc-windows-msvc";
             compiler_family = compiler_family_e::clang;
             save_cfg(config_path);
         }
     }
 }
 
-std::filesystem::path find_build_source(const std::filesystem::path& root, const std::string source_name = "flx_build.cpp") noexcept
+std::filesystem::path find_build_source(const std::filesystem::path& root, const std::string& source_name = "flx_build.cpp") noexcept
 {
     if (file_exists(root / source_name))
     {
@@ -238,7 +238,7 @@ std::filesystem::path find_build_source(const std::filesystem::path& root, const
     }
 }
 
-std::filesystem::path find_build_header(const std::filesystem::path& root, const std::string header_name = "flx_build.hpp") noexcept
+std::filesystem::path find_build_header(const std::filesystem::path& root, const std::string& header_name = "flx_build.hpp") noexcept
 {
     if (file_exists(root / header_name))
     {
@@ -246,7 +246,8 @@ std::filesystem::path find_build_header(const std::filesystem::path& root, const
     }
     else if (file_exists(installed_path / "files" / header_name))
     {
-        std::cout << INFO << "Used backup header: \"" << (installed_path / "files" / header_name).string() << "\"\n";
+        std::cout << INFO << "Failed to find primary header: \"" << (root / header_name).string() << "\"\n";
+        std::cout << INFO << "Used backup header instead: \"" << (installed_path / "files" / header_name).string() << "\"\n";
         return installed_path / "files" / header_name; // yay another hardcoded path
     }
     else
@@ -259,6 +260,8 @@ std::filesystem::path find_build_header(const std::filesystem::path& root, const
 
 int main(int argc, char* argv[])
 {
+    // ===== INIT ===== //
+
     std::cout << INFO << "Running FLX Build: v." << FLX_BUILD_VERSION << '\n';
 
     installed_path = std::filesystem::absolute(argv[0]).parent_path().parent_path();
@@ -280,6 +283,22 @@ int main(int argc, char* argv[])
     create_dir(temp_dir_path);
 
 
+
+    // ===== BUILD ===== //
+
+    workplace_t wrk;
+
+    wrk
+        .set_root_dir(root_path)
+        .create_target("flxb")
+        .toolchain
+            .set_family(compiler_family)
+            .resolve_tool_paths(compiler_tools_path);
+
+    wrk["flxb"]
+        .set_output_dir(temp_dir_path)
+        .add_sources(flx_build_cpp_path)
+        .add_include_dir(flx_build_hpp_path.parent_path());
 
 	return 0;
 }
