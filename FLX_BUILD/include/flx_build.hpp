@@ -1,4 +1,8 @@
-﻿// 2026-May-28 15:41
+﻿// WARNING
+// Some snippeds of this draft were written with AI assistance.
+// For the final version it will be rewritten by human.
+
+// 2026-May-28 15:41
 // flx_build uses standard lib provided by compiler.
 // See synopsis and example (flx_build.cpp) on how to set it up and use it.
 // This header provides functions for build control. Use "flx_build.cpp" as your meta-build programm.
@@ -65,6 +69,17 @@ namespace flx::build
 		release
 	};
 
+	// TODO: not used
+	enum struct target_type_e : int8_t
+	{
+		unknown,
+		executable,
+		interface_library,
+		static_library,
+		dynamic_library,
+		phony
+	};
+
 	inline std::filesystem::path find_root_dir(const std::string& build_file = "flx_build.cpp") noexcept;
 	inline void create_dir(const std::filesystem::path& dir_path) noexcept;
 
@@ -79,6 +94,8 @@ namespace flx::build
 
 namespace flx::build::tables
 {
+	// ===== CPP_STANDARD ===== //
+
 	constexpr std::array<std::pair<std::pair<compiler_family_e, cpp_standard_e>, const char*>, 51> cpp_flags = 
 	{ {
 		// Clang
@@ -151,6 +168,72 @@ namespace flx::build::tables
 		}
 		return "";
 	}
+
+
+
+	// ===== PREFIXES ===== //
+
+	// TODO: use enums as numbers to access quicker
+
+	// user includes
+	constexpr std::array<std::pair<compiler_family_e, const char*>, 3> user_include_prefixes =
+	{ {
+		{ compiler_family_e::clang,	"-I"},
+		{ compiler_family_e::gcc,	"-I"},
+		{ compiler_family_e::msvc,	"/I"}
+	} };
+
+	std::string get_user_include_prefix(compiler_family_e family) noexcept
+	{
+		for (const auto& [fam, str] : user_include_prefixes)
+		{
+			if (fam == family)
+			{
+				return str;
+			}
+		}
+		return "";
+	}
+
+	// system includes
+	constexpr std::array<std::pair<compiler_family_e, const char*>, 3> system_include_prefixes =
+	{ {
+		{ compiler_family_e::clang,	"-isystem"},
+		{ compiler_family_e::gcc,	"-isystem"},
+		{ compiler_family_e::msvc,	"/I"}
+	} };
+
+	std::string get_system_include_prefix(compiler_family_e family) noexcept
+	{
+		for (const auto& [fam, str] : system_include_prefixes)
+		{
+			if (fam == family)
+			{
+				return str;
+			}
+		}
+		return "";
+	}
+
+	// output
+	constexpr std::array<std::pair<compiler_family_e, const char*>, 3> output_prefixes =
+	{ {
+		{ compiler_family_e::clang,	"-o"},
+		{ compiler_family_e::gcc,	"-o"},
+		{ compiler_family_e::msvc,	"/Fe"}
+	} };
+
+	std::string get_output_prefix(compiler_family_e family) noexcept
+	{
+		for (const auto& [fam, str] : output_prefixes)
+		{
+			if (fam == family)
+			{
+				return str;
+			}
+		}
+		return "";
+	}
 }
 
 
@@ -198,16 +281,16 @@ namespace flx::build
 	{
 		// they are listed in correct order
 		std::vector<std::string> language_standard{};
+		std::vector<std::string> preprocessor{};
+		std::vector<std::string> user_includes{};
+		std::vector<std::string> system_includes{};
 		std::vector<std::string> optimizations{};
 		std::vector<std::string> warning{};
 		std::vector<std::string> debug{};
-		std::vector<std::string> preprocessor{};
-		std::vector<std::string> dependency_generation{};
 		std::vector<std::string> code_generation{};
+		std::vector<std::string> dependency_generation{};
 		std::vector<std::string> diagnostics{};
-		std::vector<std::string> miscellaneous{};
-		std::vector<std::string> user_includes{};
-		std::vector<std::string> system_includes{};
+		// std::vector<std::string> miscellaneous{};
 		std::vector<std::string> source_files{};
 		std::vector<std::string> library_dirs{};
 		std::vector<std::string> libraries{};
@@ -344,16 +427,6 @@ namespace flx::build
 		}
 	};
 
-	enum struct target_type_e : int8_t
-	{
-		unknown,
-		executable,
-		interface_library,
-		static_library,
-		dynamic_library,
-		phony
-	};
-
 	// TODO: add missing remove...
 
 	struct target_t
@@ -385,6 +458,20 @@ namespace flx::build
 		const std::string& get_name() const noexcept
 		{
 			return name;
+		}
+
+		target_t& set_cpp_standard(cpp_standard_e new_cpp_standard) noexcept
+		{
+			cpp_standard = new_cpp_standard;
+			return *this;
+		}
+		cpp_standard_e& get_cpp_standard() noexcept
+		{
+			return cpp_standard;
+		}
+		const cpp_standard_e& get_cpp_standard() const noexcept
+		{
+			return cpp_standard;
 		}
 
 		target_t& set_output_dir(const std::filesystem::path& output_dir_path) noexcept
@@ -1125,6 +1212,9 @@ namespace flx::build
 
 	}
 
+	// TODO:
+	// we set, not add, 
+	// cant get global settings from workplace here
 	inline void add_target_flags(toolchain_flags_t& flags_to_mut, const toolchain_t& toolchain, const target_t& target) noexcept
 	{
 		// flags_to_mut.language_standard      = target.flags.language_standard.empty()        ? toolchain.flags.language_standard     : target.flags.language_standard;
@@ -1148,6 +1238,34 @@ namespace flx::build
 
 		flags_to_mut.language_standard.clear();
 		flags_to_mut.language_standard.emplace_back(tables::get_cpp_standard(toolchain.family, target.cpp_standard));
+
+		std::string system_include_prefix = tables::get_system_inculde_prefix(toolchain.family);
+		std::string user_include_prefix = tables::get_user_inculde_prefix(toolchain.family);
+
+		for (const auto& source_path : target.sources)
+		{
+			flags_to_mut.source_files.emplace_back(source_path.string());
+		}
+
+		// TODO: modules
+
+		for (const auto& u_include_path : target.user_includes)
+		{
+			flags_to_mut.user_includes.emplace_back(user_include_prefix + u_include_path.string());
+		}
+
+		for (const auto& s_include_path : target.system_includes)
+		{
+			flags_to_mut.system_includes.emplace_back(system_include_prefix + s_include_path.string());
+		}
+
+		// TODO: libdirs vs libs?
+		for (const auto& lib_path : target.libraries)
+		{
+			flags_to_mut.libraries.emplace_back(lib_path.string());
+		}
+
+		flags_to_mut.output_control.emplace_back(tables::get_output_prefix(toolchain.family) + target.output_dir.string())
 	}
 
 	inline void call_driver(const toolchain_t& toolchain, const target_t& target) noexcept
@@ -1158,6 +1276,7 @@ namespace flx::build
 		add_target_flags(final_flags, toolchain, target);
 
 		std::vector<std::string> cmd{};
+		std::string cmd_str{};
 
 		cmd.emplace_back("\"" + toolchain.paths.cpp_compiler.string() + "\"");
 
@@ -1177,6 +1296,14 @@ namespace flx::build
 		cmd.insert(cmd.end(), final_flags.libraries.begin(),				final_flags.libraries.end());
 		cmd.insert(cmd.end(), final_flags.linker.begin(),					final_flags.linker.end());
 		cmd.insert(cmd.end(), final_flags.output_control.begin(),			final_flags.output_control.end());
+
+		for (const auto& command : cmd)
+		{
+			cmd_str += command + ' ';
+		}
+
+		std::cout << INFO << "Full CMD string:\n";
+		std::cout << INFO << cmd_str << '\n';
 
 		// // order matters
 		// 

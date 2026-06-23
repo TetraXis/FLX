@@ -296,9 +296,12 @@ int main(int argc, char* argv[])
             .resolve_tool_paths(compiler_tools_path);
 
     wrk["flxb"]
+        .set_cpp_standard(cpp_standard_e::cpp26)
         .set_output_dir(temp_dir_path)
         .add_sources(flx_build_cpp_path)
         .add_include_dir(flx_build_hpp_path.parent_path());
+    
+    wrk.easy_build_target("flxb");
 
 	return 0;
 }
