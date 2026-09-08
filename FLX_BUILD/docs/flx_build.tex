@@ -1,16 +1,22 @@
-\documentclass{article}
+\documentclass{memoir}
+
+\input{preamble}
 
 \begin{document}
-
-\title{Test tex file for BUILD}
-\author{FLX man}
-\date{\today}
-\maketitle
-
-\section{Overview}
-This is a simple test document for the FLX Build script.
-
-\section{Status}
-If you can see this, the LaTeX build for \textbf{BUILD} is working correctly! Balls.
-
+	
+	\title{\textbf{FLX Build} \\[0.3cm] \large Version 0.0}
+	\author{Cherkasov Danil \\ danil.cherkasov.dev+flx@gmail.com}
+	\date{\today}
+	
+	\maketitle
+	\thispagestyle{empty}
+	
+	\newpage
+	\thispagestyle{empty}
+	\tableofcontents
+	
+	\pagestyle{fancy}
+	
+	\include{chapters/001_introduction}
+	
 \end{document}

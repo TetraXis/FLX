@@ -1,0 +1,4 @@
+1. TOOLCHAIN SETUP
+
+flx_build asks for toolchain path.
+Automatically detects major ones: GCC, Clang

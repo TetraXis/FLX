@@ -10,7 +10,7 @@ set_plat("windows")
 add_rules("mode.release", "mode.debug")
 set_languages("c++26")
 
-set_config("clang", "C:\\C++\\LLVM\\clang+llvm-22.1.5-x86_64-pc-windows-msvc")
+set_config("clang", "C:\\C++\\LLVM\\clang+llvm-23.1.0-x86_64-pc-windows-msvc")
 
 add_cxxflags("-stdlib=libc++")
 add_ldflags("-stdlib=libc++")
@@ -123,6 +123,9 @@ target("flxb") do
     set_installdir(install_dir .. "/bin/")
 
     add_files(local_root .. "/source/main.cpp")
+    add_files(local_root .. "/source/flx_build.cpp")
+    add_files(local_root .. "/source/flx_build_cli.cpp")
+    add_files(local_root .. "/source/flx_build_tables.cpp")
     add_includedirs(local_root .. "/include")
 
     before_build(function (target)
